@@ -26,4 +26,5 @@
             Mail = config["GmailSetting:Mail"]!;
             Password = config["GmailSetting:Password"]!;
         }
+    }
 }

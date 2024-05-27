@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Entity
 {
@@ -29,6 +30,37 @@ namespace MomAndBaby.Entity
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString());
+                //.LogTo(Console.WriteLine, LogLevel.Information);
+            }
+        }
+
+        private static string GetConnectionString()
+        {
+            IWebHostEnvironment environment = new HttpContextAccessor().HttpContext!.RequestServices
+                                        .GetRequiredService<IWebHostEnvironment>();
+
+            IConfiguration config = new ConfigurationBuilder()
+
+            .SetBasePath(Directory.GetCurrentDirectory())
+
+            .AddJsonFile("appsettings.json", true, true)
+
+            .Build();
+
+            if (environment.IsProduction())
+            {
+                return config["ConnectionStrings:" + SystemConstant.DefaultDatabase]!;
+            } else
+            {
+                return config["LocalDB:" + SystemConstant.DefaultDatabase]!;
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Article>(entity =>
