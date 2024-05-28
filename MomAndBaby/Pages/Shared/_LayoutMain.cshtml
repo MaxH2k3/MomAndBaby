@@ -34,7 +34,7 @@
     <!--== Slick CSS ==-->
     <link href="~/main/assets/css/slick.css" rel="stylesheet" />
     <!--== Main Style CSS ==-->
-    <link href="~/main/assets/css/style.css" rel="stylesheet" />
+    <link href="~/main/assets/css/style.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
 
@@ -44,11 +44,26 @@
             await Html.RenderPartialAsync(ConstantPage.MainPage.Header);
         }
 
-        @RenderBody()
+        @RenderBody();
 
         @{
             await Html.RenderPartialAsync(ConstantPage.MainPage.Footer);
         }
+
+        @await Component.InvokeAsync(ConstantPage.MainPage.QuickView)
+
+        @{
+            await Html.RenderPartialAsync(ConstantPage.MainPage.SearchMenu);
+        }
+
+        @{
+            await Html.RenderPartialAsync(ConstantPage.MainPage.SidebarMenu);
+        }
+
+        @{
+            await Html.RenderPartialAsync(ConstantPage.MainPage.SideMenu);
+        }
+
     </div>
 
     <!--=======================Javascript============================-->
