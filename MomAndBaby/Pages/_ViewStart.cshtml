@@ -1,3 +1,15 @@
 ﻿@{
-    Layout = "_Layout";
+    if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Dashboard", StringComparison.OrdinalIgnoreCase))
+    {
+        Layout = "_LayoutDashboard";
+    } else if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Main", StringComparison.OrdinalIgnoreCase))
+    {
+        Layout = "_LayoutMain";
+    } else if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Authen", StringComparison.OrdinalIgnoreCase))
+    {
+        Layout = "_LayoutMain";
+    } else
+    {
+        Layout = "_Layout";
+    }
 }

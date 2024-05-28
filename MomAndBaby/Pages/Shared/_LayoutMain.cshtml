@@ -1,0 +1,95 @@
+﻿@using MomAndBaby.Utilities.Constants
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MomAndBaby</title>
+    <!--== Favicon ==-->
+    <link rel="shortcut icon" href="~/main/assets/img/favicon.ico" type="image/x-icon" />
+
+    <!--== Google Fonts ==-->
+    <link href="https://fonts.googleapis.com/css?family=Fredoka+One:400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!--== Bootstrap CSS ==-->
+    <link href="~/main/assets/css/bootstrap.min.css" rel="stylesheet" />
+    <!--== Font-awesome Icons CSS ==-->
+    <link href="~/main/assets/css/font-awesome.min.css" rel="stylesheet" />
+    <!--== Pe Icon 7 Min Icons CSS ==-->
+    <link href="~/main/assets/css/pe-icon-7-stroke.min.css" rel="stylesheet" />
+    <!--== Ionicons CSS ==-->
+    <link href="~/main/assets/css/ionicons.css" rel="stylesheet" />
+    <!--== Animate CSS ==-->
+    <link href="~/main/assets/css/animate.css" rel="stylesheet" />
+    <!--== Aos CSS ==-->
+    <link href="~/main/assets/css/aos.css" rel="stylesheet" />
+    <!--== FancyBox CSS ==-->
+    <link href="~/main/assets/css/jquery.fancybox.min.css" rel="stylesheet" />
+    <!--== Slicknav CSS ==-->
+    <link href="~/main/assets/css/slicknav.css" rel="stylesheet" />
+    <!--== Swiper CSS ==-->
+    <link href="~/main/assets/css/swiper.min.css" rel="stylesheet" />
+    <!--== Slick CSS ==-->
+    <link href="~/main/assets/css/slick.css" rel="stylesheet" />
+    <!--== Main Style CSS ==-->
+    <link href="~/main/assets/css/style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="wrapper">
+
+        @{
+            await Html.RenderPartialAsync(ConstantPage.MainPage.Header);
+        }
+
+        @RenderBody()
+
+        @{
+            await Html.RenderPartialAsync(ConstantPage.MainPage.Footer);
+        }
+    </div>
+
+    <!--=======================Javascript============================-->
+    <!--=== Modernizr Min Js ===-->
+    <script src="~/main/assets/js/modernizr.js"></script>
+    <!--=== jQuery Min Js ===-->
+    <script src="~/main/assets/js/jquery-main.js"></script>
+    <!--=== jQuery Migration Min Js ===-->
+    <script src="~/main/assets/js/jquery-migrate.js"></script>
+    <!--=== Popper Min Js ===-->
+    <script src="~/main/assets/js/popper.min.js"></script>
+    <!--=== Bootstrap Min Js ===-->
+    <script src="~/main/assets/js/bootstrap.min.js"></script>
+    <!--=== jquery Appear Js ===-->
+    <script src="~/main/assets/js/jquery.appear.js"></script>
+    <!--=== jquery Swiper Min Js ===-->
+    <script src="~/main/assets/js/swiper.min.js"></script>
+    <!--=== jquery Fancybox Min Js ===-->
+    <script src="~/main/assets/js/fancybox.min.js"></script>
+    <!--=== jquery Aos Min Js ===-->
+    <script src="~/main/assets/js/aos.min.js"></script>
+    <!--=== jquery Slicknav Js ===-->
+    <script src="~/main/assets/js/jquery.slicknav.js"></script>
+    <!--=== jquery Countdown Js ===-->
+    <script src="~/main/assets/js/jquery.countdown.min.js"></script>
+    <!--=== jquery Tippy Js ===-->
+    <script src="~/main/assets/js/tippy.all.min.js"></script>
+    <!--=== Isotope Min Js ===-->
+    <script src="~/main/assets/js/isotope.pkgd.min.js"></script>
+    <!--=== Parallax Min Js ===-->
+    <script src="~/main/assets/js/parallax.min.js"></script>
+    <!--=== Slick  Min Js ===-->
+    <script src="~/main/assets/js/slick.min.js"></script>
+    <!--=== jquery Wow Min Js ===-->
+    <script src="~/main/assets/js/wow.min.js"></script>
+    <!--=== jquery Zoom Min Js ===-->
+    <script src="~/main/assets/js/jquery-zoom.min.js"></script>
+
+    <!--=== Custom Js ===-->
+    <script src="~/main/assets/js/custom.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

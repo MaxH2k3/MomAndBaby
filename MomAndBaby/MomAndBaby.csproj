@@ -28,6 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Dashboard\Body\" />
+    <Folder Include="Pages\Dashboard\Components\" />
+    <Folder Include="Pages\Dashboard\Footer\" />
+    <Folder Include="Pages\Dashboard\Header\" />
+    <Folder Include="Pages\Main\Components\QuickView\" />
+    <Folder Include="Pages\Shared\Components\" />
     <Folder Include="Service\" />
     <Folder Include="Utilities\Helper\" />
   </ItemGroup>
