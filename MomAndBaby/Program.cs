@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MomAndBaby.Configuration.SystemConfig;
 using MomAndBaby.Entity;
 using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.Repository;
+using MomAndBaby.Service;
 using MomAndBaby.Utilities.Constants;
 using MomAndBaby.Utilities.Enums;
 
@@ -22,7 +24,8 @@ builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("Cook
 builder.Services.AddCustomCookie(builder.Configuration);
 
 // Add services to the container.
-
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>

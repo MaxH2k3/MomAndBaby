@@ -33,7 +33,6 @@
     <Folder Include="Pages\Dashboard\Footer\" />
     <Folder Include="Pages\Dashboard\Header\" />
     <Folder Include="Pages\Shared\Components\" />
-    <Folder Include="Service\" />
     <Folder Include="Utilities\Helper\" />
   </ItemGroup>
 

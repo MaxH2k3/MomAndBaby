@@ -1,4 +1,5 @@
-﻿using MomAndBaby.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.Entity;
 
 namespace MomAndBaby.Repository
 {
@@ -9,6 +10,11 @@ namespace MomAndBaby.Repository
         public ProductRepository(MomAndBabyContext context)
         {
             _context = context;
+        }
+
+        public async Task<IEnumerable<Product>> GetAll()
+        {
+            return await _context.Set<Product>().ToListAsync();
         }
     }
 }
