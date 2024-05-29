@@ -4,22 +4,22 @@ using MomAndBaby.Entity;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
 
-namespace MomAndBaby.Pages.Main.Components
+namespace MomAndBaby.Pages.Main.Components.ProductStore
 {
     
-    public class ProductViewComponent : ViewComponent
+    public class ProductStoreViewComponent : ViewComponent
     {
         private readonly IProductService _iproductService;
 
-        public ProductViewComponent(IProductService iproductService)
+        public ProductStoreViewComponent(IProductService iproductService)
         {
             _iproductService = iproductService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var products = _iproductService.GetAll();
-            return View("Product", products);
+            var products = await _iproductService.GetAll();
+            return View("ProductStore", products);
         }
         
     }
