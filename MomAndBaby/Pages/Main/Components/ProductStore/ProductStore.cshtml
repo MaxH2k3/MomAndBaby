@@ -1,6 +1,6 @@
 ﻿@using MomAndBaby.Entity
-@using MomAndBaby.Pages.Main.Components.ProductStore
-@model IEnumerable<Product>
+@using MomAndBaby.Models.ProductModel
+@model ProductStoreModel
 
 
 <!--== Start Product Tab Area Wrapper ==-->
@@ -24,87 +24,101 @@
                             <button class="nav-link active" id="our-features-tab" data-bs-toggle="tab" data-bs-target="#our-features" type="button" role="tab" aria-controls="our-features" aria-selected="true">All Items</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="best-sellers-tab" data-bs-toggle="tab" data-bs-target="#best-sellers" type="button" role="tab" aria-controls="best-sellers" aria-selected="false">Baby Dress</button>
+                            <button class="nav-link" id="best-sellers-tab" data-bs-toggle="tab" data-bs-target="#best-sellers" type="button" role="tab" aria-controls="best-sellers" aria-selected="false">New Items</button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link mr-0" id="new-items-tab" data-bs-toggle="tab" data-bs-target="#new-items" type="button" role="tab" aria-controls="new-items" aria-selected="false">Baby Toys</button>
+                            <button class="nav-link mr-0" id="new-items-tab" data-bs-toggle="tab" data-bs-target="#new-items" type="button" role="tab" aria-controls="new-items" aria-selected="false">Highest Rating</button>
                         </li>
                     </ul>
 
                     <div class="tab-content" id="myTabContent" data-aos="fade-up" data-aos-duration="1300">
                         <div class="tab-pane fade show active" id="our-features" role="tabpanel" aria-labelledby="our-features-tab">
+                             
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="product">
                                         <div class="row">
+                                            @foreach (var product in Model.ListAllProducts)
+                                            {
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <!-- Start Product Item -->
-                                                <div class="product-item">
-                                                    <div class="product-thumb">
-                                                        <img src="/main/assets/img/shop/1.png" alt="Image">
-                                                        <div class="product-action">
-                                                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                               
+                                                    <!-- Start Product Item -->
+                                                    <div class="product-item">
+                                                        <div class="product-thumb">
+                                                            <img src="/main/assets/img/shop/1.png" alt="Image">
+                                                            <div class="product-action">
+                                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <div class="rating">
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <h4>@product.TotalStar</h4>
+                                                            </div>
+                                                            <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                            <div class="prices">
+                                                                <span class="price">@product.Price</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-info">
-                                                        <div class="rating">
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                        </div>
-                                                        <h4 class="title"><a href="shop-single-product.html">Funskool Teddy</a></h4>
-                                                        <div class="prices">
-                                                            <span class="price">$190.12</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Product Item -->
+                                                    <!-- End Product Item -->
+                                                
+                                                
                                             </div>
-
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                           
                         </div>
                         <div class="tab-pane fade" id="best-sellers" role="tabpanel" aria-labelledby="best-sellers-tab">
                             <div class="row">
                                 <div class="col-lg-12">
                                     <div class="product">
                                         <div class="row">
+                                             @foreach(var product in Model.ListNewItems)
+                                                {
                                             <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <!-- Start Product Item -->
-                                                <div class="product-item">
-                                                    <div class="product-thumb">
-                                                        <img src="/main/assets/img/shop/5.png" alt="Image">
-                                                        <div class="product-action">
-                                                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                               
+                                                    <!-- Start Product Item -->
+                                                    <div class="product-item">
+                                                        <div class="product-thumb">
+                                                            <img src="/main/assets/img/shop/5.png" alt="Image">
+                                                            <div class="product-action">
+                                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <div class="rating">
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <h4>@product.TotalStar</h4>
+                                                            </div>
+                                                            <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                            <div class="prices">
+                                                                <span class="price">@product.Price</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-info">
-                                                        <div class="rating">
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                        </div>
-                                                        <h4 class="title"><a href="shop-single-product.html">Bruder Toys Mini Ships</a></h4>
-                                                        <div class="prices">
-                                                            <span class="price">$190.12</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Product Item -->
+                                                    <!-- End Product Item -->
+                                              
+                                                
                                             </div>
-
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -115,35 +129,38 @@
                                 <div class="col-lg-12">
                                     <div class="product">
                                         <div class="row">
-                                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                                <!-- Start Product Item -->
-                                                <div class="product-item">
-                                                    <div class="product-thumb">
-                                                        <img src="/main/assets/img/shop/1.png" alt="Image">
-                                                        <div class="product-action">
-                                                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                            @foreach (var product in Model.ListHighestRatingItems)
+                                            {
+                                                <div class="col-lg-3 col-md-4 col-sm-6">
+                                                    <!-- Start Product Item -->
+                                                    <div class="product-item">
+                                                        <div class="product-thumb">
+                                                            <img src="/main/assets/img/shop/1.png" alt="Image">
+                                                            <div class="product-action">
+                                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="product-info">
+                                                            <div class="rating">
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <span class="fa fa-star"></span>
+                                                                <h4>@product.TotalStar</h4>
+                                                            </div>
+                                                            <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                            <div class="prices">
+                                                                <span class="price">@product.Price</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-info">
-                                                        <div class="rating">
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                            <span class="fa fa-star"></span>
-                                                        </div>
-                                                        <h4 class="title"><a href="shop-single-product.html">Funskool Teddy</a></h4>
-                                                        <div class="prices">
-                                                            <span class="price">$190.12</span>
-                                                        </div>
-                                                    </div>
+                                                    <!-- End Product Item -->
                                                 </div>
-                                                <!-- End Product Item -->
-                                            </div>
-
+                                            }
                                         </div>
                                     </div>
                                 </div>
