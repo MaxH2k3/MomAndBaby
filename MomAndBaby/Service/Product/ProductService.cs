@@ -29,6 +29,11 @@ namespace MomAndBaby.Service
             return await _unitOfWork.ProductRepository.GetNewItems();
         }
 
+        public async Task<IEnumerable<Product>> GetTrendingItems()
+        {
+            return await _unitOfWork.ProductRepository.GetTrendingItems();
+        }
+
         public async Task<Product> UpdateTotalStar(Guid ProductId, int newRating)
         {
             return await _unitOfWork.ProductRepository.UpdateTotalStar(ProductId, newRating);

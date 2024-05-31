@@ -29,10 +29,15 @@ namespace MomAndBaby.Repository
             return await _context.Products.Where(p => p.CreatedAt.HasValue).OrderByDescending(p => p.CreatedAt).ToListAsync();
         }
 
+        public async Task<IEnumerable<Product>> GetTrendingItems()
+        {
+            return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();
+        }
+
         public async Task<Product> UpdateTotalStar(Guid productId, int newRating)
         {
-           var product = await _context.Products.FindAsync(productId);
-           var review = await _context.Reviews.Where(r => r.ProductId == productId).ToListAsync();
+            var product = await _context.Products.FindAsync(productId);
+            var review = await _context.Reviews.Where(r => r.ProductId == productId).ToListAsync();
             int sum = 0;
             foreach (var item in review)
             {
@@ -53,8 +58,19 @@ namespace MomAndBaby.Repository
 
             await _context.SaveChangesAsync();
             return product;
-
             
         }
+
+        public async Task<Product> UpdatePurchase(Guid ProductId)
+        {
+            var product = await _context.Products.FindAsync(ProductId);
+
+            product.TotalPurchase += 1;
+
+            await _context.SaveChangesAsync();
+            return product;
+        }
+
+
     }
 }
