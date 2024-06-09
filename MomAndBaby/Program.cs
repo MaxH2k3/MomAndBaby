@@ -18,6 +18,13 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);
 
+//Setup Authentication
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration ["Authentication:Google:ClientId"];
+    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+});
+
 // Set up cookie authentication.
 builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("CookieSetting"));
 builder.Services.AddCustomCookie(builder.Configuration);

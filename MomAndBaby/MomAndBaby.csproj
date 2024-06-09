@@ -6,6 +6,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <PreserveCompilationContext>true</PreserveCompilationContext>
 	  <PreserveCompilationReferences>true</PreserveCompilationReferences>
+	     
+    <UserSecretsId>a5c3d1e7-1a25-45a8-a9b7-cc6d2f28b2a8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,7 @@
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.30" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.30">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
