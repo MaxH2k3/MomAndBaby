@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using MomAndBaby.Configuration.SystemConfig;
+using MomAndBaby.Configuration.Uow;
 using MomAndBaby.Entity;
 using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.Repository;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Constants;
 using MomAndBaby.Utilities.Enums;
@@ -12,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up database context.
-/*builder.Services.AddDbContext<MomAndBabyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)));*/
+//builder.Services.AddDbContext<MomAndBabyContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)));
 
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);
@@ -31,6 +33,8 @@ builder.Services.AddCustomCookie(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
