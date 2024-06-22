@@ -1,7 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using MomAndBaby.Configuration.SystemConfig;
 using MomAndBaby.Configuration.Uow;
-using MomAndBaby.Entity;
 using MomAndBaby.Models.SystemSetting;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
@@ -21,20 +19,20 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddFluentEmail(builder.Configuration);
 
 //Setup Authentication
-builder.Services.AddAuthentication().AddGoogle(googleOptions =>
-{
-    googleOptions.ClientId = builder.Configuration ["Authentication:Google:ClientId"];
-    googleOptions.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-});
+
 
 // Set up cookie authentication.
 builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("CookieSetting"));
 builder.Services.AddCustomCookie(builder.Configuration);
+builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>

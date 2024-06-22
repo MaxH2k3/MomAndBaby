@@ -7,7 +7,6 @@ namespace MomAndBaby.Entity
     {
         public Product()
         {
-            Gifts = new HashSet<Gift>();
             OrderDetails = new HashSet<OrderDetail>();
             Reviews = new HashSet<Review>();
         }
@@ -22,10 +21,7 @@ namespace MomAndBaby.Entity
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? Status { get; set; }
-        public decimal? TotalStar {  get; set; }
-        public int? TotalReviewer { get; set; }
-        public int? TotalPurchase { get; set; }
-        public virtual ICollection<Gift> Gifts { get; set; }
+
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }

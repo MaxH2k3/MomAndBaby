@@ -32,11 +32,10 @@ namespace MomAndBaby.Entity
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(GetConnectionString());
-                //.LogTo(Console.WriteLine, LogLevel.Information);
+                
             }
         }
 
@@ -56,11 +55,13 @@ namespace MomAndBaby.Entity
             if (environment.IsProduction())
             {
                 return config["ConnectionStrings:" + SystemConstant.DefaultDatabase]!;
-            } else
+            }
+            else
             {
                 return config["LocalDB:" + SystemConstant.DefaultDatabase]!;
             }
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Article>(entity =>
@@ -85,7 +86,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Articles)
                     .HasForeignKey(d => d.AuthorId)
-                    .HasConstraintName("FK__Article__author___23BE4960");
+                    .HasConstraintName("FK__Article__author___5441852A");
             });
 
             modelBuilder.Entity<Gift>(entity =>
@@ -101,14 +102,7 @@ namespace MomAndBaby.Entity
                     .IsUnicode(false)
                     .HasColumnName("name");
 
-                entity.Property(e => e.ProductId).HasColumnName("product_id");
-
                 entity.Property(e => e.Stock).HasColumnName("stock");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Gifts)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Gift__product_id__297722B6");
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -130,7 +124,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Message__user_id__25A691D2");
+                    .HasConstraintName("FK__Message__user_id__5AEE82B9");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -164,12 +158,12 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StatusId)
-                    .HasConstraintName("FK__Order__status_id__278EDA44");
+                    .HasConstraintName("FK__Order__status_id__47DBAE45");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Order__user_id__1EF99443");
+                    .HasConstraintName("FK__Order__user_id__46E78A0C");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -192,12 +186,12 @@ namespace MomAndBaby.Entity
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Order_Det__order__1FEDB87C");
+                    .HasConstraintName("FK__Order_Det__order__4AB81AF0");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Order_Det__produ__20E1DCB5");
+                    .HasConstraintName("FK__Order_Det__produ__4BAC3F29");
             });
 
             modelBuilder.Entity<OrderTracking>(entity =>
@@ -227,7 +221,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderTrackings)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__Order_Tra__order__269AB60B");
+                    .HasConstraintName("FK__Order_Tra__order__5DCAEF64");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -296,12 +290,12 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Review__product___22CA2527");
+                    .HasConstraintName("FK__Review__product___5070F446");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Review__user_id__21D600EE");
+                    .HasConstraintName("FK__Review__user_id__4F7CD00D");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -332,10 +326,10 @@ namespace MomAndBaby.Entity
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.Email, "UQ__User__AB6E6164D6C9AD65")
+                entity.HasIndex(e => e.Email, "UQ__User__AB6E616440F2BE6C")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Username, "UQ__User__F3DBC5726EC39071")
+                entity.HasIndex(e => e.Username, "UQ__User__F3DBC57254D72B7B")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -360,6 +354,10 @@ namespace MomAndBaby.Entity
 
                 entity.Property(e => e.Password).HasColumnName("password");
 
+                entity.Property(e => e.PasswordSalt)
+                    .HasMaxLength(1)
+                    .HasColumnName("passwordSalt");
+
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(20)
                     .IsUnicode(false)
@@ -371,10 +369,6 @@ namespace MomAndBaby.Entity
                     .HasMaxLength(50)
                     .IsUnicode(false)
                     .HasColumnName("status");
-
-                entity.Property(e => e.TotalPoints)
-                    .HasColumnName("total_points")
-                    .HasDefaultValueSql("((0))");
 
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
@@ -389,14 +383,14 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK__User__role_id__2882FE7D");
+                    .HasConstraintName("FK__User__role_id__3F466844");
             });
 
             modelBuilder.Entity<Voucher>(entity =>
             {
                 entity.ToTable("Voucher");
 
-                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF94C1FBCEE")
+                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF96DAE1B56")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -425,7 +419,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Vouchers)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__Voucher__created__24B26D99");
+                    .HasConstraintName("FK__Voucher__created__5812160E");
             });
 
             OnModelCreatingPartial(modelBuilder);

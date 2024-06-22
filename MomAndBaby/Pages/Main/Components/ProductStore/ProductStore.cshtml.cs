@@ -19,7 +19,7 @@ namespace MomAndBaby.Pages.Main.Components
             ProductStoreModel productStoreModel = new ProductStoreModel();
             productStoreModel.ListAllProducts = await _iproductService.GetAll();
             productStoreModel.ListNewItems = await _iproductService.GetNewItems();
-            productStoreModel.ListHighestRatingItems = await _iproductService.GetHighestRating();
+            //productStoreModel.ListHighestRatingItems = await _iproductService.GetHighestRating();
 
 
             return View("ProductStore", productStoreModel);

@@ -17,7 +17,7 @@ namespace MomAndBaby.Pages.Main.Components
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ProductStoreModel productStoreModel = new ProductStoreModel();
-            productStoreModel.ListTrendingProduct = await _iproductService.GetTrendingItems();
+            //productStoreModel.ListTrendingProduct = await _iproductService.GetTrendingItems();
             
 
 
