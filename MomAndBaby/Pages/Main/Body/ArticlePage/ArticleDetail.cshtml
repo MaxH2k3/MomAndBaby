@@ -1,0 +1,67 @@
+﻿@page "/article-detail"
+@model ArticleDetailModel
+@{
+}
+
+<style>
+    .actions {
+        margin-top: 20px;
+    }
+
+        .actions .btn {
+            margin-right: 15px;
+        }
+
+            .actions .btn:last-child {
+                margin-right: 0;
+            }
+</style>
+
+<body>
+    <div class="wrapper page-blog-details-wrapper">
+        <main class="main-content">
+            <section class="page-title-area">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-12 m-auto">
+                            <div class="page-title-content text-center">
+                                <h2 class="title">Blog</h2>
+                                <div class="bread-crumbs">
+                                    <a href="/"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> Blog Detail</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="blog-details-area">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 order-0 order-lg-1">
+                            <div class="post-details-content">
+                                <div class="post-details-body">
+                                    <div class="content">
+                                        <div class="meta">
+                                            By,
+                                            <a class="author" href="blog.html">@Model.Article.AuthorName </a>
+                                            <span class="dots"></span><span class="post-date">@Model.Article.CreatedAt</span>
+                                        </div>
+                                        <h4 class="title">@Model.Article.Title</h4>
+                                        <p>@Model.Article.Content</p>
+                                    </div>
+                                </div>
+                                <div class="actions">
+                                    <a href="/edit-article?articleId=@Model.Article.Id" class="btn btn-primary">Edit</a>
+                                    <form method="post" asp-page-handler="Delete" style="display: inline;">
+                                        <input type="hidden" name="articleId" value="@Model.Article.Id" />
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+</body>

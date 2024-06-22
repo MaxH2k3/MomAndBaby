@@ -1,24 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.Entity;
+using MomAndBaby.Entity.DTO;
 using MomAndBaby.Service;
 
-namespace MomAndBaby.Pages.Main.Body
+namespace MomAndBaby.Pages.Main.Body.ArticlePage
 {
     public class ArticleModel : PageModel
     {
-        public IEnumerable<Article> articles;
-
         private readonly IArticleService _articleService;
 
         public ArticleModel(IArticleService articleService)
         {
             _articleService = articleService;
         }
+        public PaginatedList<ArticleDTO> Articles { get; set; }
 
-        public void OnGet()
+        public void OnGet(int pageIndex = 1)
         {
-            articles = _articleService.GetListArticle();
+            int pageSize = 5;
+            Articles = _articleService.GetListArticle(pageIndex, pageSize);
         }
     }
 }

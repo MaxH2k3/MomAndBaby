@@ -1,0 +1,87 @@
+﻿@page "/article"
+@model ArticleModel
+@{
+    ViewData["Title"] = "Blog";
+}
+
+<main class="main-content">
+    <section class="page-title-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 m-auto">
+                    <div class="page-title-content text-center">
+                        <h2 class="title">Blog</h2>
+                        <div class="bread-crumbs">
+                            <a href="/"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> Blog</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    
+    <section class="blog-area blog-grid-area">
+        <div class="container">
+            <div class="row">
+                <a href="/add-article"><button class="btn btn-outline-dark">Add new article</button></a>
+                <div class="col-lg-12">
+                    <div class="blog-content-area">
+                        <div class="row">
+                            @foreach (var article in Model.Articles)
+                            {
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="post-item">
+                                        <div class="content">
+                                            <div class="meta">
+                                                By, <a class="author" href="blog.html">@article.AuthorName</a>
+                                                <span class="dots"></span>
+                                                <span class="post-date">@article.CreatedAt?.ToString("dd MMM, yyyy")</span>
+                                            </div>
+                                            <h4 class="title">
+                                                <a href="blog-details.html">@article.Title</a>
+                                            </h4>
+                                            <a class="btn-theme" href="/article-detail?articleId=@article.Id" >Read More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="pagination-area">
+                                    <nav>
+                                        <ul class="page-numbers">
+                                            @if (Model.Articles.HasPreviousPage)
+                                            {
+                                                <li>
+                                                    <a class="page-number prev" asp-action="/article" asp-route-pageIndex="@(Model.Articles.PageIndex - 1)">
+                                                        <i class="fa fa-angle-left"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                            @for (int i = 1; i <= Model.Articles.TotalPages; i++)
+                                            {
+                                                <li>
+                                                    <a class="page-number @(Model.Articles.PageIndex == i ? "active" : "")"  asp-route-pageIndex="@i">@i</a>
+                                                </li>
+                                            }
+                                            @if (Model.Articles.HasNextPage)
+                                            {
+                                                <li>
+                                                    <a class="page-number next" asp-route-pageIndex="@(Model.Articles.PageIndex + 1)">
+                                                        <i class="fa fa-angle-right"></i>
+                                                    </a>
+                                                </li>
+                                            }
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
