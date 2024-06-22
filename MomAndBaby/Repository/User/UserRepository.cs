@@ -1,4 +1,6 @@
-﻿using MomAndBaby.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.Entity;
+using MomAndBaby.Utilities.Enums;
 
 namespace MomAndBaby.Repository
 {
@@ -10,5 +12,11 @@ namespace MomAndBaby.Repository
         {
             _context = context;
         }
+
+        public async Task<bool> IsStaff(Guid userId)
+        {
+            return await _context.Users.AnyAsync(x => x.RoleId == (int)RoleType.Staff && x.Id.Equals(userId));
+		}
+
     }
 }

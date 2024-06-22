@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Entity
 {
@@ -32,35 +31,13 @@ namespace MomAndBaby.Entity
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(GetConnectionString());
-                //.LogTo(Console.WriteLine, LogLevel.Information);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=(local);Database=MomAndBaby;Trusted_Connection=True;");
             }
         }
 
-        private static string GetConnectionString()
-        {
-            IWebHostEnvironment environment = new HttpContextAccessor().HttpContext!.RequestServices
-                                        .GetRequiredService<IWebHostEnvironment>();
-
-            IConfiguration config = new ConfigurationBuilder()
-
-            .SetBasePath(Directory.GetCurrentDirectory())
-
-            .AddJsonFile("appsettings.json", true, true)
-
-            .Build();
-
-            if (environment.IsProduction())
-            {
-                return config["ConnectionStrings:" + SystemConstant.DefaultDatabase]!;
-            } else
-            {
-                return config["LocalDB:" + SystemConstant.DefaultDatabase]!;
-            }
-        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Article>(entity =>
@@ -85,7 +62,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Articles)
                     .HasForeignKey(d => d.AuthorId)
-                    .HasConstraintName("FK__Article__author___23BE4960");
+                    .HasConstraintName("FK__Article__author___2C1E8537");
             });
 
             modelBuilder.Entity<Gift>(entity =>
@@ -108,7 +85,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Gifts)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Gift__product_id__297722B6");
+                    .HasConstraintName("FK__Gift__product_id__30E33A54");
             });
 
             modelBuilder.Entity<Message>(entity =>
@@ -125,12 +102,21 @@ namespace MomAndBaby.Entity
                     .HasColumnType("datetime")
                     .HasColumnName("created_at");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.IsSystem).HasColumnName("is_system");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Message__user_id__25A691D2");
+                entity.Property(e => e.ReceiverId).HasColumnName("receiver_id");
+
+                entity.Property(e => e.SenderId).HasColumnName("sender_id");
+
+                entity.HasOne(d => d.Receiver)
+                    .WithMany(p => p.MessageReceivers)
+                    .HasForeignKey(d => d.ReceiverId)
+                    .HasConstraintName("FK__Message__receive__22951AFD");
+
+                entity.HasOne(d => d.Sender)
+                    .WithMany(p => p.MessageSenders)
+                    .HasForeignKey(d => d.SenderId)
+                    .HasConstraintName("FK__Message__sender___21A0F6C4");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -164,12 +150,12 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StatusId)
-                    .HasConstraintName("FK__Order__status_id__278EDA44");
+                    .HasConstraintName("FK__Order__status_id__2EFAF1E2");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Order__user_id__1EF99443");
+                    .HasConstraintName("FK__Order__user_id__2759D01A");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -192,12 +178,12 @@ namespace MomAndBaby.Entity
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Order_Det__order__1FEDB87C");
+                    .HasConstraintName("FK__Order_Det__order__284DF453");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Order_Det__produ__20E1DCB5");
+                    .HasConstraintName("FK__Order_Det__produ__2942188C");
             });
 
             modelBuilder.Entity<OrderTracking>(entity =>
@@ -227,7 +213,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderTrackings)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__Order_Tra__order__269AB60B");
+                    .HasConstraintName("FK__Order_Tra__order__2E06CDA9");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -296,12 +282,12 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Review__product___22CA2527");
+                    .HasConstraintName("FK__Review__product___2B2A60FE");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Review__user_id__21D600EE");
+                    .HasConstraintName("FK__Review__user_id__2A363CC5");
             });
 
             modelBuilder.Entity<Role>(entity =>
@@ -332,10 +318,10 @@ namespace MomAndBaby.Entity
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.Email, "UQ__User__AB6E6164D6C9AD65")
+                entity.HasIndex(e => e.Email, "UQ__User__AB6E61643BEB0E50")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Username, "UQ__User__F3DBC5726EC39071")
+                entity.HasIndex(e => e.Username, "UQ__User__F3DBC5721B257AF8")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -389,14 +375,14 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK__User__role_id__2882FE7D");
+                    .HasConstraintName("FK__User__role_id__2FEF161B");
             });
 
             modelBuilder.Entity<Voucher>(entity =>
             {
                 entity.ToTable("Voucher");
 
-                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF94C1FBCEE")
+                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF97801AF08")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -425,7 +411,7 @@ namespace MomAndBaby.Entity
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Vouchers)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__Voucher__created__24B26D99");
+                    .HasConstraintName("FK__Voucher__created__2D12A970");
             });
 
             OnModelCreatingPartial(modelBuilder);

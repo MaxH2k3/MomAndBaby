@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
 using MomAndBaby.Entity;
 using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Utilities.Constants;
 using MomAndBaby.Utilities.Enums;
 
@@ -22,7 +24,7 @@ builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("Cook
 builder.Services.AddCustomCookie(builder.Configuration);
 
 // Add services to the container.
-
+builder.Services.AddScoped<IMessageService, MessageService>();
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
@@ -37,7 +39,10 @@ builder.Services.AddHttpContextAccessor();
 
 // Set up cors
 builder.Services.AddCors();
-
+builder.Services.AddSignalR(option =>
+{
+    option.EnableDetailedErrors = true;
+});
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -69,5 +74,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHub<ChatHub>(SystemConstant.HubConnection);
 
 app.Run();
