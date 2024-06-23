@@ -4,7 +4,7 @@ namespace MomAndBaby.Service.Helper
 {
     public class AuthenHelper
     {
-        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public static void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
             {
@@ -14,7 +14,7 @@ namespace MomAndBaby.Service.Helper
         }
 
 
-        public bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        public static bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512(passwordSalt))
             {
