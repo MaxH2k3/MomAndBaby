@@ -21,7 +21,7 @@ namespace MomAndBaby.Repository
 
         //public async Task<IEnumerable<Product>> GetHighestRating()
         //{
-        //    return await _context.Products.Where(p => p.TotalStar.HasValue).OrderByDescending(p => p.TotalStar).ToListAsync();
+        //    return await _context.Products.OrderByDescending(p => p.Statistic.AverageStar).ToListAsync();
         //}
 
         public async Task<IEnumerable<Product>> GetNewItems()
