@@ -9,6 +9,7 @@ namespace MomAndBaby.Pages.Main.Body
         [Authorize]
         public void OnGet()
         {
-        }
+
+		}
     }
 }

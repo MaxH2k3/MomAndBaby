@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Main.Components.QuickView
 {
@@ -8,7 +9,7 @@ namespace MomAndBaby.Pages.Main.Components.QuickView
         public IViewComponentResult Invoke()
         {
             Console.WriteLine("QuickViewViewComponent.Invoke() called");
-            return View("QuickView");
+            return View(ConstantPage.MainPage.QuickView);
         }
     }
 }

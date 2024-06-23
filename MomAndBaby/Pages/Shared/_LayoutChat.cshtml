@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebSignalR</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/chat-popup/css/chat.css" asp-append-version="true" />
+    <link rel="stylesheet" href="@ViewData["Style"]" asp-append-version="true" />
+
+</head>
+<body>
+
+    @RenderBody()
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/chat-popup/js/dist/browser/signalr.js"></script>
+    <script src="~/chat-popup/js/event-click.js" asp-append-version="true"></script>
+    <script src="~/chat-popup/js/index.js" asp-append-version="true"></script>
+    <script src="~/chat-popup/js/message.js" asp-append-version="true"></script>
+    <script src="~/chat-popup/js/chat.js" asp-append-version="true"></script>
+    <script src="~/chat-popup/js/helper.js" asp-append-version="true"></script>
+    <script src="~/chat-popup/js/search.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

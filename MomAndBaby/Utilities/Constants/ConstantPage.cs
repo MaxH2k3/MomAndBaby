@@ -15,6 +15,8 @@
             public const string SideMenu = PrePathComponentMain + "/Elements/SideMenu";
 
             public const string QuickView = "QuickView";
+
+            public const string Chat = "../Chat/Menu";
         }
 
         // Set up path for each page on Dashboard

@@ -1,11 +1,13 @@
 ﻿@{
-    if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Dashboard", StringComparison.OrdinalIgnoreCase))
+    var path = ViewContext.RouteData.Values["page"]!.ToString();
+
+    if (path!.StartsWith("/Dashboard", StringComparison.OrdinalIgnoreCase))
     {
         Layout = "_LayoutDashboard";
-    } else if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Main", StringComparison.OrdinalIgnoreCase))
+    } else if (path!.StartsWith("/Main", StringComparison.OrdinalIgnoreCase))
     {
         Layout = "_LayoutMain";
-    } else if (ViewContext.RouteData.Values["page"]!.ToString()!.StartsWith("/Authen", StringComparison.OrdinalIgnoreCase))
+    } else if (path!.StartsWith("/Authen", StringComparison.OrdinalIgnoreCase))
     {
         Layout = "_LayoutMain";
     } else

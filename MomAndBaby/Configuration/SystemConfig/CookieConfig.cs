@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
-using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Configuration.SystemConfig
 {
@@ -8,7 +8,7 @@ namespace MomAndBaby.Configuration.SystemConfig
 {
     public static void AddCustomCookie(this IServiceCollection services, IConfiguration configuration)
     {
-
+            services.Configure<CookieSetting>(configuration.GetSection("CookieSetting"));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
