@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MomAndBaby.BusinessObject.Entity
 {
@@ -25,6 +26,25 @@ namespace MomAndBaby.BusinessObject.Entity
         public virtual DbSet<Status> Statuses { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer(GetConnectionString());
+            }
+        }
+        private static string GetConnectionString()
+        {
+            IConfiguration config = new ConfigurationBuilder()
+
+            .AddJsonFile("appsettings.json", true, true)
+
+            .Build();
+
+            return config["LocalDB:SQL"]!;
+
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
