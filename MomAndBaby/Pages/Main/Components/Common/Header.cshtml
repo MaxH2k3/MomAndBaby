@@ -1,4 +1,5 @@
-﻿
+﻿@using MomAndBaby.BusinessObject.Constants
+
 
 <!--== Start Preloader Content ==-->
 <div class="preloader-wrap">
@@ -27,9 +28,9 @@
                     <div class="header-info">
                         <a href="tel://+00123456789"><i class="fa fa-phone"></i> +00 123 456 789</a>
                         <a href="mailto://demo@example.com"><i class="fa fa-envelope"></i> demo@example.com</a>
-                        @if (Context.User.Identity.IsAuthenticated)
+                        @if (Context.User.Identity!.IsAuthenticated)
                         {
-                            <a href="/login"><i class="fa fa-user"></i>@User.Identity.Name</a>
+                            <a href="/login?handler=Logout"><i class="fa fa-user"></i>@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.DisplayName)).Value</a>
                         } else
                         {
                             <a href="/login"><i class="fa fa-user"></i> Account</a>

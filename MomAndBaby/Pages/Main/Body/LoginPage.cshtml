@@ -19,47 +19,53 @@
     <!--== Start Login Wrapper ==-->
     <section class="login-register-area">
         <div class="container">
-            <div class="row">
-                <div class="col-md-5 login-register-border">
-                    <div class="login-register-content">
-                        <div class="login-register-title mb-30">
-                            <h2>Login</h2>
-                            <p>Welcome back! Please enter your username and password to login. </p>
-                        </div>
-                        <div class="login-register-style login-register-pr">
-                            <form method="post" >
-                                <div class="login-register-input">
-                                    <input type="text" name="user-name" placeholder="Username or email address">
+            <div class="row justify-content-center">
+                <div class="login-register-content form-login">
+                    <div class="login-register-title mb-30 text-center">
+                        <h2>Login</h2>
+                        <p class="w-100">Please enter your username and password to login. </p>
+                    </div>
+                    <div class="login-register-style">
+                        <form method="post" class="text-center">
+                            <div class="login-register-input">
+                                <input type="text" name="user-name" placeholder="Username or email address">
+                            </div>
+                            <div class="login-register-input">
+                                <input type="password" name="user-password" placeholder="Password">
+                                <div class="forgot">
+                                    <a href="#">Forgot?</a>
                                 </div>
-                                <div class="login-register-input">
-                                    <input type="password" name="user-password" placeholder="Password">
-                                    <div class="forgot">
-                                        <a href="#">Forgot?</a>
-                                    </div>
-                                </div>
-                                <div class="remember-me-btn">
-                                    <input type="checkbox">
-                                    <label>Remember me</label>
-                                </div>
-                                <div class="btn-style-3">
-                                    <button class="btn" asp-page-handler="Login">Login</button>
-                                </div>
+                            </div>
 
-                                <div class="btn-style-3">
-                                    <button class="btn" asp-page-handler="LoginGoogle">Sign in with Google</button>
-                                </div>
-                            </form>
-                        </div>
+                            <p class="register-account">Don't have an account? <a href="#" class="register-now">Register now.</a></p>
+
+                            <div class="btn-style-3">
+                                <button class="btn" asp-page-handler="Login">Login</button>
+                            </div>
+
+                            <div class="btn-style-3">
+                                <button class="btn" asp-page-handler="LoginGoogle">Sign in with Google</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                <div class="col-md-7">
+                <div class="form-register d-none">
                     <div class="login-register-content login-register-pl">
-                        <div class="login-register-title mb-30">
+                        <div class="login-register-title mb-30 text-center">
                             <h2>Register</h2>
-                            <p>Create new account today to reap the benefits of a personalized shopping experience. </p>
+                            <p class="w-100">Create new account today to reap the benefits of a personalized shopping experience. </p>
                         </div>
-                        <div class="login-register-style">
-                            <form method="post" >
+                        <div class="login-register-style row">
+                            <div class="col-md-5 register-benefits">
+                                <h3>Sign up today and you will be able to :</h3>
+                                <p>The Loke Buyer Protection has you covered from click to delivery. Sign up <br>or sign in and you will be able to:</p>
+                                <ul>
+                                    <li><i class="pe-7s-check icons"></i> Speed your way through checkout</li>
+                                    <li><i class="pe-7s-check icons"></i> Track your orders easily</li>
+                                    <li><i class="pe-7s-check icons"></i> Keep a record of all your purchases</li>
+                                </ul>
+                            </div>
+                            <form method="post" class="col-md-7">
                                 <div class="login-register-input">
                                     <input type="text" name="username" placeholder="Username">
                                 </div>
@@ -77,15 +83,7 @@
                                 </div>
 
                             </form>
-                            <div class="register-benefits">
-                                <h3>Sign up today and you will be able to :</h3>
-                                <p>The Loke Buyer Protection has you covered from click to delivery. Sign up <br>or sign in and you will be able to:</p>
-                                <ul>
-                                    <li><i class="pe-7s-check icons"></i> Speed your way through checkout</li>
-                                    <li><i class="pe-7s-check icons"></i> Track your orders easily</li>
-                                    <li><i class="pe-7s-check icons"></i> Keep a record of all your purchases</li>
-                                </ul>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -94,3 +92,13 @@
     </section>
     <!--== End Login Wrapper ==-->
 </main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        $(".register-now").click(() => {
+            $(".form-login").addClass("d-none");
+            $(".form-register").removeClass("d-none");
+        })
+    });
+
+</script>

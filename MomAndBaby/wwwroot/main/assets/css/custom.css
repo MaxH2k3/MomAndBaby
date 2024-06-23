@@ -1,0 +1,13 @@
+﻿.form-login {
+    width: 40vw !important;
+}
+
+.register-account {
+    float: left;
+}
+
+    .register-account a {
+        color: #4bb1cf;
+        text-decoration: underline;
+        font-style: italic;
+    }
