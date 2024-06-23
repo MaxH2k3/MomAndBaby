@@ -7,7 +7,6 @@ namespace MomAndBaby.BusinessObject.Entity
     {
         public Product()
         {
-            Gifts = new HashSet<Gift>();
             OrderDetails = new HashSet<OrderDetail>();
             Reviews = new HashSet<Review>();
         }
@@ -23,7 +22,6 @@ namespace MomAndBaby.BusinessObject.Entity
         public DateTime? UpdatedAt { get; set; }
         public string? Status { get; set; }
 
-        public virtual ICollection<Gift> Gifts { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }

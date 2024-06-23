@@ -1,9 +1,10 @@
 ﻿using MomAndBaby.Entity;
 
-namespace MomAndBaby.Repository
+namespace MomAndBaby.Service
 {
-    public interface IArticleRepository
+    public interface IArticleService
     {
         public IEnumerable<Article> GetListArticle();
+    
     }
 }

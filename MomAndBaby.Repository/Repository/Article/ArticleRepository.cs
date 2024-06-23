@@ -10,5 +10,10 @@ namespace MomAndBaby.Repository
         {
             _context = context;
         }
+
+        public IEnumerable<Article> GetListArticle()
+        {
+            return _context.Articles.ToList();
+        }
     }
 }

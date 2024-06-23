@@ -12,18 +12,27 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up database context.
-/*builder.Services.AddDbContext<MomAndBabyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)));*/
+//builder.Services.AddDbContext<MomAndBabyContext>(options =>
+//    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)));
 
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);
 
+//Setup Authentication
+
+
 // Set up cookie authentication.
 builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("CookieSetting"));
 builder.Services.AddCustomCookie(builder.Configuration);
+builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
-builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>

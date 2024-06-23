@@ -9,8 +9,5 @@ namespace MomAndBaby.BusinessObject.Entity
         public string? Name { get; set; }
         public int? Stock { get; set; }
         public int? ExchangePoint { get; set; }
-        public Guid? ProductId { get; set; }
-
-        public virtual Product? Product { get; set; }
     }
 }
