@@ -1,9 +1,10 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service
 {
-	public class ArticleService : IArticleService
+    public class ArticleService : IArticleService
 	{
 		private readonly IUnitOfWork _unitOfWork;
 

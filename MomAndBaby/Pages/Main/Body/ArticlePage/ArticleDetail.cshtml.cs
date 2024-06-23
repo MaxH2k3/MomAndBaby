@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using MomAndBaby.Entity.DTO;
+using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 
 namespace MomAndBaby.Pages.Main.Body.ArticlePage

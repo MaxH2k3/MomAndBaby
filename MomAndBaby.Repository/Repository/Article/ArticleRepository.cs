@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {
@@ -42,9 +43,7 @@ namespace MomAndBaby.Repository
 			if (articleToUpdate != null)
 			{
 				articleToUpdate.Title = article.Title;
-				articleToUpdate.AuthorId = article.AuthorId;
 				articleToUpdate.Content = article.Content;
-				articleToUpdate.CreatedAt = article.CreatedAt;
 				_context.Update(articleToUpdate);
 				_context.SaveChanges();
 			}

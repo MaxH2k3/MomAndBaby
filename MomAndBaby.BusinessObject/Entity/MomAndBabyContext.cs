@@ -44,7 +44,7 @@ namespace MomAndBaby.BusinessObject.Entity
 
             .Build();
 
-            return config["ConnectionStrings:SQL"]!;
+            return config["LocalDB:SQL"]!;
 
         }
 
