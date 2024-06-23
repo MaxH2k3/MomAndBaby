@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MomAndBaby.Configuration.Uow;
-using MomAndBaby.Dto.UserDto;
-using MomAndBaby.Entity;
-using MomAndBaby.Helper;
+using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.Repository.Uow;
+using MomAndBaby.Service.Helper;
 
 namespace MomAndBaby.Service
 {

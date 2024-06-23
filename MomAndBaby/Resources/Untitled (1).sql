@@ -92,12 +92,14 @@ CREATE TABLE [Voucher] (
 FOREIGN KEY ([created_by]) REFERENCES [User] ([id])
 )
 
+
 CREATE TABLE [Message] (
-[id] int PRIMARY KEY IDENTITY(1, 1),
-[user_id] uniqueidentifier,
-[content] varchar(max),
-[created_at] datetime,
-FOREIGN KEY ([user_id]) REFERENCES [User] ([id])
+  [id] int PRIMARY KEY IDENTITY(1, 1),
+  [sender_id] uniqueidentifier references [User](id),
+  [receiver_id] uniqueidentifier references [User](id),
+  [content] varchar(max),
+  [created_at] datetime,
+  [is_system] bit
 )
 
 CREATE TABLE [Order_Tracking] (

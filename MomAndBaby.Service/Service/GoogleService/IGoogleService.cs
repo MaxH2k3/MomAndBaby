@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace MomAndBaby.Service.GoogleService
+﻿namespace MomAndBaby.Service.GoogleService
 {
     public interface IGoogleService
     {

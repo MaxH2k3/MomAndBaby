@@ -1,5 +1,4 @@
-﻿using MomAndBaby.Dto.UserDto;
-using MomAndBaby.Entity;
+﻿using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {

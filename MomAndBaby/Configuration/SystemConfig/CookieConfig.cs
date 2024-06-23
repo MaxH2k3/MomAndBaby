@@ -8,7 +8,7 @@ namespace MomAndBaby.Configuration.SystemConfig
 {
     public static void AddCustomCookie(this IServiceCollection services, IConfiguration configuration)
     {
-
+            services.Configure<CookieSetting>(configuration.GetSection("CookieSetting"));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {

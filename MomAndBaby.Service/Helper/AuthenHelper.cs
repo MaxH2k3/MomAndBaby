@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-namespace MomAndBaby.Helper
+namespace MomAndBaby.Service.Helper
 {
     public class AuthenHelper
     {

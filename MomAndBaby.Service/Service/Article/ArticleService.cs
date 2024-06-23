@@ -1,5 +1,5 @@
-﻿using MomAndBaby.Configuration.Uow;
-using MomAndBaby.Entity;
+﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service
 {

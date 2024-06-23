@@ -1,6 +1,5 @@
-﻿using MomAndBaby.Configuration.Uow;
-using MomAndBaby.Dto.UserDto;
-using MomAndBaby.Entity;
+﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Service
 {

@@ -1,8 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MomAndBaby.Configuration.Uow;
-using MomAndBaby.Entity;
-using MomAndBaby.Repository;
-using System.Collections.Generic;
+﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service
 {

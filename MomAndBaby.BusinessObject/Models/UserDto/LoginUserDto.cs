@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MomAndBaby.Dto.UserDto
+namespace MomAndBaby.BusinessObject.Models
 {
     public class LoginUserDto
     {

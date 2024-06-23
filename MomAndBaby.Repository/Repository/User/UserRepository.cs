@@ -18,5 +18,22 @@ namespace MomAndBaby.Repository
             return await _context.Users.AnyAsync(x => x.RoleId == (int)RoleType.Staff && x.Id.Equals(userId));
 		}
 
+        public async Task<User> AddUser(User userRegitser)
+        {
+            await _context.Users.AddAsync(userRegitser);
+            _context.SaveChanges();
+            return userRegitser;
+        }
+
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
+        }
+
+        public async Task<User?> GetUserByUsernameOrEmail(string userSelection)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(userSelection) || u.Email.Equals(userSelection));
+        }
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {

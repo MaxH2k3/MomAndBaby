@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using MomAndBaby.Utilities.Constants;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace MomAndBaby.Entity
+namespace MomAndBaby.BusinessObject.Entity
 {
     public partial class MomAndBabyContext : DbContext
     {
@@ -29,38 +25,6 @@ namespace MomAndBaby.Entity
         public virtual DbSet<Status> Statuses { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(GetConnectionString());
-                
-            }
-        }
-
-        private static string GetConnectionString()
-        {
-            IWebHostEnvironment environment = new HttpContextAccessor().HttpContext!.RequestServices
-                                        .GetRequiredService<IWebHostEnvironment>();
-
-            IConfiguration config = new ConfigurationBuilder()
-
-            .SetBasePath(Directory.GetCurrentDirectory())
-
-            .AddJsonFile("appsettings.json", true, true)
-
-            .Build();
-
-            if (environment.IsProduction())
-            {
-                return config["ConnectionStrings:" + SystemConstant.DefaultDatabase]!;
-            }
-            else
-            {
-                return config["LocalDB:" + SystemConstant.DefaultDatabase]!;
-            }
-        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -119,12 +83,19 @@ namespace MomAndBaby.Entity
                     .HasColumnType("datetime")
                     .HasColumnName("created_at");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+                entity.Property(e => e.ReceiverId).HasColumnName("receiver_id");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Message__user_id__5AEE82B9");
+                entity.Property(e => e.SenderId).HasColumnName("sender_id");
+
+                entity.HasOne(d => d.Receiver)
+                    .WithMany()
+                    .HasForeignKey(d => d.ReceiverId)
+                    .HasConstraintName("FK__Message__receive__5EBF139D");
+
+                entity.HasOne(d => d.Sender)
+                .WithMany()
+                    .HasForeignKey(d => d.SenderId)
+                    .HasConstraintName("FK__Message__sender___5DCAEF64");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -300,7 +271,7 @@ namespace MomAndBaby.Entity
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("role");
+                entity.ToTable("Role");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
