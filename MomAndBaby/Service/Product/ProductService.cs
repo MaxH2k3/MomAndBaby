@@ -19,10 +19,10 @@ namespace MomAndBaby.Service
             return await _unitOfWork.ProductRepository.GetAll();
         }
 
-        //public async Task<IEnumerable<Product>> GetHighestRating()
-        //{
-        //    return await _unitOfWork.ProductRepository.GetHighestRating();
-        //}
+        public async Task<IEnumerable<Product>> GetHighestRating()
+        {
+            return await _unitOfWork.ProductRepository.GetHighestRating();
+        }
 
         public async Task<IEnumerable<Product>> GetNewItems()
         {

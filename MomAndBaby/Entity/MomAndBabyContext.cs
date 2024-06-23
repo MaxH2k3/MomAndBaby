@@ -24,6 +24,7 @@ namespace MomAndBaby.Entity
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<OrderTracking> OrderTrackings { get; set; } = null!;
         public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<ProductStatistic> ProductStatistics { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Status> Statuses { get; set; } = null!;
@@ -34,8 +35,8 @@ namespace MomAndBaby.Entity
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer(GetConnectionString());
-                
             }
         }
 
@@ -266,6 +267,22 @@ namespace MomAndBaby.Entity
                     .HasColumnType("datetime")
                     .HasColumnName("updated_at")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(e => e.Statistic)
+                    .WithOne(s => s.Product)
+                    .HasForeignKey<ProductStatistic>(s => s.ProductId);
+            });
+
+            modelBuilder.Entity<ProductStatistic>(entity =>
+            {
+                entity.HasKey(e => e.ProductId);
+
+                entity.ToView("ProductStatistics");
+
+                entity.Property(e => e.ProductName).HasMaxLength(255);
+                entity.HasOne(s => s.Product)
+                    .WithOne(p => p.Statistic)
+                    .HasForeignKey<ProductStatistic>(s => s.ProductId);
             });
 
             modelBuilder.Entity<Review>(entity =>
@@ -354,9 +371,7 @@ namespace MomAndBaby.Entity
 
                 entity.Property(e => e.Password).HasColumnName("password");
 
-                entity.Property(e => e.PasswordSalt)
-                    .HasMaxLength(1)
-                    .HasColumnName("passwordSalt");
+                entity.Property(e => e.PasswordSalt).HasColumnName("passwordSalt");
 
                 entity.Property(e => e.PhoneNumber)
                     .HasMaxLength(20)

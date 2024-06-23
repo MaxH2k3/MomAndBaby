@@ -9,6 +9,7 @@ namespace MomAndBaby.Entity
         {
             OrderDetails = new HashSet<OrderDetail>();
             Reviews = new HashSet<Review>();
+            Statistic = new ProductStatistic();
         }
 
         public Guid Id { get; set; }
@@ -22,6 +23,7 @@ namespace MomAndBaby.Entity
         public DateTime? UpdatedAt { get; set; }
         public string? Status { get; set; }
 
+        public virtual ProductStatistic Statistic { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
