@@ -8,6 +8,7 @@ using MomAndBaby.Configuration.SystemConfig;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
+using MomAndBaby.Service.Service.PayPalService;
 using MomAndBaby.Utilities.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,10 +29,12 @@ builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IPayPalService, PayPalService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSession();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -77,6 +80,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseSession();
 
 app.UseAuthentication();
 
