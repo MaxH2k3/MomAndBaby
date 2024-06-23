@@ -16,20 +16,20 @@ namespace MomAndBaby.Service
             return await _unitOfWork.ProductRepository.GetAll();
         }
 
-        //public async Task<IEnumerable<Product>> GetHighestRating()
-        //{
-        //    return await _unitOfWork.ProductRepository.GetHighestRating();
-        //}
+        public async Task<IEnumerable<Product>> GetHighestRating()
+        {
+            return await _unitOfWork.ProductRepository.GetHighestRating();
+        }
 
         public async Task<IEnumerable<Product>> GetNewItems()
         {
             return await _unitOfWork.ProductRepository.GetNewItems();
         }
 
-        //public async Task<IEnumerable<Product>> GetTrendingItems()
-        //{
-        //    return await _unitOfWork.ProductRepository.GetTrendingItems();
-        //}
+        public async Task<IEnumerable<Product>> GetTrendingItems()
+        {
+            return await _unitOfWork.ProductRepository.GetTrendingItems();
+        }
 
         //public async Task<Product> UpdateTotalStar(Guid ProductId, int newRating)
         //{
