@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Configuration.SystemConfig
 {

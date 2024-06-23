@@ -15,13 +15,13 @@ namespace MomAndBaby.Pages.Main.Components.Chat
 
 		public IViewComponentResult Invoke()
         {
-            var messages = _messageService.GetMessages(Guid.NewGuid()).Result;
+            /*var messages = _messageService.GetMessages(Guid.NewGuid()).Result;
 
             Console.WriteLine("Messages:");
 			foreach (var item in messages)
             {
                 Console.WriteLine(item);
-            }
+            }*/
             return View("Chat");
         }
     }

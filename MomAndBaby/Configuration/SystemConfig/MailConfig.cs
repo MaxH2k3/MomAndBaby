@@ -1,4 +1,4 @@
-﻿using MomAndBaby.Models.SystemSetting;
+﻿using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Configuration.SystemConfig
 {

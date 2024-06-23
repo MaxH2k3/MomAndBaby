@@ -1,5 +1,5 @@
-﻿using MomAndBaby.Entity;
-using MomAndBaby.Models.MessageModel;
+﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Configuration.Hub
 {
