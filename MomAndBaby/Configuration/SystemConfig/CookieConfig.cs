@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using MomAndBaby.Models.SystemSetting;
+using Microsoft.AspNetCore.Authentication.Google;
+using MomAndBaby.BusinessObject.Models;
 
 namespace MomAndBaby.Configuration.SystemConfig
 {
@@ -7,8 +8,8 @@ namespace MomAndBaby.Configuration.SystemConfig
 {
     public static void AddCustomCookie(this IServiceCollection services, IConfiguration configuration)
     {
-
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            services.Configure<CookieSetting>(configuration.GetSection("CookieSetting"));
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(options =>
             {
                 var cookieSetting = configuration.GetSection("CookieSetting").Get<CookieSetting>();
@@ -21,7 +22,11 @@ namespace MomAndBaby.Configuration.SystemConfig
                 options.LoginPath = cookieSetting.LoginPath;
                 options.LogoutPath = cookieSetting.LogoutPath;
                 options.AccessDeniedPath = cookieSetting.AccessDeniedPath;
+
             });
+            
+
+            
     }
 }
 }

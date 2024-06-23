@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Constants;
+using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
+using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
-using MomAndBaby.Entity;
-using MomAndBaby.Models.SystemSetting;
+using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
+using MomAndBaby.Service.MessageCommunication;
+using MomAndBaby.Service.Service.PayPalService;
 using MomAndBaby.Utilities.Constants;
-using MomAndBaby.Utilities.Enums;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,17 +18,25 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up database context.
 /*builder.Services.AddDbContext<MomAndBabyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)));*/
+    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)!));*/
 
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);
 
 // Set up cookie authentication.
-builder.Services.Configure<CookieSetting>(builder.Configuration.GetSection("CookieSetting"));
 builder.Services.AddCustomCookie(builder.Configuration);
+builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IPayPalService, PayPalService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddSession();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
@@ -38,7 +51,10 @@ builder.Services.AddHttpContextAccessor();
 
 // Set up cors
 builder.Services.AddCors();
-
+builder.Services.AddSignalR(option =>
+{
+    option.EnableDetailedErrors = true;
+});
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
@@ -65,10 +81,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHub<ChatHub>(SystemConstant.HubConnection);
 
 app.Run();

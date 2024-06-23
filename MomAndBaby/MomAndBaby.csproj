@@ -6,24 +6,20 @@
     <ImplicitUsings>enable</ImplicitUsings>
 	  <PreserveCompilationContext>true</PreserveCompilationContext>
 	  <PreserveCompilationReferences>true</PreserveCompilationReferences>
+	     
+    <UserSecretsId>a5c3d1e7-1a25-45a8-a9b7-cc6d2f28b2a8</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="12.0.1" />
-    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <Content Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.30">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.30" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.30">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.30" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
@@ -34,6 +30,20 @@
     <Folder Include="Pages\Dashboard\Header\" />
     <Folder Include="Pages\Shared\Components\" />
     <Folder Include="Utilities\Helper\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MomAndBaby.BusinessObject\MomAndBaby.BusinessObject.csproj" />
+    <ProjectReference Include="..\MomAndBaby.Service\MomAndBaby.Service.csproj" />
+    <UpToDateCheckInput Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Main\Body\GoogleResponseModel.cshtml" />
   </ItemGroup>
 
 </Project>

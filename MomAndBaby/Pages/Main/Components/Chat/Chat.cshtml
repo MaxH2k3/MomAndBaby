@@ -1,0 +1,31 @@
+﻿
+@using System.Text.Json;
+
+@* <input type="hidden" id="user-id" value="@(HttpContext.User.Claims.ElementAt(0).Value)" /> *@
+
+	<div class="custom-popup-chat">
+		<div class="chat-btn"> <i class="fa fa-commenting-o comment"></i> <i class="fa fa-close close"></i> </div>
+		@{
+            await Html.RenderPartialAsync("../Components/Chat/Component/DisplayMessage");
+        }
+		
+	</div>
+
+
+<script>
+	
+	document.addEventListener("DOMContentLoaded", function () {
+		// Open chat
+		document.querySelector(".chat-btn").addEventListener("click", () => {
+            var btnOpenChat = document.querySelector(".chat");
+            btnOpenChat.style.display = "block";
+        });
+
+		// Close chat
+		document.querySelector("#action_menu_btn").addEventListener("click", () => {
+			var btnCloseChat = document.querySelector(".chat");
+			btnCloseChat.style.display = "none";
+		});
+	});
+
+</script>
