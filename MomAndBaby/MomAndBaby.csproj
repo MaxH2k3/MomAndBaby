@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
+    <Content Remove="Pages\Main\Body\GoogleResponse.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,15 +35,10 @@
   <ItemGroup>
     <ProjectReference Include="..\MomAndBaby.BusinessObject\MomAndBaby.BusinessObject.csproj" />
     <ProjectReference Include="..\MomAndBaby.Service\MomAndBaby.Service.csproj" />
-    <UpToDateCheckInput Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\Main\Body\GoogleResponseModel.cshtml" />
+    <None Include="Pages\Main\Body\GoogleResponse.cshtml" />
   </ItemGroup>
 
 </Project>

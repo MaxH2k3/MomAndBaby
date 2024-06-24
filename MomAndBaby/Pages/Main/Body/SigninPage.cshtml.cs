@@ -7,15 +7,15 @@ using MomAndBaby.Service;
 
 namespace MomAndBaby.Pages.Main.Body
 {
-    public class LoginPageModel : PageModel
+    public class SigninPageModel : PageModel
     {
         private readonly IUserService _userService;
-        public LoginPageModel(IUserService userService)
+        public SigninPageModel(IUserService userService)
         {
             _userService = userService;
         }
 
-        public async Task<IActionResult> OnPostLoginGoogle()
+        public async Task OnPostLoginGoogle()
         {
             //Console.WriteLine("AAA");
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
@@ -24,22 +24,8 @@ namespace MomAndBaby.Pages.Main.Body
                 RedirectUri = Url.Page("GoogleResponse")
 
             });
-            return new EmptyResult();
-
-        }
-
-        
-
-        public async Task<IActionResult> OnPostRegisterAccount()
-        {
            
-            string usernameValue = Request.Form["username"];
-            string emailValue = Request.Form["email"];
-            string passwordValue = Request.Form["password"];
-            var loginUserDto = new LoginUserDto(usernameValue, emailValue, passwordValue);
-           
-            await _userService.AddNewUser(loginUserDto);
-            return Redirect("/");
+
         }
 
         public async Task<IActionResult> OnPostLogin()
