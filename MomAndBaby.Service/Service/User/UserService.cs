@@ -20,9 +20,8 @@ namespace MomAndBaby.Service
         public async Task<bool> AddNewUser(LoginUserDto loginUser)
         {
             var userEntity = new User();
-            var authenHelper = new AuthenHelper();
 
-            authenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+            AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
             userEntity.Email = loginUser.Email;
             userEntity.Username = loginUser.UserName;
             userEntity.Id = Guid.NewGuid(); 
@@ -46,20 +45,21 @@ namespace MomAndBaby.Service
             return user;
         }
 
-        public async Task<bool> Login(string userSelection, string password)
+        public async Task<User?> Login(string userSelection, string password)
         {
             var user = await _unitOfWork.UserRepository.GetUserByUsernameOrEmail(userSelection);
 
             if (user == null)
             {
-                return false;
+                return null;
             }
-            var authenHelper = new AuthenHelper();
-            if (!authenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
+
+            if (!AuthenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
             {
-                return false;
+                return null;
             }
-            return true;
+
+            return user;
         }
     }
 }
