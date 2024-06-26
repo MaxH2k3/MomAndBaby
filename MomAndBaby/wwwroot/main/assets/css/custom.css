@@ -11,3 +11,12 @@
         text-decoration: underline;
         font-style: italic;
     }
+.user-link {
+    display: inline-block;
+    max-width: 150px; /* Adjust the width as needed */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+}
+

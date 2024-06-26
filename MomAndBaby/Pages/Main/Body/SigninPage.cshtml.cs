@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
+using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 using System.Security.Claims;
@@ -24,18 +25,16 @@ namespace MomAndBaby.Pages.Main.Body
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
             {
 
-                RedirectUri = Url.Page("GoogleResponse")
+               RedirectUri = "/gg"
+
 
             });
-           
-            string usernameValue = Request.Form["username"]!;
-            string emailValue = Request.Form["email"]!;
-            string passwordValue = Request.Form["password"]!;
-            var loginUserDto = new LoginUserDto(usernameValue, emailValue, passwordValue);
-           
-            await _userService.AddNewUser(loginUserDto);
-            return Redirect("/");
-        }
+
+            
+
+
+        }           
+
 
         public async Task<IActionResult> OnPostLogin()
         {
