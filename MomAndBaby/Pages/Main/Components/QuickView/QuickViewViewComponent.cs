@@ -8,7 +8,7 @@ namespace MomAndBaby.Pages.Main.Components.QuickView
     {
         public IViewComponentResult Invoke()
         {
-            Console.WriteLine("QuickViewViewComponent.Invoke() called");
+
             return View(ConstantPage.MainPage.QuickView);
         }
     }

@@ -30,7 +30,7 @@
                         <a href="mailto://demo@example.com"><i class="fa fa-envelope"></i> demo@example.com</a>
                         @if (Context.User.Identity!.IsAuthenticated)
                         {
-                            <a href="/login?handler=Logout"><i class="fa fa-user"></i>@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.DisplayName)).Value</a>
+                            <a href="/login?handler=Logout"><i class="fa fa-user"></i>@* @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.DisplayName)).Value *@</a>
                         } else
                         {
                             <a href="/login"><i class="fa fa-user"></i> Account</a>

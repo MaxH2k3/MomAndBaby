@@ -47,7 +47,7 @@ namespace MomAndBaby.Pages.Main.Body
             }
 
             //return RedirectToPage("/Main/Body/HomePage");
-            return RedirectToPage("/Main/Body/HomePage");
+            return Redirect("/");
         }
     }
 }
