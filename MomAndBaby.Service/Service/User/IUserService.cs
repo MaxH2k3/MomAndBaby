@@ -8,7 +8,7 @@ namespace MomAndBaby.Service
        Task<User?> Login(string userSelection, string password);
        Task<bool> AddNewUser(LoginUserDto loginUser);
        Task<User?> GetUserByEmail(string email);
-        Task<bool> AddNewUserGoogle(User user);
+        Task<bool> SigninGoogle(User user);
 
 
     }

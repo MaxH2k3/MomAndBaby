@@ -4,46 +4,37 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
+using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 using System.Security.Claims;
 
 namespace MomAndBaby.Pages.Main.Body
 {
-    public class LoginPageModel : PageModel
+    public class SigninPageModel : PageModel
     {
         private readonly IUserService _userService;
-        public LoginPageModel(IUserService userService)
+        public SigninPageModel(IUserService userService)
         {
             _userService = userService;
         }
 
-        public async Task<IActionResult> OnPostLoginGoogle()
+        public async Task OnPostLoginGoogle()
         {
             //Console.WriteLine("AAA");
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
             {
 
-                RedirectUri = Url.Page("GoogleResponse")
+               RedirectUri = "/gg"
+
 
             });
-            return new EmptyResult();
 
-        }
+            
 
-        
 
-        public async Task<IActionResult> OnPostRegisterAccount()
-        {
-           
-            string usernameValue = Request.Form["username"]!;
-            string emailValue = Request.Form["email"]!;
-            string passwordValue = Request.Form["password"]!;
-            var loginUserDto = new LoginUserDto(usernameValue, emailValue, passwordValue);
-           
-            await _userService.AddNewUser(loginUserDto);
-            return Redirect("/");
-        }
+        }           
+
 
         public async Task<IActionResult> OnPostLogin()
         {

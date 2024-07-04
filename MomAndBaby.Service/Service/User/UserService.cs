@@ -31,10 +31,20 @@ namespace MomAndBaby.Service
             return await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<bool> AddNewUserGoogle(User user)
+        public async Task<bool> SigninGoogle(User user)
         {
-            await _unitOfWork.UserRepository.AddUser(user);
-            return await _unitOfWork.SaveChangesAsync();
+            var userCheck = _unitOfWork.UserRepository.GetUserByEmail(user.Email);
+            if(userCheck == null)
+            {
+                await _unitOfWork.UserRepository.AddUser(user);
+                return await _unitOfWork.SaveChangesAsync();
+            }
+            else
+            {
+                return true;
+            }
+            
+            
         }
 
         public async Task<User?> GetUserByEmail(string email)
