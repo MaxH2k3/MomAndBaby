@@ -10,7 +10,7 @@ namespace MomAndBaby.BusinessObject.Entity
         {
             OrderDetails = new HashSet<OrderDetail>();
             Reviews = new HashSet<Review>();
-            Statistic = new ProductStatistic();
+            //Statistic = new ProductStatistic();
         }
 
         public Guid Id { get; set; }

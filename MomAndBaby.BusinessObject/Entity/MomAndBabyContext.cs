@@ -277,8 +277,8 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(s => s.Product)
                     .WithOne(p => p.Statistic)
                     .HasForeignKey<ProductStatistic>(s => s.ProductId);
-                
-                
+                entity.Metadata.SetIsTableExcludedFromMigrations(true);
+
             });
 
             

@@ -45,11 +45,11 @@ namespace MomAndBaby.Service
             
             var mapper = _mapper.Map<Product>(dto);
             mapper.Id = Guid.NewGuid();
-            mapper.Statistic = new ProductStatistic
-            {
-                ProductId = mapper.Id,
-                ProductName = mapper.Name
-            };
+            //mapper.Statistic = new ProductStatistic
+            //{
+            //    ProductId = mapper.Id,
+            //    ProductName = mapper.Name
+            //};
             await _unitOfWork.ProductRepository.CreateProduct(mapper);
             return await _unitOfWork.SaveChangesAsync();
         }
