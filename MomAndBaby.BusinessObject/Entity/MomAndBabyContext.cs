@@ -269,16 +269,21 @@ namespace MomAndBaby.BusinessObject.Entity
 
             modelBuilder.Entity<ProductStatistic>(entity =>
             {
-                entity.HasKey(e => e.ProductId);
-
+                // entity.HasKey(e => e.ProductId);
+                
                 entity.ToView("ProductStatistics");
 
+                entity.Property(e => e.Id).HasColumnName("Id").IsRequired();
                 entity.Property(e => e.ProductName).HasMaxLength(255);
                 entity.HasOne(s => s.Product)
                     .WithOne(p => p.Statistic)
                     .HasForeignKey<ProductStatistic>(s => s.ProductId);
+                
+                
             });
 
+            
+            
             modelBuilder.Entity<Review>(entity =>
             {
                 entity.ToTable("Review");

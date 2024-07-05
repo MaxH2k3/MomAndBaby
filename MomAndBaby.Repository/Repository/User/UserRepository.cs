@@ -21,7 +21,6 @@ namespace MomAndBaby.Repository
         public async Task<User> AddUser(User userRegitser)
         {
             await _context.Users.AddAsync(userRegitser);
-            _context.SaveChanges();
             return userRegitser;
         }
 

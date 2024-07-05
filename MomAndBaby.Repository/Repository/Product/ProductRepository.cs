@@ -33,6 +33,31 @@ namespace MomAndBaby.Repository
         {
             return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.TotalPurchase).ToListAsync();
         }
+        public async Task CreateProduct(Product product)
+        {
+            await _context.Products.AddAsync(product);
+        }
+
+        public void UpdateProduct(Product product)
+        {
+            _context.Products.Update(product);
+        }
+
+        public async Task DeleteProduct(List<Guid> productIds)
+        {
+            await _context.Products.Where(x => productIds.Any(id => x.Id == id))
+                .ForEachAsync(x => x.Status = "Deleted");
+        }
+
+        public async Task<bool> NameExistAsync(string name)
+        {
+            return await _context.Products.AnyAsync(x => x.Name == name);
+        }
+
+        //public async Task<IEnumerable<Product>> GetTrendingItems()
+        //{
+        //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();
+        //}
 
         //public async Task<Product> UpdateTotalStar(Guid productId, int newRating)
         //{
