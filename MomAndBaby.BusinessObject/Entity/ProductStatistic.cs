@@ -6,7 +6,6 @@ namespace MomAndBaby.Entity
 {
     public partial class ProductStatistic
     {
-        public int Id { get; set; }
         public Guid ProductId { get; set; }
         public string ProductName { get; set; } = null!;
         public int TotalPurchase { get; set; }
