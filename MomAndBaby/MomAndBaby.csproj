@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Shared\Components\" />
-    <Folder Include="Utilities\Helper\" />
     <Folder Include="wwwroot\dashboard\" />
   </ItemGroup>
 

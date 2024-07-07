@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
+using MomAndBaby.BusinessObject.Models.UserDto;
 
 namespace MomAndBaby.Repository
 {
@@ -20,6 +21,8 @@ namespace MomAndBaby.Repository
 
         public async Task<User> AddUser(User userRegitser)
         {
+            userRegitser.Status = "Active";
+            userRegitser.RoleId = (int)RoleType.User;
             await _context.Users.AddAsync(userRegitser);
             return userRegitser;
         }
@@ -34,5 +37,11 @@ namespace MomAndBaby.Repository
             return await _context.Users.FirstOrDefaultAsync(u => u.Username.Equals(userSelection) || u.Email.Equals(userSelection));
         }
 
+        public async Task<User> UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
     }
 }
