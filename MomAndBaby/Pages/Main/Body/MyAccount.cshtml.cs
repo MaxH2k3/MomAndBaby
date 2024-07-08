@@ -11,16 +11,19 @@ using MomAndBaby.Utilities.Helper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using PayPal.Api;
+using MomAndBaby.Service.OrderService;
 
 namespace MomAndBaby.Pages.Main.Body
 {
     public class MyAccountModel : PageModel
     {
         private readonly IUserService _userService;
+        private readonly IOrderService _orderService;
 
-        public MyAccountModel(IUserService userService)
+        public MyAccountModel(IUserService userService, IOrderService orderService)
         {
             _userService = userService;
+            _orderService = orderService;
         }
 
         [BindProperty]
@@ -45,6 +48,8 @@ namespace MomAndBaby.Pages.Main.Body
         [PasswordMatch("NewPassword", ErrorMessage = "The passwords do not match.")]
         public string? ConfirmPassword { get; set; }
 
+          public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
+
         public async Task OnGet()
         {
             if(!User.Identity!.IsAuthenticated)
@@ -64,6 +69,7 @@ namespace MomAndBaby.Pages.Main.Body
                     FullName = user.FullName;
                     Address = user.Address;
                     PhoneNumber = user.PhoneNumber;
+                    Orders = await _orderService.GetAllOrder();
                 }
             }
         }
