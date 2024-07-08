@@ -11,6 +11,9 @@ namespace MomAndBaby.Service.Configuration
 		{
 			CreateMap<Message, MessageDTO>().ReverseMap();
 			CreateMap<Product, ProductDto>().ReverseMap();
+			CreateMap<Order, OrderResponseModel>()
+				.ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
+			.ReverseMap();
 		}
 	}
 }

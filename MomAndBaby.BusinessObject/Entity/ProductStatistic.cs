@@ -10,7 +10,7 @@ namespace MomAndBaby.Entity
         public string ProductName { get; set; } = null!;
         public int TotalPurchase { get; set; }
         public int TotalReview { get; set; }
-        public int AverageStar { get; set; }
+        public double AverageStar { get; set; }
 
         public virtual Product Product { get; set; }
     }

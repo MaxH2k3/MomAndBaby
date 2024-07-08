@@ -13,7 +13,7 @@ namespace MomAndBaby.BusinessObject.Models
         [MinLength(3, ErrorMessage = "Name is too short!")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
 
         public LoginUserDto(string userName, string email, string password)

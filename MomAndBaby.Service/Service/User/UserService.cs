@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service.Helper;
 
@@ -19,21 +20,31 @@ namespace MomAndBaby.Service
 
         public async Task<bool> AddNewUser(LoginUserDto loginUser)
         {
-            var userEntity = new User();
+            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
+            if (userCheck == null)
+            {
+                var userEntity = new User();
 
-            AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
-            userEntity.Email = loginUser.Email;
-            userEntity.Username = loginUser.UserName;
-            userEntity.Id = Guid.NewGuid(); 
-            userEntity.Password = passwordHash;
-            userEntity.PasswordSalt = passwordSalt;
-            await _unitOfWork.UserRepository.AddUser(userEntity);
+                AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                userEntity.Email = loginUser.Email;
+                userEntity.Username = loginUser.UserName;
+                userEntity.Id = Guid.NewGuid();
+                userEntity.Password = passwordHash;
+                userEntity.PasswordSalt = passwordSalt;
+               
+                await _unitOfWork.UserRepository.AddUser(userEntity);
+            }
+            else
+            {
+                return false;
+            }
+                
             return await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> SigninGoogle(User user)
         {
-            var userCheck = _unitOfWork.UserRepository.GetUserByEmail(user.Email);
+            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
             if(userCheck == null)
             {
                 await _unitOfWork.UserRepository.AddUser(user);
@@ -70,6 +81,27 @@ namespace MomAndBaby.Service
             }
 
             return user;
+        }
+
+        public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
+        {
+            var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
+            if (existUser != null)
+            {
+                existUser.Username = updateUserDto.UserName;
+                existUser.FullName = updateUserDto.FullName;
+                existUser.Address = updateUserDto.Address;
+                existUser.PhoneNumber = updateUserDto.PhoneNumber;
+                if(updateUserDto.Password != null)
+                {
+                    AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+                    existUser.Password = passwordHash;
+                    existUser.PasswordSalt = passwordSalt;
+                }
+            }
+            await _unitOfWork.UserRepository.UpdateUser(existUser);
+            return existUser;
         }
     }
 }

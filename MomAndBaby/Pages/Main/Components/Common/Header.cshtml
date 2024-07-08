@@ -30,7 +30,18 @@
                         <a href="mailto://demo@example.com"><i class="fa fa-envelope"></i> demo@example.com</a>
                         @if (Context.User.Identity!.IsAuthenticated)
                         {
-                            <a href="/login?handler=Logout" class="user-link"><i class="fa fa-user"></i>@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.DisplayName)).Value</a>
+                            <a href="/myaccount" class="user-link">
+                                <i class="fa fa-user"></i>
+                                @if (@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.FullName))!.Value != null)
+                                {
+                                    @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserName))!.Value
+                                }
+                                else
+                                {
+                                    @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.FullName))!.Value
+                                }
+                            </a>
+                                
                         }
                         else
                         {
@@ -113,19 +124,7 @@
                             </li>
                             <li><a href="about.html">About</a></li>
                             
-                            <li class="has-submenu">
-                                <a href="shop.html">Shop</a>
-                                <ul class="submenu-nav">
-                                    <li><a href="shop-3-column.html">Shop 3 Column</a></li>
-                                    <li><a href="shop.html">Shop 4 Column</a></li>
-                                    <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                                    <li><a href="shop.html">Shop No Sidebar</a></li>
-                                    <li><a href="shop-single-product.html">Product Details</a></li>
-                                    <li><a href="shop-single-product-variable.html">Product Variable</a></li>
-                                    <li><a href="shop-single-product-grouped.html">Product Grouped</a></li>
-                                </ul>
-                            </li>
+                            <li ><a href="/productshopping">Shop</a></li>
                             <li class="has-submenu">
                                 <a href="blog.html">Blog</a>
                                 <ul class="submenu-nav">

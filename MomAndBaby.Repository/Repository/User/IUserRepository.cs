@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.UserDto;
 
 namespace MomAndBaby.Repository
 {
@@ -8,5 +9,6 @@ namespace MomAndBaby.Repository
         Task<User?> GetUserByUsernameOrEmail(string userSelection);
         Task<User?> GetUserByEmail(string email);
         Task<User> AddUser(User userRegitser);
+        Task<User> UpdateUser(User user);
     }
 }
