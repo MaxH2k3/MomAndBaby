@@ -14,25 +14,25 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Set<Product>().ToListAsync();
+            return await _context.Products.Include(p=>p.Statistic).ToListAsync();
         }
 
 
 
-        //public async Task<IEnumerable<Product>> GetHighestRating()
-        //{
-        //    return await _context.Products.OrderByDescending(p => p.Statistic.AverageStar).ToListAsync();
-        //}
+        public async Task<IEnumerable<Product>> GetHighestRating()
+        {
+            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.AverageStar).ToListAsync();
+        }
 
         public async Task<IEnumerable<Product>> GetNewItems()
         {
             return await _context.Products.Where(p => p.CreatedAt.HasValue).OrderByDescending(p => p.CreatedAt).ToListAsync();
         }
 
-        //public async Task<IEnumerable<Product>> GetTrendingItems()
-        //{
-        //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();
-        //}
+        public async Task<IEnumerable<Product>> GetTrendingItems()
+        {
+            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.TotalPurchase).ToListAsync();
+        }
 
         //public async Task<Product> UpdateTotalStar(Guid productId, int newRating)
         //{
@@ -51,14 +51,14 @@ namespace MomAndBaby.Repository
         //    //update the product's total reviews and total stars
         //    product.TotalReviewer += 1;
         //    sum += newRating;
-            
+
 
         //    //Calculate the new average rating
         //    product.TotalStar = sum/product.TotalReviewer;
 
         //    await _context.SaveChangesAsync();
         //    return product;
-            
+
         //}
 
         //public async Task<Product> UpdatePurchase(Guid ProductId)

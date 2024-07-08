@@ -7,17 +7,17 @@ namespace MomAndBaby.Pages.Main.Components
 {
     public class ProductTrendingViewComponent: ViewComponent
     {
-        private readonly IProductService _iproductService;
+        private readonly IProductService _productService;
 
-        public ProductTrendingViewComponent(IProductService iproductService)
+        public ProductTrendingViewComponent(IProductService productService)
         {
-            _iproductService = iproductService;
+            _productService = productService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
             ProductStoreModel productStoreModel = new ProductStoreModel();
-            //productStoreModel.ListTrendingProduct = await _iproductService.GetTrendingItems();
+            productStoreModel.ListTrendingProduct = await _productService.GetTrendingItems();
             
 
 

@@ -11,10 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="FluentEmail.Core" Version="3.0.2" />
     <PackageReference Include="FluentEmail.MailKit" Version="3.0.2" />
     <PackageReference Include="FluentEmail.Razor" Version="3.0.2" />
@@ -36,15 +32,6 @@
   <ItemGroup>
     <ProjectReference Include="..\MomAndBaby.BusinessObject\MomAndBaby.BusinessObject.csproj" />
     <ProjectReference Include="..\MomAndBaby.Service\MomAndBaby.Service.csproj" />
-    <UpToDateCheckInput Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <_ContentIncludedByDefault Remove="Pages\Main\Body\GoogleResponseModel.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\Main\Body\GoogleResponseModel.cshtml" />
   </ItemGroup>
 
 </Project>
