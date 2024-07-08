@@ -30,7 +30,7 @@ namespace MomAndBaby.Configuration.Hub
 
 		public async Task GetMessageAsync(Guid userId)
 		{
-			var messages = await _messageService.GetMessages(userId);
+			var messages = _messageService.GetMessages(userId);
 
 			await Clients.Group(userId.ToString()).LoadMessage(messages);
 		}

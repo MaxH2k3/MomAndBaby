@@ -107,14 +107,16 @@ namespace MomAndBaby.BusinessObject.Entity
                     .HasColumnType("datetime")
                     .HasColumnName("created_at");
 
+                entity.Property(e => e.IsSystem).HasColumnName("is_system");
+
                 entity.Property(e => e.ReceiverId).HasColumnName("receiver_id");
 
                 entity.Property(e => e.SenderId).HasColumnName("sender_id");
 
-                entity.HasOne(d => d.Receiver)
+                /*entity.HasOne(d => d.Receiver)
                     .WithMany()
                     .HasForeignKey(d => d.ReceiverId)
-                    .HasConstraintName("FK__Message__receive__5EBF139D");
+                    .HasConstraintName("FK__Message__receive__5EBF139D");*/
 
                 entity.HasOne(d => d.Sender)
                 .WithMany()

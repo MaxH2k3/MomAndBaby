@@ -12,7 +12,7 @@ namespace MomAndBaby.BusinessObject.Entity
         public DateTime? CreatedAt { get; set; }
         public bool IsSystem { get; set; }
 
-        public virtual User? Receiver { get; set; }
+        //public virtual User? Receiver { get; set; }
         public virtual User? Sender { get; set; }
     }
 }

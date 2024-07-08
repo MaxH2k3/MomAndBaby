@@ -42,9 +42,9 @@ namespace MomAndBaby.Service.MessageCommunication
 
 		}
 
-		public async Task<IEnumerable<MessageDTO>> GetMessages(Guid userId)
+		public IEnumerable<MessageDTO> GetMessages(Guid userId)
 		{
-			var messages = await _unitOfWork.MessageRepository.GetMessageCommunication(userId);
+			var messages = _unitOfWork.MessageRepository.GetMessageCommunication(userId);
 
 			return _mapper.Map<IEnumerable<MessageDTO>>(messages);
 		}
