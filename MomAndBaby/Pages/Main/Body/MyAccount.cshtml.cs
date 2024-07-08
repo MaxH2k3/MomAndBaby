@@ -10,6 +10,7 @@ using MomAndBaby.Service;
 using MomAndBaby.Utilities.Helper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using PayPal.Api;
 
 namespace MomAndBaby.Pages.Main.Body
 {
@@ -26,11 +27,14 @@ namespace MomAndBaby.Pages.Main.Body
         public string Email { get; set; }
 
         [BindProperty]
-        public string? DisplayName { get; set; }
+        public string? UserName { get; set; }
 
         [BindProperty]
         public string? FullName { get; set; }
-       
+        [BindProperty]
+        public string? PhoneNumber { get; set; }
+        [BindProperty]
+        public string? Address { get; set; }
 
         [BindProperty]
         [DataType(DataType.Password)]
@@ -43,7 +47,12 @@ namespace MomAndBaby.Pages.Main.Body
 
         public async Task OnGet()
         {
-            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == UserClaimType.Email).Value;
+            if(!User.Identity!.IsAuthenticated)
+            {
+                Redirect("/login");
+            }
+            
+            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email))!.Value;
 
             if (email != null)
             {
@@ -51,9 +60,10 @@ namespace MomAndBaby.Pages.Main.Body
                 if (user != null)
                 {
                     Email = user.Email;
-                    DisplayName = user.Username;
+                    UserName = user.Username;
                     FullName = user.FullName;
-                    
+                    Address = user.Address;
+                    PhoneNumber = user.PhoneNumber;
                 }
             }
         }
@@ -66,19 +76,19 @@ namespace MomAndBaby.Pages.Main.Body
             }
 
             var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == UserClaimType.Email).Value;
-            var updateUser = new UpdateUserDto(DisplayName, FullName, NewPassword);
+            var updateUser = new UpdateUserDto(UserName, FullName, NewPassword, PhoneNumber, Address);
             var userUpdatedEntity = await _userService.UpdateUser(email, updateUser);
-            DisplayName = userUpdatedEntity.Username;
+            UserName = userUpdatedEntity.Username;
             FullName = userUpdatedEntity.FullName;
+            Address = userUpdatedEntity.Address;
+            PhoneNumber = userUpdatedEntity.PhoneNumber;
             TempData["MyAccount"] = "Update Account Detail Successfully";
 
             return Page();
         }
 
-        public async Task<IActionResult> OnPostLogout()
-        {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("/");
-        }
+
+
+
     }
 }

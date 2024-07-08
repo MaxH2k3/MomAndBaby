@@ -7,7 +7,7 @@
         public const string Role = "Role";
         public const string Status = "Status";
 
-        public const string DisplayName = "DisplayName";
+        public const string FullName = "FullName";
         public const string Avatar = "Avatar";
         public const string Email = "Email";
     }

@@ -90,6 +90,8 @@ namespace MomAndBaby.Service
             {
                 existUser.Username = updateUserDto.UserName;
                 existUser.FullName = updateUserDto.FullName;
+                existUser.Address = updateUserDto.Address;
+                existUser.PhoneNumber = updateUserDto.PhoneNumber;
                 if(updateUserDto.Password != null)
                 {
                     AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);

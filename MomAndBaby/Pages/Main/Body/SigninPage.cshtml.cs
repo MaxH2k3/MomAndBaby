@@ -51,7 +51,7 @@ namespace MomAndBaby.Pages.Main.Body
                 {
                     new(UserClaimType.UserId, user.Id.ToString()),
                     new(UserClaimType.UserName, user.Username!),
-                    new(UserClaimType.DisplayName, user.FullName!),
+                    new(UserClaimType.FullName, user.FullName!),
                     new(UserClaimType.Email, user.Email),
                     new(UserClaimType.Role, user.RoleId.ToString()!)
                 };
