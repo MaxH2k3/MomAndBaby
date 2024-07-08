@@ -1,5 +1,4 @@
-﻿using MomAndBaby.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace MomAndBaby.BusinessObject.Entity
@@ -10,7 +9,6 @@ namespace MomAndBaby.BusinessObject.Entity
         {
             OrderDetails = new HashSet<OrderDetail>();
             Reviews = new HashSet<Review>();
-            Statistic = new ProductStatistic();
         }
 
         public Guid Id { get; set; }

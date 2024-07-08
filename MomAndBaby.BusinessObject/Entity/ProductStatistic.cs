@@ -1,8 +1,7 @@
-﻿using MomAndBaby.BusinessObject.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace MomAndBaby.Entity
+namespace MomAndBaby.BusinessObject.Entity
 {
     public partial class ProductStatistic
     {

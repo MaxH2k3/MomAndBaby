@@ -19,7 +19,7 @@ namespace MomAndBaby.Repository
 
         public IEnumerable<Message> GetMessageCommunication(Guid userId)
         {
-            return _context.Messages.Where(x => x.SenderId.Equals(userId) || x.ReceiverId.Equals(userId)).ToList();
+            return _context.Messages.Where(x => x.SenderId.Equals(userId) && x.ReceiverId.Equals(userId)).ToList();
 		}
 
         
