@@ -1,24 +1,25 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
 
 namespace MomAndBaby.Pages.Dashboard.Body;
 
-public class AddProduct : PageModel
+public class UpdateProduct : PageModel
 {
-    private readonly IProductService _productService;
-    
     [BindProperty]
-    public ProductDto NewProduct { get; set; }
-    public AddProduct(IProductService productService)
+    public ProductDto EditProduct { get; set; }
+
+    private readonly IProductService _productService;
+
+    public UpdateProduct(IProductService productService)
     {
         _productService = productService;
     }
     
-    public void OnGet()
+    public async Task OnGet(Guid productId)
     {
-        
+        EditProduct = await _productService.GetById(productId);
     }
 
     public async Task<IActionResult> OnPostSave()
@@ -30,13 +31,13 @@ public class AddProduct : PageModel
         
         try
         {
-            var result = await _productService.CreateProduct(NewProduct);
+            var result = await _productService.UpdateProduct(EditProduct);
             if (!result)
             {
-                TempData["ErrorMessage"] = "Product created failed.";
+                TempData["ErrorMessage"] = "Product updated failed.";
                 return Page();
             }
-            TempData["SuccessMessage"] = "Product created successfully.";
+            TempData["SuccessMessage"] = "Product updated successfully.";
             return RedirectToPage("AddProduct");
         }
         catch (ArgumentException ex)

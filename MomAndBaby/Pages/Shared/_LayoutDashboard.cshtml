@@ -38,24 +38,24 @@
 
 </head>
 <body class="skin-dark">
-    <div class="main-wrapper">
-        @{
-            await Html.RenderPartialAsync(ConstantPage.DashboardPage.Header);
-        }
+<div class="main-wrapper">
+    @{
+        await Html.RenderPartialAsync(ConstantPage.DashboardPage.Header);
+    }
 
-        @{
-            await Html.RenderPartialAsync(ConstantPage.DashboardPage.SideHeader);
-        }
-        
-        @RenderBody();
+    @{
+        await Html.RenderPartialAsync(ConstantPage.DashboardPage.SideHeader);
+    }
 
-        
-        @{
+    @RenderBody();
+
+
+    @{
         await Html.RenderPartialAsync(ConstantPage.DashboardPage.Footer);
-        }
-        
-        
-    </div>
+    }
+
+
+</div>
 
 <script src="dashboard/assets/js/vendor/modernizr-3.6.0.min.js"></script>
 <script src="dashboard/assets/js/vendor/jquery-3.3.1.min.js"></script>

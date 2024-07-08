@@ -1,5 +1,5 @@
-@page "/addproduct"
-@model MomAndBaby.Pages.Dashboard.Body.AddProduct
+﻿@page "/updateproduct"
+@model MomAndBaby.Pages.Dashboard.Body.UpdateProduct
 
 
 <div class="content-body">
@@ -10,41 +10,42 @@
         <!-- Page Heading Start -->
         <div class="col-12 col-lg-auto mb-20">
             <div class="page-heading">
-                <h3>Product Management <span>/ Add Product</span></h3>
+                <h3>Product Management <span>/ Update Product</span></h3>
             </div>
         </div><!-- Page Heading End -->
-        
+
     </div><!-- Page Headings End -->
 
     <!-- Add or Edit Product Start -->
     <div class="add-edit-product-wrap col-12">
-
+        
         <div class="add-edit-product-form">
             <form method="post" enctype="multipart/form-data">
-
-                <h4 class="title">New Product</h4>
+                <h4 class="title">Edit Product</h4>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="row">
-
+                    <input type="hidden" asp-for="EditProduct.Id" />
+                    <input type="hidden" asp-for="EditProduct.Image" />
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Name" class="form-control" type="text" placeholder="Product Name">
+                        <input asp-for="EditProduct.Name" class="form-control" type="text" placeholder="Product Name">
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Category" class="form-control" type="text" placeholder="Category">
+                        <input asp-for="EditProduct.Category" class="form-control" type="text" placeholder="Category">
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Price" class="form-control" type="text" placeholder="Product Price">
+                        <input asp-for="EditProduct.Price" class="form-control" type="text" placeholder="Product Price">
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Stock" class="form-control" type="text" placeholder="Product Stock">
+                        <input asp-for="EditProduct.Stock" class="form-control" type="text" placeholder="Product Stock">
                     </div>
                     <div class="col-12 mb-30">
-                        <textarea asp-for="NewProduct.Description" class="form-control" placeholder="Product Description"></textarea>
+                        <textarea asp-for="EditProduct.Description" class="form-control" placeholder="Product Description"></textarea>
                     </div>
                     <div class="col-lg-12 col-12 mb-30">
                         <select name="status" class="form-control select2">
                             <option value="Available">Available</option>
                             <option value="Unavailable">Unavailable</option>
+                            <option value="Out Of Stock">Out Of Stock</option>
                             <option value="draft">Draft</option>
                         </select>
                     </div>
@@ -53,11 +54,18 @@
                 <h4 class="title">Product Image</h4>
 
                 <div class="product-upload-gallery row flex-wrap">
-                    <div class="col-12 mb-30">
-                        <input asp-for="NewProduct.ImageFile" class="file-input" type="file" accept="image/*">
-                    </div>
-                    <div>
-                        <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
+                    <div class="mb-4 flex items-center">
+                        <div class="w-1/2 pr-4 pt-4">
+                            <label class="block mb-2 font-bold">Current Image</label>            
+                            <img src="@Model.EditProduct.Image" alt="Current Image" class="max-w-full h-auto" style="max-height: 200px;">
+                        </div>
+                        <div class="w-1/2 pt-4">
+                            <input asp-for="EditProduct.ImageFile" class="file-input" type="file" accept="image/*">
+                        </div>
+                        <div class="w-full mt-4 pt-4">
+                            <label id="labelPreview" class="block mb-2 font-bold" style="display: none">Update Image</label>
+                            <img id="imagePreview" src="#" alt="#" class="max-w-full h-auto" style="max-height: 200px; display: none">
+                        </div>
                     </div>
                 </div>
 
@@ -84,8 +92,10 @@
                 const reader = new FileReader();
                 reader.onload = function (e) {
                     const imgPreview = document.getElementById('imagePreview');
+                    const labelPreview = document.getElementById('labelPreview');
                     imgPreview.src = e.target.result;
                     imgPreview.style.display = 'block';
+                    labelPreview.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
             }
@@ -95,17 +105,17 @@
 
 @if (TempData["ErrorMessage"] != null || TempData["SuccessMessage"] != null)
 {
-    <script type="text/javascript">
-        window.onload = function () {
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <text>alert("@TempData["ErrorMessage"]");</text>
-            }
+<script type="text/javascript">
+    window.onload = function () {
+        @if (TempData["ErrorMessage"] != null)
+        {
+        <text>alert("@TempData["ErrorMessage"]");</text>
+        }
 
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <text>alert("@TempData["SuccessMessage"]");</text>
-            }
-        };
-    </script>
+        @if (TempData["SuccessMessage"] != null)
+        {
+        <text>alert("@TempData["SuccessMessage"]");</text>
+        }
+    };
+</script>
 }
