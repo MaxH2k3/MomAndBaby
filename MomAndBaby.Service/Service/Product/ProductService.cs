@@ -82,14 +82,16 @@ namespace MomAndBaby.Service
 
             switch (sortCriteria)
             {
-                case "totalPurchase":
+                case "Purchases":
                     productsQuery = productsQuery.OrderByDescending(p => p.Statistic.TotalPurchase);
                     break;
-                case "star":
+                case "Star":
                     productsQuery = productsQuery.OrderByDescending(p => p.Statistic.AverageStar);
                     break;
-                case "date":
+                case "Date":
                     productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
+                    break;
+                case "Default":
                     break;
                 
             }
