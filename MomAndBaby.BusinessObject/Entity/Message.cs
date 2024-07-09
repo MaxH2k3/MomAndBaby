@@ -12,7 +12,6 @@ namespace MomAndBaby.BusinessObject.Entity
         public string? Content { get; set; }
         public DateTime? CreatedAt { get; set; }
 
-        public virtual User? Receiver { get; set; }
         public virtual User? Sender { get; set; }
     }
 }
