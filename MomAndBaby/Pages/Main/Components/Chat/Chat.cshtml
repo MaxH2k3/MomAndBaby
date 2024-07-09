@@ -17,6 +17,10 @@
 	document.addEventListener("DOMContentLoaded", function () {
 		// Open chat
 		document.querySelector(".chat-btn").addEventListener("click", () => {
+			if (thisUserId === "") {
+				window.location.href = "/login";
+				return;
+			}
             var btnOpenChat = document.querySelector(".chat");
             btnOpenChat.style.display = "block";
         });

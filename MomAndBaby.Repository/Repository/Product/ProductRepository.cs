@@ -12,12 +12,18 @@ namespace MomAndBaby.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<Product?> GetById(Guid productId)
         {
-            return await _context.Products.Include(p=>p.Statistic).ToListAsync();
+            return await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
         }
 
-
+        public async Task<IEnumerable<Product>> GetAll()
+        {
+            return await _context.Products
+                .Include(p=>p.Statistic)
+                .Where(p => !p.Status.Equals("Deleted"))
+                .ToListAsync();
+        }
 
         public async Task<IEnumerable<Product>> GetHighestRating()
         {
@@ -43,9 +49,9 @@ namespace MomAndBaby.Repository
             _context.Products.Update(product);
         }
 
-        public async Task DeleteProduct(List<Guid> productIds)
+        public async Task DeleteProduct(Guid productId)
         {
-            await _context.Products.Where(x => productIds.Any(id => x.Id == id))
+            await _context.Products.Where(x => x.Id == productId)
                 .ForEachAsync(x => x.Status = "Deleted");
         }
 
@@ -55,6 +61,11 @@ namespace MomAndBaby.Repository
         }
 
         
+        public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
+        {
+            return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
+        }
+
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();

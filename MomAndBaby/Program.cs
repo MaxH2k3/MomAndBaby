@@ -5,9 +5,11 @@ using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
+using MomAndBaby.Repository;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
+using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service.PayPalService;
 using MomAndBaby.Utilities.Constants;
 
@@ -33,7 +35,9 @@ builder.Services.AddScoped<IPayPalService, PayPalService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
 builder.Services.AddSession();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
