@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.BusinessObject.Models.ProductDto;
 
@@ -15,7 +16,7 @@ public class ProductDto
     public decimal? UnitPrice { get; set; }
     [IsNullOrWhiteSpace(ErrorMessage = "Category is required!")]
     [StringLength(50, MinimumLength = 1, ErrorMessage = "Category must be between 1 and 50 characters.")]
-    public string? Category { get; set; }
+    public int CategoryId { get; set; }
     [Required(ErrorMessage = "Stock is required!")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative integer.")]
     public int? Stock { get; set; }
@@ -23,4 +24,6 @@ public class ProductDto
     public string? Image { get; set; }
     public string? Status { get; set; }
     public DateTime? CreatedAt { get; set; }
+    public Category? CategoryNavigation { get; set; }
+    public ProductStatistic? Statistic { get; set; }
 }

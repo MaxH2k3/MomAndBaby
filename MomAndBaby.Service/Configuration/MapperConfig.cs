@@ -10,7 +10,10 @@ namespace MomAndBaby.Service.Configuration
 		public MapperConfig()
 		{
 			CreateMap<Message, MessageDTO>().ReverseMap();
-			CreateMap<Product, ProductDto>().ReverseMap();
+			CreateMap<Product, ProductDto>();
+			CreateMap<ProductDto, Product>()
+				.ForPath(dest => dest.CategoryNavigation, opt => opt.Ignore())
+				.ForPath(dest => dest.Statistic, opt => opt.Ignore());
 			CreateMap<Order, OrderResponseModel>()
 				.ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
 			.ReverseMap();
