@@ -63,21 +63,29 @@ namespace MomAndBaby.Service
             throw new NotImplementedException();
         }
 
-        public async Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
+        public IEnumerable<Product> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
-            var productsQuery = await _unitOfWork.ProductRepository.GetAll();
+            var productsQuery =  _unitOfWork.ProductRepository.GetAllProduct();
             if (startPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice);
             }
             if (endPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice);
             }
 
             if (numOfStars.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.Statistic.AverageStar == numOfStars.Value);
+                if(numOfStars == 5)
+                {
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar == numOfStars);
+                }
+                else
+                {
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars && p.Statistic.AverageStar < (numOfStars + 1));
+                }
+                
             }
 
             switch (sortCriteria)
@@ -91,7 +99,7 @@ namespace MomAndBaby.Service
                 case "Date":
                     productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
                     break;
-                case "Default":
+                default:
                     break;
                 
             }

@@ -28,6 +28,7 @@ namespace MomAndBaby.Service
                 AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 userEntity.Email = loginUser.Email;
                 userEntity.Username = loginUser.UserName;
+                userEntity.FullName = loginUser.UserName;
                 userEntity.Id = Guid.NewGuid();
                 userEntity.Password = passwordHash;
                 userEntity.PasswordSalt = passwordSalt;

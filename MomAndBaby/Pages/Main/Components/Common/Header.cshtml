@@ -32,14 +32,9 @@
                         {
                             <a href="/myaccount" class="user-link">
                                 <i class="fa fa-user"></i>
-                                @if (@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.FullName))!.Value == null)
-                                {
-                                    @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserName))!.Value
-                                }
-                                else
-                                {
+                                
                                     @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.FullName))!.Value
-                                }
+                               
                             </a>
                                 
                         }

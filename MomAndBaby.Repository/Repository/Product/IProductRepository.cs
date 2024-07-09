@@ -5,6 +5,7 @@ namespace MomAndBaby.Repository
     public interface IProductRepository
     {
         Task<IEnumerable<Product>> GetAll();
+        IEnumerable<Product> GetAllProduct();
         Task<IEnumerable<Product>> GetNewItems();
 
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
