@@ -6,6 +6,7 @@ namespace MomAndBaby.Service.OrderService
     public interface IOrderService{
         Task<IEnumerable<OrderResponseModel>> GetAllOrder();
         Task<Order> GetOrderById(int orderId);
+        Task<bool> UpdateOrderAddress(string newAddress, int orderId);
 
     }
 }

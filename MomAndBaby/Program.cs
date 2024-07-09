@@ -19,8 +19,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 // Set up database context.
-builder.Services.AddDbContext<MomAndBabyContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)!));
+// builder.Services.AddDbContext<MomAndBabyContext>(options =>
+//     options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)!));
 
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);
@@ -36,7 +36,6 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddSession();
