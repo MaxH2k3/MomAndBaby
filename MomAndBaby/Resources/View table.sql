@@ -9,8 +9,8 @@ SELECT
     -- Calculate total number of reviews
     ISNULL(COUNT(r.id), 0) AS TotalReview,
     
-    -- Calculate average star rating
-    ISNULL(AVG(r.rating), 0) AS AverageStar
+    -- Calculate average star rating with decimal precision
+    ISNULL(CAST(AVG(CAST(r.rating AS DECIMAL(3, 2))) AS FLOAT), 0) AS AverageStar
     
 FROM 
     Product p
