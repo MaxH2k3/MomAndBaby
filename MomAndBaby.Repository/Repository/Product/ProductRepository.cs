@@ -54,18 +54,12 @@ namespace MomAndBaby.Repository
             return await _context.Products.AnyAsync(x => x.Name == name);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
         
         public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
         {
             return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
         }
 
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();

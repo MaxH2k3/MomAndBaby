@@ -61,7 +61,6 @@ namespace MomAndBaby.Service
         public async Task<bool> SoftDeleteProduct(List<Guid> productIds)
         {
             throw new NotImplementedException();
-<<<<<<< HEAD
         }
 
         public async Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
@@ -97,11 +96,11 @@ namespace MomAndBaby.Service
 
             return productsQuery;
 
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
         }
 
-        public Task<bool> SoftDeleteProduct(List<Guid> productIds)
+       
+
+        public Task<bool> SoftDeleteProduct(Guid productId)
         {
             throw new NotImplementedException();
         }

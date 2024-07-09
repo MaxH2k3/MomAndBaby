@@ -6,13 +6,6 @@ namespace MomAndBaby.Repository
     {
         Task<IEnumerable<Product>> GetAll();
         Task<IEnumerable<Product>> GetNewItems();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
 
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
         Task<IEnumerable<Product>> GetHighestRating();

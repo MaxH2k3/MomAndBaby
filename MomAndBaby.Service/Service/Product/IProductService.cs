@@ -15,15 +15,10 @@ namespace MomAndBaby.Service
         Task<bool> CreateProduct(ProductDto dto);
         Task<bool> UpdateProduct(ProductDto dto);
         Task<bool> SoftDeleteProduct(List<Guid> productIds);
-<<<<<<< HEAD
-<<<<<<< HEAD
 
         Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria);
         Task<bool> SoftDeleteProduct(Guid productId);
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
-=======
->>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
+
     }
 
 }

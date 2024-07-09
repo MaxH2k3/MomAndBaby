@@ -8,13 +8,18 @@ CREATE TABLE [Status] (
 [name] varchar(50)
 )
 
+CREATE TABLE [Category] (
+    [id] int primary key identity(1, 1),
+    [name] varchar(255)
+)
+
 CREATE TABLE [User] (
 [id] uniqueidentifier PRIMARY KEY,
-[username] VARCHAR(255) UNIQUE NOT NULL,
-[password] VARBINARY(MAX) NOT NULL,
-[passwordSalt] VARBINARY NOT NULL,
+[username] NVARCHAR(255) UNIQUE NOT NULL,
+[password] VARBINARY(MAX) ,
+[passwordSalt] VARBINARY(MAX),
 [email] VARCHAR(255) UNIQUE NOT NULL,
-[full_name] NVARCHAR(255) NOT NULL,
+[full_name] NVARCHAR(255),
 [phone_number] VARCHAR(20),
 [address] NVARCHAR(MAX),
 [role_id] int,
@@ -26,12 +31,16 @@ FOREIGN KEY ([role_id]) REFERENCES role
 
 CREATE TABLE [Product] (
 [id] uniqueidentifier PRIMARY KEY,
+[category_id] int references Category([id]),
 [name] NVARCHAR(255) NOT NULL,
 [description] NVARCHAR(MAX),
-[price] DECIMAL(10,2) NOT NULL,
+[unit_price] DECIMAL(10,2) NOT NULL,
+[purchase_price] DECIMAL(10, 2) NOT NULL,
 [category] NVARCHAR(255),
 [stock] INT NOT NULL,
 [image] VARCHAR(max),
+[original] VARCHAR(255),
+[company] VARCHAR(255),
 [created_at] DATETIME DEFAULT (GETDATE()),
 [updated_at] DATETIME DEFAULT (GETDATE()),
 [status] varchar(20)
