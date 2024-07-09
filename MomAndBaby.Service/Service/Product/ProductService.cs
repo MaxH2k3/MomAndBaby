@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.ProductDto;
-using MomAndBaby.Entity;
 using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service
