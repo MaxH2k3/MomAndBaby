@@ -37,5 +37,11 @@ namespace MomAndBaby.Service.OrderService
             await _unitOfWork.SaveChangesAsync();
             return true;
         }
+
+        public async Task<IEnumerable<OrderDetailResponseModel>> GetAllOrderDetailOrder(int orderId)
+        {
+            var orderDetails= await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
+            return _mapper.Map<IEnumerable<OrderDetailResponseModel>>(orderDetails);
+        }
     }
 }

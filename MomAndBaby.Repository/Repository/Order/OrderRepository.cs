@@ -32,7 +32,10 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId)
         {
-            var orderDetail = await _context.OrderDetails.Where(x => x.OrderId == orderId).ToListAsync();
+            var orderDetail = await _context.OrderDetails.Where(x => x.OrderId == orderId)
+                .Include(y=>y.Product)
+                .Include(z=>z.Order)
+                .ToListAsync();
             return orderDetail;
         }
     }
