@@ -55,12 +55,15 @@ namespace MomAndBaby.Repository
         }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
         {
             return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
         }
 
+=======
+>>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
 =======
 >>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
         //public async Task<IEnumerable<Product>> GetTrendingItems()
