@@ -3,6 +3,8 @@
 @model ProductStoreModel
 
 
+
+
 <!--== Start Product Tab Area Wrapper ==-->
 <section class="product-area product-style1-area">
     <div class="container">
@@ -20,11 +22,9 @@
             <div class="col-md-12">
                 <div class="product-tab-content">
                     <ul class="nav nav-tabs" id="myTab" role="tablist" data-aos="fade-up" data-aos-duration="1000">
+                        
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="our-features-tab" data-bs-toggle="tab" data-bs-target="#our-features" type="button" role="tab" aria-controls="our-features" aria-selected="true">All Items</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="best-sellers-tab" data-bs-toggle="tab" data-bs-target="#best-sellers" type="button" role="tab" aria-controls="best-sellers" aria-selected="false">New Items</button>
+                            <button class="nav-link active" id="best-sellers-tab" data-bs-toggle="tab" data-bs-target="#best-sellers" type="button" role="tab" aria-controls="best-sellers" aria-selected="false">New Items</button>
                         </li>
                         <li class="nav-item" role="presentation">
                             <button class="nav-link mr-0" id="new-items-tab" data-bs-toggle="tab" data-bs-target="#new-items" type="button" role="tab" aria-controls="new-items" aria-selected="false">Highest Rating</button>
@@ -55,16 +55,29 @@
                                                         </div>
                                                         <div class="product-info">
                                                             <div class="rating">
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
+                                                                @{
+                                                                    double averageStar = product.Statistic.AverageStar;
+                                                                    int fullStars = (int)averageStar; // Number of full stars
+                                                                    bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                                    int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                                }
+                                                                @for (int i = 0; i < fullStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @if (hasHalfStar)
+                                                                {
+                                                                    <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @for (int i = 0; i < emptyStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                                }
                                                                 <h4>@product.Statistic.AverageStar</h4>
                                                             </div>
                                                             <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
                                                             <div class="prices">
-                                                                <span class="price">@product.Price</span>
+                                                                <span class="price">@product.UnitPrice</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -101,16 +114,29 @@
                                                         </div>
                                                         <div class="product-info">
                                                             <div class="rating">
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
+                                                                @{
+                                                                    double averageStar = product.Statistic.AverageStar;
+                                                                    int fullStars = (int)averageStar; // Number of full stars
+                                                                    bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                                    int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                                }
+                                                                @for (int i = 0; i < fullStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @if (hasHalfStar)
+                                                                {
+                                                                    <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @for (int i = 0; i < emptyStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                                }
                                                                 <h4>@product.Statistic.AverageStar</h4>
                                                             </div>
                                                             <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
                                                             <div class="prices">
-                                                                <span class="price">@product.Price</span>
+                                                                <span class="price">@product.UnitPrice</span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -145,16 +171,29 @@
                                                         </div>
                                                         <div class="product-info">
                                                             <div class="rating">
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
-                                                                <span class="fa fa-star"></span>
+                                                                @{
+                                                                    double averageStar = product.Statistic.AverageStar;
+                                                                    int fullStars = (int)averageStar; // Number of full stars
+                                                                    bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                                    int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                                }
+                                                                @for (int i = 0; i < fullStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @if (hasHalfStar)
+                                                                {
+                                                                    <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                                }
+                                                                @for (int i = 0; i < emptyStars; i++)
+                                                                {
+                                                                    <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                                }
                                                                 <h4>@product.Statistic.AverageStar</h4>
                                                             </div>
                                                             <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
                                                             <div class="prices">
-                                                                <span class="price">@product.Price</span>
+                                                                <span class="price">@product.UnitPrice</span>
                                                             </div>
                                                         </div>
                                                     </div>

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using MomAndBaby.Entity;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace MomAndBaby.BusinessObject.Entity
 {
@@ -16,6 +17,7 @@ namespace MomAndBaby.BusinessObject.Entity
         }
 
         public virtual DbSet<Article> Articles { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Gift> Gifts { get; set; } = null!;
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
@@ -33,22 +35,10 @@ namespace MomAndBaby.BusinessObject.Entity
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(GetConnectionString());
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=(local);Database=MomAndBaby;Trusted_Connection=True;TrustServerCertificate=True;");
             }
         }
-        private static string GetConnectionString()
-        {
-            IConfiguration config = new ConfigurationBuilder()
-
-            .AddJsonFile("appsettings.json", true, true)
-
-            .Build();
-
-            return config["LocalDB:SQL"]!;
-
-        }
-
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -74,7 +64,19 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(d => d.Author)
                     .WithMany(p => p.Articles)
                     .HasForeignKey(d => d.AuthorId)
-                    .HasConstraintName("FK__Article__author___5441852A");
+                    .HasConstraintName("FK__Article__author___490FC9A0");
+            });
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.ToTable("Category");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("name");
             });
 
             modelBuilder.Entity<Gift>(entity =>
@@ -107,19 +109,16 @@ namespace MomAndBaby.BusinessObject.Entity
                     .HasColumnType("datetime")
                     .HasColumnName("created_at");
 
+                entity.Property(e => e.IsSystem).HasColumnName("is_system");
+
                 entity.Property(e => e.ReceiverId).HasColumnName("receiver_id");
 
                 entity.Property(e => e.SenderId).HasColumnName("sender_id");
 
-                entity.HasOne(d => d.Receiver)
-                    .WithMany()
-                    .HasForeignKey(d => d.ReceiverId)
-                    .HasConstraintName("FK__Message__receive__5EBF139D");
-
                 entity.HasOne(d => d.Sender)
-                .WithMany()
+                    .WithMany(p => p.Messages)
                     .HasForeignKey(d => d.SenderId)
-                    .HasConstraintName("FK__Message__sender___5DCAEF64");
+                    .HasConstraintName("FK__Message__sender___4FBCC72F");
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -153,12 +152,12 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(d => d.Status)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.StatusId)
-                    .HasConstraintName("FK__Order__status_id__47DBAE45");
+                    .HasConstraintName("FK__Order__status_id__3CA9F2BB");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Order__user_id__46E78A0C");
+                    .HasConstraintName("FK__Order__user_id__3BB5CE82");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
@@ -181,12 +180,12 @@ namespace MomAndBaby.BusinessObject.Entity
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.Cascade)
-                    .HasConstraintName("FK__Order_Det__order__4AB81AF0");
+                    .HasConstraintName("FK__Order_Det__order__3F865F66");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Order_Det__produ__4BAC3F29");
+                    .HasConstraintName("FK__Order_Det__produ__407A839F");
             });
 
             modelBuilder.Entity<OrderTracking>(entity =>
@@ -216,7 +215,7 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderTrackings)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK__Order_Tra__order__5DCAEF64");
+                    .HasConstraintName("FK__Order_Tra__order__529933DA");
             });
 
             modelBuilder.Entity<Product>(entity =>
@@ -230,6 +229,13 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.Property(e => e.Category)
                     .HasMaxLength(255)
                     .HasColumnName("category");
+
+                entity.Property(e => e.CategoryId).HasColumnName("category_id");
+
+                entity.Property(e => e.Company)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("company");
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")
@@ -246,9 +252,14 @@ namespace MomAndBaby.BusinessObject.Entity
                     .HasMaxLength(255)
                     .HasColumnName("name");
 
-                entity.Property(e => e.Price)
+                entity.Property(e => e.Original)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("original");
+
+                entity.Property(e => e.PurchasePrice)
                     .HasColumnType("decimal(10, 2)")
-                    .HasColumnName("price");
+                    .HasColumnName("purchase_price");
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(20)
@@ -257,10 +268,19 @@ namespace MomAndBaby.BusinessObject.Entity
 
                 entity.Property(e => e.Stock).HasColumnName("stock");
 
+                entity.Property(e => e.UnitPrice)
+                    .HasColumnType("decimal(10, 2)")
+                    .HasColumnName("unit_price");
+
                 entity.Property(e => e.UpdatedAt)
                     .HasColumnType("datetime")
                     .HasColumnName("updated_at")
                     .HasDefaultValueSql("(getdate())");
+
+                entity.HasOne(d => d.CategoryNavigation)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.CategoryId)
+                    .HasConstraintName("FK__Product__categor__35FCF52C");
 
                 entity.HasOne(e => e.Statistic)
                     .WithOne(s => s.Product)
@@ -274,10 +294,14 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.ToView("ProductStatistics");
 
                 entity.Property(e => e.ProductName).HasMaxLength(255);
+
                 entity.HasOne(s => s.Product)
                     .WithOne(p => p.Statistic)
                     .HasForeignKey<ProductStatistic>(s => s.ProductId);
+                entity.Metadata.SetIsTableExcludedFromMigrations(true);
             });
+
+
 
             modelBuilder.Entity<Review>(entity =>
             {
@@ -301,17 +325,17 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK__Review__product___5070F446");
+                    .HasConstraintName("FK__Review__product___453F38BC");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Reviews)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Review__user_id__4F7CD00D");
+                    .HasConstraintName("FK__Review__user_id__444B1483");
             });
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("Role");
+                entity.ToTable("role");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -337,10 +361,10 @@ namespace MomAndBaby.BusinessObject.Entity
             {
                 entity.ToTable("User");
 
-                entity.HasIndex(e => e.Email, "UQ__User__AB6E616440F2BE6C")
+                entity.HasIndex(e => e.Email, "UQ__User__AB6E6164E5CE2FD1")
                     .IsUnique();
 
-                entity.HasIndex(e => e.Username, "UQ__User__F3DBC57254D72B7B")
+                entity.HasIndex(e => e.Username, "UQ__User__F3DBC5721A53A9B1")
                     .IsUnique();
 
                 entity.Property(e => e.Id)
@@ -386,20 +410,19 @@ namespace MomAndBaby.BusinessObject.Entity
 
                 entity.Property(e => e.Username)
                     .HasMaxLength(255)
-                    .IsUnicode(false)
                     .HasColumnName("username");
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK__User__role_id__3F466844");
+                    .HasConstraintName("FK__User__role_id__33208881");
             });
 
             modelBuilder.Entity<Voucher>(entity =>
             {
                 entity.ToTable("Voucher");
 
-                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF96DAE1B56")
+                entity.HasIndex(e => e.Code, "UQ__Voucher__357D4CF9DF5E3ABC")
                     .IsUnique();
 
                 entity.Property(e => e.Id).HasColumnName("id");
@@ -428,7 +451,7 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.HasOne(d => d.CreatedByNavigation)
                     .WithMany(p => p.Vouchers)
                     .HasForeignKey(d => d.CreatedBy)
-                    .HasConstraintName("FK__Voucher__created__5812160E");
+                    .HasConstraintName("FK__Voucher__created__4CE05A84");
             });
 
             OnModelCreatingPartial(modelBuilder);

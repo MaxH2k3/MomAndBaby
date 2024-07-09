@@ -13,5 +13,10 @@ namespace MomAndBaby.Repository
         Task<IEnumerable<Product>> GetTrendingItems();
 
         //Task<Product> UpdatePurchase(Guid ProductId);
+
+        Task CreateProduct(Product product);
+        void UpdateProduct(Product product);
+        Task DeleteProduct(List<Guid> productIds);
+        Task<bool> NameExistAsync(string name);
     }
 }

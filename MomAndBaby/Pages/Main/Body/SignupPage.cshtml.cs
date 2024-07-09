@@ -22,7 +22,12 @@ namespace MomAndBaby.Pages.Main.Body
             string passwordValue = Request.Form["password"];
             var loginUserDto = new LoginUserDto(usernameValue, emailValue, passwordValue);
 
-            await _userService.AddNewUser(loginUserDto);
+            var result = await _userService.AddNewUser(loginUserDto);
+            if (!result)
+            {
+                TempData["MessageRegister"] = "Email has been already used for signing up";
+                return Redirect("/register");
+            }
             return Redirect("/");
         }
     }

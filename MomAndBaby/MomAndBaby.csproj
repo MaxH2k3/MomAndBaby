@@ -25,8 +25,9 @@
     <Folder Include="Pages\Dashboard\Components\" />
     <Folder Include="Pages\Dashboard\Footer\" />
     <Folder Include="Pages\Dashboard\Header\" />
+    <Folder Include="Pages\Main\Components\Star\" />
     <Folder Include="Pages\Shared\Components\" />
-    <Folder Include="Utilities\Helper\" />
+    <Folder Include="wwwroot\dashboard\" />
   </ItemGroup>
 
   <ItemGroup>

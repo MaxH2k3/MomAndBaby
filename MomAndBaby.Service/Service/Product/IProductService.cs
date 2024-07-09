@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.ProductDto;
 
 namespace MomAndBaby.Service
 {
@@ -11,6 +12,13 @@ namespace MomAndBaby.Service
         Task<IEnumerable<Product>> GetTrendingItems();
 
         //Task<IEnumerable<Product>> GetTrendingItems();
+        Task<bool> CreateProduct(ProductDto dto);
+        Task<bool> UpdateProduct(ProductDto dto);
+        Task<bool> SoftDeleteProduct(List<Guid> productIds);
+
+        Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria);
+        Task<bool> SoftDeleteProduct(Guid productId);
+
     }
 
 }

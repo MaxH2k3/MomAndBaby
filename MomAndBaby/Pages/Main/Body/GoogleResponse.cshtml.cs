@@ -52,6 +52,7 @@ namespace MomAndBaby.Pages.Main.Body
                             {
                                 Email = emailClaim,
                                 Username = nameClaim,
+                                FullName = nameClaim,
                                 Id = Guid.NewGuid()
                             };
                             await _userService.SigninGoogle(user);
@@ -59,7 +60,8 @@ namespace MomAndBaby.Pages.Main.Body
                             {
                                 new(UserClaimType.UserId, user.Id.ToString()),
                                 new(UserClaimType.UserName, nameClaim),
-                                new(UserClaimType.DisplayName, nameClaim),
+                                new(UserClaimType.FullName, nameClaim),
+                                new(UserClaimType.Email, emailClaim),
                                 new(UserClaimType.Role, ((int)RoleType.User).ToString())
 
                             };  
@@ -82,13 +84,13 @@ namespace MomAndBaby.Pages.Main.Body
                                 authProperties);
                         }
                     
-                    Console.WriteLine("asdsadasd3");
+                    
                     // Redirect to the home page or any other page
                     return Redirect("/");
                 }
             }
 
-            Console.WriteLine("asdsadasd4");
+            
             // Handle the case where authentication failed
             return Redirect("/Error");
         }
