@@ -1,6 +1,19 @@
 @page "/addproduct"
 @model MomAndBaby.Pages.Dashboard.Body.AddProduct
 
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
 
 <div class="content-body">
 
@@ -13,51 +26,63 @@
                 <h3>Product Management <span>/ Add Product</span></h3>
             </div>
         </div><!-- Page Heading End -->
-        
+
+        <!-- Page Button Group Start -->
+        @* <div class="col-12 col-lg-auto mb-20"> *@
+        @*     <div class="buttons-group"> *@
+        @*         <button class="button button-outline button-primary">Save & Publish</button> *@
+        @*         <button class="button button-outline button-info">Save to Draft</button> *@
+        @*         <button class="button button-outline button-danger">Delete Product</button> *@
+        @*     </div> *@
+        @* </div><!-- Page Button Group End --> *@
+
     </div><!-- Page Headings End -->
 
     <!-- Add or Edit Product Start -->
     <div class="add-edit-product-wrap col-12">
 
         <div class="add-edit-product-form">
-            <form method="post" enctype="multipart/form-data">
+            <form method="post">
 
-                <h4 class="title">New Product</h4>
+                <h4 class="title">About Product</h4>
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="row">
 
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Name" class="form-control" type="text" placeholder="Product Name">
+                        <input class="form-control" type="text" name="name" placeholder="Product Name">
+                        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Category" class="form-control" type="text" placeholder="Category">
+                        <input class="form-control" type="text" name="category" placeholder="Category">
+                        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Price" class="form-control" type="text" placeholder="Product Price">
+                        <input class="form-control" type="text" name="price" placeholder="Product Price">
+                        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
                     </div>
                     <div class="col-lg-6 col-12 mb-30">
-                        <input asp-for="NewProduct.Stock" class="form-control" type="text" placeholder="Product Stock">
+                        <input class="form-control" type="text" name="stock" placeholder="Product Stock">
+                        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
                     </div>
                     <div class="col-12 mb-30">
-                        <textarea asp-for="NewProduct.Description" class="form-control" placeholder="Product Description"></textarea>
+                        <textarea class="form-control" name="description" placeholder="Product Description"></textarea>
+                        <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
                     </div>
                     <div class="col-lg-12 col-12 mb-30">
                         <select name="status" class="form-control select2">
-                            <option value="Available">Available</option>
-                            <option value="Unavailable">Unavailable</option>
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
                             <option value="draft">Draft</option>
                         </select>
                     </div>
                 </div>
 
-                <h4 class="title">Product Image</h4>
+                <h4 class="title">Product Gallery</h4>
 
                 <div class="product-upload-gallery row flex-wrap">
                     <div class="col-12 mb-30">
-                        <input asp-for="NewProduct.ImageFile" class="file-input" type="file" accept="image/*">
-                    </div>
-                    <div>
-                        <img id="imagePreview" src="#" alt="Preview" style="display: none; max-width: 200px; max-height: 200px;">
+                        <p class="form-help-text mt-0">Upload Maximum 800 x 800 px & Max size 2mb.</p>
+                        <input class="file-pond" type="file" multiple>
                     </div>
                 </div>
 
@@ -73,39 +98,3 @@
     </div><!-- Add or Edit Product End -->
 
 </div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const input = document.querySelector('.file-input');
-
-        input.addEventListener('change', function () {
-            const file = this.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    const imgPreview = document.getElementById('imagePreview');
-                    imgPreview.src = e.target.result;
-                    imgPreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-    });
-</script>
-
-@if (TempData["ErrorMessage"] != null || TempData["SuccessMessage"] != null)
-{
-    <script type="text/javascript">
-        window.onload = function () {
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <text>alert("@TempData["ErrorMessage"]");</text>
-            }
-
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <text>alert("@TempData["SuccessMessage"]");</text>
-            }
-        };
-    </script>
-}

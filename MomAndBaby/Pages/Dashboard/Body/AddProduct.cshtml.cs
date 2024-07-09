@@ -10,12 +10,14 @@ public class AddProduct : PageModel
     private readonly IProductService _productService;
     
     [BindProperty]
-    public ProductDto NewProduct { get; set; }
+    public ProductDto ProductDto { get; set; }
+    
     public AddProduct(IProductService productService)
     {
         _productService = productService;
     }
-    
+
+
     public void OnGet()
     {
         
@@ -30,14 +32,14 @@ public class AddProduct : PageModel
         
         try
         {
-            var result = await _productService.CreateProduct(NewProduct);
+            var result = await _productService.CreateProduct(ProductDto);
             if (!result)
             {
                 TempData["ErrorMessage"] = "Product created failed.";
                 return Page();
             }
             TempData["SuccessMessage"] = "Product created successfully.";
-            return RedirectToPage("AddProduct");
+            return Page();
         }
         catch (ArgumentException ex)
         {

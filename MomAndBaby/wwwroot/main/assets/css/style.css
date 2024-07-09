@@ -6627,15 +6627,6 @@ table p {
   margin-left: 20px;
   margin-top: -5px;
 }
-
-.single-product-info .product-desc {
-  height: 120px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-}
 @media only screen and (max-width: 991px) {
   .single-product-info {
     margin-left: 0;

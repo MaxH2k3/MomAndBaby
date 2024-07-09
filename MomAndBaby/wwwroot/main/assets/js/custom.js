@@ -187,26 +187,26 @@
     }
   });
 
-  // var ProductNav = new Swiper('.single-product-nav-slider', {
-  //   spaceBetween: 11,
-  //   slidesPerView: 3,
-  //   freeMode: true,
-  //   navigation: {
-  //     nextEl: '.single-product-nav-slider .swiper-button-next',
-  //     prevEl: '.single-product-nav-slider .swiper-button-prev',
-  //   },
-  // });
-  //
-  // var ProductThumb = new Swiper('.single-product-thumb-slider', {
-  //   freeMode: true,
-  //   effect: 'fade',
-  //   fadeEffect: {
-  //     crossFade: true,
-  //   },
-  //   thumbs: {
-  //     swiper: ProductNav
-  //   }
-  // });
+  var ProductNav = new Swiper('.single-product-nav-slider', {
+    spaceBetween: 11,
+    slidesPerView: 3,
+    freeMode: true,
+    navigation: {
+      nextEl: '.single-product-nav-slider .swiper-button-next',
+      prevEl: '.single-product-nav-slider .swiper-button-prev',
+    },
+  });
+
+  var ProductThumb = new Swiper('.single-product-thumb-slider', {
+    freeMode: true,
+    effect: 'fade',
+    fadeEffect: {
+      crossFade: true,
+    },
+    thumbs: {
+      swiper: ProductNav
+    }
+  });
 
   // Gallery Trends Slider
   var swiper = new Swiper('.testimonial-slider-container', {
