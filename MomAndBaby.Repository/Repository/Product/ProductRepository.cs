@@ -14,7 +14,7 @@ namespace MomAndBaby.Repository
 
         public async Task<Product?> GetById(Guid productId)
         {
-            return await _context.Products.FindAsync(productId);
+            return await _context.Products.FirstOrDefaultAsync(x => x.Id == productId);
         }
 
         public async Task<IEnumerable<Product>> GetAll()

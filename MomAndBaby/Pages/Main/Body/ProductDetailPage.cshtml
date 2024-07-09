@@ -24,26 +24,21 @@
           <div class="col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-0">
             <div class="single-product-slider">
               <div class="single-product-thumb">
-                @* <div class="swiper-container single-product-thumb-slider"> *@
-                @*   <div class="swiper-wrapper"> *@
-                @*     <div class="swiper-slide zoom zoom-hover"> *@
                       <div class="thumb-item">
                         <a class="lightbox-image" data-fancybox="gallery" href="main/assets/img/shop/details/1.jpg">
                           <img src="main/assets/img/shop/details/1.jpg" alt="Image-HasTech">
                         </a>
                       </div>
-                @*     </div> *@
-                @*   </div> *@
-                @* </div> *@
               </div>
               
             </div>
           </div>
           <div class="col-lg-6">
             <div class="single-product-info">
-              <h4 class="title">Jigsaw Puzzles For Kids</h4>
+              @* <input type="hidden" asp-for="ProductDto.Id"/> *@
+              <h4 class="title">@Model.ProductDto.Name</h4>
               <div class="prices">
-                <span class="price">$120.59</span>
+                <span class="price">$@Model.ProductDto.Price</span>
               </div>
               <div class="product-rating">
                 <div class="rating">
@@ -54,7 +49,7 @@
                   <span class="fa fa-star"></span>
                 </div>
                 <div class="review">
-                  <a href="#/">( 5 Customer Review )</a>
+                  <a href="#">( 5 Customer Review )</a>
                 </div>
               </div>
               <div class="single-product-featured">
@@ -64,55 +59,55 @@
                   <li><i class="fa fa-check"></i> Money Return</li>
                 </ul>
               </div>
-              <p class="product-desc">Lorem ipsum dolor sit amet, consect adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisll exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duisol aute irure dolor in reprehenderit.</p>
+              <p class="product-desc">@Model.ProductDto.Description</p>
               <div class="quick-product-action">
                 <div class="action-top">
                   <div class="pro-qty">
-                    <input type="text" id="quantity" title="Quantity" value="01" />
+                    <input type="text" id="quantity" title="Quantity" value="01"/>
                   </div>
                   <button class="btn btn-theme">Add to Cart</button>
                   <a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a>
                 </div>
               </div>
               <div class="widget">
-                <h3 class="title">SKU:</h3>
+                <h3 class="title">Stock:</h3>
                 <div class="widget-tags">
-                  <span>Ch-256xl</span>
+                  <span>@Model.ProductDto.Stock</span>
                 </div>
               </div>
               <div class="widget">
                 <h3 class="title">Categories:</h3>
                 <div class="widget-tags">
-                  <a href="blog.html">Toys.</a>
-                  <a href="blog.html">Dresss</a>
+                  <a href="#">@Model.ProductDto.Category</a>
+                  @* <a href="blog.html">Dresss</a> *@
                 </div>
               </div>
-              <div class="widget">
-                <h3 class="title">Tag:</h3>
-                <div class="widget-tags">
-                  <a href="blog.html">Toys,</a>
-                  <a href="blog.html">Dress</a>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">Share:</h3>
-                <div class="widget-tags widget-share">
-                  <span class="fa fa-facebook"></span>
-                  <span class="fa fa-dribbble"></span>
-                  <span class="fa fa-pinterest-p"></span>
-                  <span class="fa fa-twitter"></span>
-                  <span class="fa fa-linkedin"></span>
-                </div>
-              </div>
+              @* <div class="widget"> *@
+              @*   <h3 class="title">Tag:</h3> *@
+              @*   <div class="widget-tags"> *@
+              @*     <a href="blog.html">Toys,</a> *@
+              @*     <a href="blog.html">Dress</a> *@
+              @*   </div> *@
+              @* </div> *@
+              @* <div class="widget"> *@
+              @*   <h3 class="title">Share:</h3> *@
+              @*   <div class="widget-tags widget-share"> *@
+              @*     <span class="fa fa-facebook"></span> *@
+              @*     <span class="fa fa-dribbble"></span> *@
+              @*     <span class="fa fa-pinterest-p"></span> *@
+              @*     <span class="fa fa-twitter"></span> *@
+              @*     <span class="fa fa-linkedin"></span> *@
+              @*   </div> *@
+              @* </div> *@
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="product-description-review">
                 <ul class="nav nav-tabs product-description-tab-menu" id="myTab" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="product-aditional-tab" data-bs-toggle="tab" data-bs-target="#commentProduct" type="button" role="tab" aria-selected="false">Information</button>
-                  </li>
+                  @* <li class="nav-item" role="presentation"> *@
+                  @*   <button class="nav-link" id="product-aditional-tab" data-bs-toggle="tab" data-bs-target="#commentProduct" type="button" role="tab" aria-selected="false">Information</button> *@
+                  @* </li> *@
                   <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="product-desc-tab" data-bs-toggle="tab" data-bs-target="#productDesc" type="button" role="tab" aria-controls="productDesc" aria-selected="true">Description</button>
                   </li>
@@ -121,14 +116,14 @@
                   </li>
                 </ul>
                 <div class="tab-content product-description-tab-content" id="myTabContent">
-                  <div class="tab-pane fade" id="commentProduct" role="tabpanel" aria-labelledby="product-aditional-tab">
-                    <div class="product-desc">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-                    </div>
-                  </div>
+                  @* <div class="tab-pane fade" id="commentProduct" role="tabpanel" aria-labelledby="product-aditional-tab"> *@
+                  @*   <div class="product-desc"> *@
+                  @*     <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p> *@
+                  @*   </div> *@
+                  @* </div> *@
                   <div class="tab-pane fade show active" id="productDesc" role="tabpanel" aria-labelledby="product-desc-tab">
                     <div class="product-desc">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+                      <p>@Model.ProductDto.Description</p>
                     </div>
                   </div>
                   <div class="tab-pane fade" id="productReview" role="tabpanel" aria-labelledby="product-review-tab">
@@ -241,7 +236,7 @@
                           <h4 class="title">Cobus Bester</h4>
                           <h5 class="review-date"><span>Cobus Bester</span> on <span>Mar 07, 2021</span></h5>
                           <p>Can’t wait to start mixin’ with this one! Irba-irr-Up-up-up-up-date your theme!</p>
-                          <a class="review-report" href="#/">Report as Inappropriate</a>
+                          <a class="review-report" href="#">Report as Inappropriate</a>
                         </div>
                       </div>
                     </div>
