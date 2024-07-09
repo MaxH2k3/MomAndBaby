@@ -1,5 +1,6 @@
 ﻿@page "/myaccount"
 @model MomAndBaby.Pages.Main.Body.MyAccountModel
+@using MomAndBaby.Utilities.Constants
 @{
 }
 
@@ -14,6 +15,7 @@
                         <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> My Account</span></div>
                     </div>
                 </div>
+    using MomAndBaby.Utilities.Constants;
             </div>
         </div>
     </section>
@@ -43,7 +45,7 @@
                                     </div>
                                 </nav>
                             </div>
-                            <div class="col-lg-9 col-md-8">
+                            <div class="col-lg-12 col-md-8">
                                 <div class="tab-content" id="nav-tabContent">
                                     <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
                                         <div class="myaccount-content">
@@ -59,19 +61,30 @@
                                                             <th>PaymentMethod</th>
                                                             <th>ShippingAddress</th>
                                                             <th>Action</th>
+                                                            <th>Update</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         @foreach (var order in Model.Orders)
                                                         {
                                                             <tr>
-                                                                <td>@order.Id</td>
-                                                                <td>@order.OrderDate</td>
-                                                                <td>@order.StatusName</td>
-                                                                <td>@order.TotalAmount.ToString("C")</td>
-                                                                <td>@order.PaymentMethod</td>
-                                                                <td>@order.ShippingAddress</td>
-                                                                <td><a href="shop-cart.html" class="check-btn sqr-btn">View</a></td>
+                                                                <form method="post" asp-page-handler="UpdateShippingAddress">
+                                                                    <td>@order.Id</td>
+                                                                    <td>@order.OrderDate</td>
+                                                                    <td>@order.StatusName</td>
+                                                                    <td>@order.TotalAmount.ToString("C")</td>
+                                                                    <td>@order.PaymentMethod</td>
+                                                                    <td>
+                                                                        <input type="text" name="ShippingAddress" value="@order.ShippingAddress" />
+                                                                    </td>
+                                                                    <td><a asp-page="./OrderDetail" asp-route-id="@order.Id" class="check-btn sqr-btn">View</a></td>
+                                                                    <td>
+                                                                        @{
+                                                                        await Html.RenderPartialAsync(ConstantPage.MainPage.ButtonCustom);
+                                                                        }
+                                                                    </td>
+                                                                </form>
                                                             </tr>
                                                         }
                                                     </tbody>

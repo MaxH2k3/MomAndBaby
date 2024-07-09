@@ -14,6 +14,8 @@
             public const string SidebarMenu = PrePathComponentMain + "/Elements/SidebarMenu";
             public const string SideMenu = PrePathComponentMain + "/Elements/SideMenu";
 
+            public const string ButtonCustom = PrePathComponentMain + "/Common/Button";
+
             public const string QuickView = "QuickView";
 
             public const string Chat = "../Chat/Menu";
@@ -27,13 +29,7 @@
             public const string Header = PrePathComponentDashboard + "/Common/Header";
             public const string Footer = PrePathComponentDashboard + "/Common/Footer";
 
-            public const string SideHeader = PrePathComponentDashboard + "/Elements/SideHeader";
-            // public const string SidebarMenu = PrePathComponentDashboard + "/Elements/SidebarMenu";
-            // public const string SideMenu = PrePathComponentDashboard + "/Elements/SideMenu";
-
-            // public const string QuickView = "QuickView";
-            //
-            // public const string Chat = "../Chat/Menu";
+            public const string Menu = PrePathComponentDashboard + "/Common/Menu";
         }
     }
 }

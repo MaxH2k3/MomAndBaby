@@ -92,7 +92,27 @@ namespace MomAndBaby.Pages.Main.Body
 
             return Page();
         }
+        public async Task<IActionResult> OnPostUpdateShippingAddressAsync(int orderId, string shippingAddress)
+        {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
+            // Process the update logic here
+            var result = await _orderService.UpdateOrderAddress(shippingAddress, orderId);
+
+            if (result)
+            {
+                TempData["SuccessMessage"] = "Shipping address updated successfully.";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Error updating shipping address.";
+            }
+
+            return RedirectToPage(); // Reload the page
+        }
 
 
 

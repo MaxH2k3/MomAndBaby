@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using System.Collections;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {
@@ -6,5 +7,8 @@ namespace MomAndBaby.Repository
     {
         Task<IEnumerable<Order>> GetAllOrder();
         Task<Order> GetOrderById(int id);
+        Task UpdateAddress(string newAddress, int orderId);
+        Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId);
+        // Task<>
     }
 }

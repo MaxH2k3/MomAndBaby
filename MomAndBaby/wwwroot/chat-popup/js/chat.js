@@ -1,11 +1,7 @@
 ﻿// Create display message
-connection.on("SendMessage", function (result) {
+connection.on("SendMessageToUser", function (result) {
   let message = result;
-  let groupId = document.getElementById("group-name").value;
-  if (message.groupId.toString() !== groupId.toString()) {
-    return;
-  }
-
+  console.log(message);
   let display_message = document.getElementById("display-message");
   if (thisUserId === message.userId) {
     display_message.innerHTML += renderMyMessage(
@@ -29,6 +25,7 @@ connection.on("DisplayGroup", function (groupId, groupName) {
 
 // Load message for group
 connection.on("LoadMessage", function (listMessage) {
+    console.log(listMessage);
   // Load message to UI
   loadMessage(listMessage);
 });
@@ -59,15 +56,6 @@ const loadMessage = (list) => {
   }
 };
 
-const getMessageOnGroup = async (element) => {
-  try {
-    let groupId = $(element).children(".group-id-sidebar").attr("value");
-    await connection.invoke("GetMessageOnGroup", groupId);
-  } catch (e) {
-    console.error(e.toString());
-  }
-};
-
 // Handle send message to group
 document.getElementById("groupmsg").addEventListener("click", async (event) => {
   let groupName = document.getElementById("group-name");
@@ -81,33 +69,3 @@ document.getElementById("groupmsg").addEventListener("click", async (event) => {
   }
   event.preventDefault();
 });
-// Handle load message to group
-
-// Handle add new group to display group component
-function addGroupTag(groupId, groupName, numOfMember) {
-  // Remove active
-  const currentActiveLi = document.querySelector("li.active");
-  if (currentActiveLi) {
-    currentActiveLi.classList.remove("active");
-  }
-
-  let groups = document.getElementById("groups");
-  let listLi = groups.getElementsByTagName("li");
-  let liTag = document.createElement("li");
-  if (listLi.length == 0) {
-    liTag.classList.add("active");
-    liTag.innerHTML = renderNewJoinGroup(groupId, groupName, numOfMember);
-  } else {
-    liTag.innerHTML = renderNewJoinGroup(groupId, groupName, numOfMember);
-  }
-
-  liTag.classList.add("d-flex");
-  liTag.classList.add("justify-content-between");
-
-  groups.appendChild(liTag);
-
-  // Add active tag
-  liTag.addEventListener("click", () => {
-    addEventClickForGroup(liTag);
-  });
-}

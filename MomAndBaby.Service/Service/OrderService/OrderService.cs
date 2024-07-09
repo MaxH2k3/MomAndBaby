@@ -25,5 +25,23 @@ namespace MomAndBaby.Service.OrderService
         {
             return await _unitOfWork.OrderRepository.GetOrderById(orderId);
         }
+
+        public async Task<bool> UpdateOrderAddress(string newAddress, int orderId)
+        {
+            var result = _unitOfWork.OrderRepository.UpdateAddress(newAddress, orderId);
+            if (result.IsFaulted)
+            {
+                return false;
+            }
+
+            await _unitOfWork.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<IEnumerable<OrderDetailResponseModel>> GetAllOrderDetailOrder(int orderId)
+        {
+            var orderDetails= await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
+            return _mapper.Map<IEnumerable<OrderDetailResponseModel>>(orderDetails);
+        }
     }
 }

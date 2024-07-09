@@ -51,6 +51,7 @@
     <link rel="stylesheet" href="~/main/assets/css/custom.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/chat-popup/css/chat.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/chat-popup/css/menu.css" asp-append-version="true" />
+
 </head>
 
 <body>
@@ -126,7 +127,7 @@
     <!--=== Custom Js ===-->
      <script>
             const thisUserId = "@(User.Identity!.IsAuthenticated ? User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))!.Value : "")";
-    </script>
+     </script>
     
     <script src="~/main/assets/js/custom.js" asp-append-version="true"></script>
 

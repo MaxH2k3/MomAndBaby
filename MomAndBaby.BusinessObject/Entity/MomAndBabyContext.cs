@@ -36,7 +36,7 @@ namespace MomAndBaby.BusinessObject.Entity
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=(local);Database=MomAndBaby;Trusted_Connection=True;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("server=35.240.220.220,1433;database=MomAndBaby;uid=sa;pwd=Admin12345@;TrustServerCertificate=true;Encrypt=True;Connection Timeout=30;");
             }
         }
 

@@ -2,10 +2,9 @@
 INSERT INTO [role] ([name])
 VALUES 
 ('Admin'),
+('Staff'),
 ('Customer'),
-('Seller'),
-('Guest'),
-('Manager');
+('Guest');
 
 -- Insert data into [Status]
 INSERT INTO [Status] ([name])
@@ -36,19 +35,3 @@ VALUES
 (NEWID(), 4, 'Product4', 'Description4', 40.00, 32.00, 'Home & Kitchen', 400, 'image4.jpg', 'Brand4', 'Company4', 'Available'),
 (NEWID(), 5, 'Product5', 'Description5', 50.00, 40.00, 'Sports', 500, 'image5.jpg', 'Brand5', 'Company5', 'Discontinued');
 
--- Insert data into [Review]
-INSERT INTO [Review] ([user_id], [product_id], [rating], [comment], [Status])
-VALUES 
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Tran Cong Lam (K17 HCM)'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product1'), 5, 'Great product!', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Tran Cong Lam (K17 HCM)'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product2'), 4, 'Good quality.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Tran Cong Lam (K17 HCM)'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product3'), 3, 'Average.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Tran Cong Lam (K17 HCM)'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product4'), 2, 'Not satisfied.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Tran Cong Lam (K17 HCM)'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product5'), 1, 'Terrible experience.', 1);
-
-INSERT INTO [Review] ([user_id], [product_id], [rating], [comment], [Status])
-VALUES 
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Cong Lam'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product1'), 4, 'Great product!', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Cong Lam'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product2'), 3, 'Good quality.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Cong Lam'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product3'), 2, 'Average.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Cong Lam'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product4'), 4, 'Not satisfied.', 1),
-((SELECT TOP 1 [id] FROM [User] WHERE [username] = 'Cong Lam'), (SELECT TOP 1 [id] FROM [Product] WHERE [name] = 'Product5'), 1, 'Terrible experience.', 1);
