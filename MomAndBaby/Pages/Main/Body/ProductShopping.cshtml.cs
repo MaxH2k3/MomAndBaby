@@ -27,7 +27,7 @@ namespace MomAndBaby.Pages.Main.Body
         public async Task<IActionResult> OnGetFilterProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
             Products = await _productService.GetFilteredProducts(startPrice, endPrice, numOfStars, sortCriteria);
-            return Partial("ProductShopping", Products);
+            return new JsonResult(Products); ;
         }
     }
 }
