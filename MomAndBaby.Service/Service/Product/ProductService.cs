@@ -141,11 +141,11 @@ namespace MomAndBaby.Service
             var productsQuery = await _unitOfWork.ProductRepository.GetAll();
             if (startPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.Price >= startPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice.Value);
             }
             if (endPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.Price <= endPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice.Value);
             }
 
             if (numOfStars.HasValue)
@@ -169,6 +169,11 @@ namespace MomAndBaby.Service
 
             return productsQuery;
 
+        }
+
+        public Task<bool> SoftDeleteProduct(List<Guid> productIds)
+        {
+            throw new NotImplementedException();
         }
 
         //public async Task<IEnumerable<Product>> GetTrendingItems()
