@@ -115,7 +115,7 @@ namespace MomAndBaby.Service
             }
 
             product.Name = dto.Name;
-            product.Category = dto.Category;
+            product.CategoryId = dto.CategoryId;
             product.Image = dto.Image;
             product.Description = dto.Description;
             product.UnitPrice = (decimal)dto.UnitPrice;
@@ -132,6 +132,13 @@ namespace MomAndBaby.Service
         {
             await _unitOfWork.ProductRepository.DeleteProduct(productId);
             return await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ProductDto>> GetRelatedProducts(int categoryId)
+        {
+            var products = await _unitOfWork.ProductRepository.GetRelatedProducts(categoryId);
+            var mapper = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return mapper;
         }
 
         public async Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
