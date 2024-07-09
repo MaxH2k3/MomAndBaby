@@ -8,7 +8,8 @@ namespace MomAndBaby.BusinessObject.Entity
         public User()
         {
             Articles = new HashSet<Article>();
-            Messages = new HashSet<Message>();
+            MessageReceivers = new HashSet<Message>();
+            MessageSenders = new HashSet<Message>();
             Orders = new HashSet<Order>();
             Reviews = new HashSet<Review>();
             Vouchers = new HashSet<Voucher>();
@@ -19,7 +20,7 @@ namespace MomAndBaby.BusinessObject.Entity
         public byte[] Password { get; set; } = null!;
         public byte[] PasswordSalt { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string FullName { get; set; } = null!;
+        public string? FullName { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public int? RoleId { get; set; }
@@ -29,7 +30,8 @@ namespace MomAndBaby.BusinessObject.Entity
 
         public virtual Role? Role { get; set; }
         public virtual ICollection<Article> Articles { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<Message> MessageReceivers { get; set; }
+        public virtual ICollection<Message> MessageSenders { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<Voucher> Vouchers { get; set; }

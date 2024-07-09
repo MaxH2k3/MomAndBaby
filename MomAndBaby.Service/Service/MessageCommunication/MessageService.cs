@@ -32,6 +32,8 @@ namespace MomAndBaby.Service.MessageCommunication
 				IsSystem = await _unitOfWork.UserRepository.IsStaff(senderId),
 				CreatedAt = DateTime.Now
 			};
+
+			await _unitOfWork.MessageRepository.AddMessage(message);
 			
 			if(await _unitOfWork.SaveChangesAsync())
 			{

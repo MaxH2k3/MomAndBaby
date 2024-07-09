@@ -25,7 +25,6 @@ namespace MomAndBaby.Configuration.Hub
 
 			// Send message
 			await Clients.Group(userId).SendMessageToUser(tempMessage);
-
 		}
 
 		public async Task GetMessageAsync(Guid userId)
@@ -34,6 +33,8 @@ namespace MomAndBaby.Configuration.Hub
 
 			await Clients.Group(userId.ToString()).LoadMessage(messages);
 		}
+
+
 
 
     }
