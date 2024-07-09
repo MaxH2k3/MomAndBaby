@@ -5,6 +5,7 @@ namespace MomAndBaby.Service
 {
     public interface IProductService
     {
+        Task<ProductDto> GetById(Guid productId);
         Task<IEnumerable<Product>> GetAll();
         Task<IEnumerable<Product>> GetNewItems();
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
@@ -14,10 +15,9 @@ namespace MomAndBaby.Service
         //Task<IEnumerable<Product>> GetTrendingItems();
         Task<bool> CreateProduct(ProductDto dto);
         Task<bool> UpdateProduct(ProductDto dto);
-        Task<bool> SoftDeleteProduct(List<Guid> productIds);
+        Task<bool> SoftDeleteProduct(Guid productId);
 
         Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria);
-        Task<bool> SoftDeleteProduct(Guid productId);
 
     }
 
