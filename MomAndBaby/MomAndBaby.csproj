@@ -23,6 +23,7 @@
     <Folder Include="Pages\Main\Components\Star\" />
     <Folder Include="Pages\Shared\Components\" />
     <Folder Include="wwwroot\dashboard\" />
+    <Folder Include="wwwroot\images\uploads\" />
   </ItemGroup>
 
   <ItemGroup>
