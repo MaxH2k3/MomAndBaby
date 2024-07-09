@@ -1,7 +1,6 @@
 ﻿@page "/productshopping"
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
-@{
-}
+
 
 <main class="main-content">
     <!--== Start Page Title Area ==-->
@@ -40,173 +39,167 @@
                         </div>
                         <div class="product-sorting-menu product-sorting">
                             <span class="current">Sort By : <span> Default <i class="fa fa-angle-down"></i></span></span>
-                            <ul>
-                                <li class="active"><a href="shop.html" class="active">Sort by Default</a></li>
-                                <li><a href="shop.html">Sort by Popularity</a></li>
-                                <li><a href="shop.html">Sort by Rated</a></li>
-                                <li><a href="shop.html">Sort by Latest</a></li>
-                                <li><a href="shop.html">Sort by Price: <i class="lastudioicon-arrow-up"></i></a></li>
-                                <li><a href="shop.html">Sort by Price: <i class="lastudioicon-arrow-down"></i></a></li>
+                            <ul id="sort-options">
+                                <li class="active"><a  data-sort="Default" class="sort-option">Sort by Default</a></li>
+                                <li><a  data-sort="Purchases" class="sort-option">Sort by Purchases</a></li>
+                                <li><a  data-sort="Star" class="sort-option">Sort by Star</a></li>
+                                <li><a  data-sort="Date" class="sort-option">Sort by Date</a></li>
+                               
                             </ul>
                         </div>
                     </div>
-                    <div class="tab-content" id="nav-tabContent">
+                    <div id="product-list" class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="column-three" role="tabpanel" aria-labelledby="column-three-tab">
                             <div class="row">
-                                <div class="col-sm-6 col-md-4">
-                                    <!-- Start Product Item -->
-                                    <div class="product-item">
-                                        <div class="product-thumb">
-                                            <img src="assets/img/shop/1.png" alt="Image">
-                                            <div class="product-action">
-                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <div class="col-sm-6 col-md-4">
+                                        <!-- Start Product Item -->
+                                        <div class="product-item">
+                                            <div class="product-thumb">
+                                                <img src="assets/img/shop/1.png" alt="Image">
+                                                <div class="product-action">
+                                                    <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                    <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                    <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                    <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <div class="rating">
+                                                    @{
+                                                        double averageStar = product.Statistic.AverageStar;
+                                                        int fullStars = (int)averageStar; // Number of full stars
+                                                        bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                        int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                    }
+                                                    @for (int i = 0; i < fullStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @if (hasHalfStar)
+                                                    {
+                                                        <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @for (int i = 0; i < emptyStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    <h4>@product.Statistic.AverageStar</h4>
+                                                </div>
+                                                <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                <div class="prices">
+                                                    <span class="price">@product.Price</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="product-info">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h4 class="title"><a href="shop-single-product.html">Funskool Teddy</a></h4>
-                                            <div class="prices">
-                                                <span class="price">$190.12</span>
-                                            </div>
-                                        </div>
+                                        <!-- End Product Item -->
                                     </div>
-                                    <!-- End Product Item -->
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <!-- Start Product Item -->
-                                    <div class="product-item">
-                                        <div class="product-thumb">
-                                            <img src="assets/img/shop/2.png" alt="Image">
-                                            <div class="product-action">
-                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h4 class="title"><a href="shop-single-product.html">Baby Play Sets</a></h4>
-                                            <div class="prices">
-                                                <span class="price">$190.12</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Product Item -->
-                                </div>
-                                <div class="col-sm-6 col-md-4">
-                                    <!-- Start Product Item -->
-                                    <div class="product-item">
-                                        <div class="product-thumb">
-                                            <img src="assets/img/shop/3.png" alt="Image">
-                                            <div class="product-action">
-                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
-                                            </div>
-                                        </div>
-                                        <div class="product-info">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h4 class="title"><a href="shop-single-product.html">Jigsaw Puzzles For Kids</a></h4>
-                                            <div class="prices">
-                                                <span class="price">$190.12</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- End Product Item -->
-                                </div>
+                                }
+                        
                      
                             </div>
                         </div>
                         <div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
                             <div class="row">
-                                <div class="col-12 product-items-list">
-                                    <!-- Start Product Item -->
-                                    <div class="product-item">
-                                        <div class="product-thumb">
-                                            <img src="assets/img/shop/1.png" alt="Image">
-                                            <div class="product-action">
-                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <div class="col-12 product-items-list">
+                                        <!-- Start Product Item -->
+                                        <div class="product-item">
+                                            <div class="product-thumb">
+                                                <img src="assets/img/shop/1.png" alt="Image">
+                                                <div class="product-action">
+                                                    <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                    <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                    <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                    <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <div class="rating">
+                                                    @{
+                                                        double averageStar = product.Statistic.AverageStar;
+                                                        int fullStars = (int)averageStar; // Number of full stars
+                                                        bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                        int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                    }
+                                                    @for (int i = 0; i < fullStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @if (hasHalfStar)
+                                                    {
+                                                        <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @for (int i = 0; i < emptyStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    <h4>@product.Statistic.AverageStar</h4>
+                                                </div>
+                                                <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                <div class="prices">
+                                                    <span class="price">@product.Price</span>
+                                                </div>
+                                                <p>@product.Description</p>
                                             </div>
                                         </div>
-                                        <div class="product-info">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h4 class="title"><a href="shop-single-product.html">Funskool Teddy</a></h4>
-                                            <div class="prices">
-                                                <span class="price">$190.12</span>
-                                            </div>
-                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla quis ipsum enim viverra. Enim in morbi tincidunt ante luctus tincidunt integer. Sed adipiscing vehicula.</p>
-                                        </div>
+                                        <!-- End Product Item -->
                                     </div>
-                                    <!-- End Product Item -->
-                                </div>
-  
+                                }
                             </div>
                         </div>
                         <div class="tab-pane fade" id="column-two" role="tabpanel" aria-labelledby="column-two-tab">
                             <div class="row">
-                                <div class="col-sm-6">
-                                    <!-- Start Product Item -->
-                                    <div class="product-item">
-                                        <div class="product-thumb">
-                                            <img src="assets/img/shop/1.png" alt="Image">
-                                            <div class="product-action">
-                                                <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                @foreach (var product in Model.Products)
+                                {
+                                    <div class="col-sm-6">
+                                        <!-- Start Product Item -->
+                                        <div class="product-item">
+                                            <div class="product-thumb">
+                                                <img src="assets/img/shop/1.png" alt="Image">
+                                                <div class="product-action">
+                                                    <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                    <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                                                    <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                                                    <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                </div>
+                                            </div>
+                                            <div class="product-info">
+                                                <div class="rating">
+                                                    @{
+                                                        double averageStar = product.Statistic.AverageStar;
+                                                        int fullStars = (int)averageStar; // Number of full stars
+                                                        bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                                        int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                                                    }
+                                                    @for (int i = 0; i < fullStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @if (hasHalfStar)
+                                                    {
+                                                        <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    @for (int i = 0; i < emptyStars; i++)
+                                                    {
+                                                        <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                    }
+                                                    <h4>@product.Statistic.AverageStar</h4>
+                                                </div>
+                                                <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                                                <div class="prices">
+                                                    <span class="price">@product.Price</span>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div class="product-info">
-                                            <div class="rating">
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                                <span class="fa fa-star"></span>
-                                            </div>
-                                            <h4 class="title"><a href="shop-single-product.html">Funskool Teddy</a></h4>
-                                            <div class="prices">
-                                                <span class="price">$190.12</span>
-                                            </div>
-                                        </div>
+                                        <!-- End Product Item -->
                                     </div>
-                                    <!-- End Product Item -->
-                                </div>
-                                
-                                
+
+                                }
                             </div>
+                            }
                         </div>
                     </div>
                     <div class="row">
@@ -262,7 +255,8 @@
                                 <div class="widget-body">
                                     <div class="widget-price-filter">
                                         <form action="#" method="post">
-                                                <input type="text" id="search" placeholder="Product's price">
+                                                <input type="text" id="search" placeholder="From">
+                                                <input type="text" id="search" placeholder="To">
                                                 <button type="submit" class="btn-src">
                                                     <i class="pe-7s-search"></i>
                                                 </button>
@@ -327,6 +321,32 @@
         </div>
     </div>
     <!--== End Shop Area Wrapper ==-->
+
+
 </main>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.sort-option').click(function (e) {
+                e.preventDefault();
+                var sortCriteria = $(this).data('sort');
+
+                $.ajax({
+                    url: '/productshopping?handler=FilterProducts',
+                    type: 'GET',
+                    data: { sortCriteria: sortCriteria },
+                    success: function (data) {
+                        $('#product-list').html(data);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
+}
 
 

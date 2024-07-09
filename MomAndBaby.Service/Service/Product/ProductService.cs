@@ -64,6 +64,41 @@ namespace MomAndBaby.Service
             throw new NotImplementedException();
         }
 
+        public async Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
+        {
+            var productsQuery = await _unitOfWork.ProductRepository.GetAll();
+            if (startPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price >= startPrice.Value);
+            }
+            if (endPrice.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Price <= endPrice.Value);
+            }
+
+            if (numOfStars.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.Statistic.AverageStar == numOfStars.Value);
+            }
+
+            switch (sortCriteria)
+            {
+                case "totalPurchase":
+                    productsQuery = productsQuery.OrderByDescending(p => p.Statistic.TotalPurchase);
+                    break;
+                case "star":
+                    productsQuery = productsQuery.OrderByDescending(p => p.Statistic.AverageStar);
+                    break;
+                case "date":
+                    productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
+                    break;
+                
+            }
+
+            return productsQuery;
+
+        }
+
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _unitOfWork.ProductRepository.GetTrendingItems();

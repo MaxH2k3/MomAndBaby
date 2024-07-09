@@ -21,17 +21,17 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Product>> GetHighestRating()
         {
-            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.AverageStar).ToListAsync();
+            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.AverageStar).Take(4).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetNewItems()
         {
-            return await _context.Products.Where(p => p.CreatedAt.HasValue).OrderByDescending(p => p.CreatedAt).ToListAsync();
+            return await _context.Products.Where(p => p.CreatedAt.HasValue).OrderByDescending(p => p.CreatedAt).Take(4).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetTrendingItems()
         {
-            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.TotalPurchase).ToListAsync();
+            return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.TotalPurchase).Take(8).ToListAsync();
         }
         public async Task CreateProduct(Product product)
         {
@@ -54,6 +54,7 @@ namespace MomAndBaby.Repository
             return await _context.Products.AnyAsync(x => x.Name == name);
         }
 
+        
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();
