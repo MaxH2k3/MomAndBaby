@@ -119,8 +119,7 @@ namespace MomAndBaby.Service
             product.Category = dto.Category;
             product.Image = dto.Image;
             product.Description = dto.Description;
-            product.UnitPrice = (decimal)dto.Price;
-            product.PurchasePrice = (decimal)dto.Price;
+            product.Price = (decimal)dto.Price;
             product.Stock = (int)dto.Stock;
             product.Status = dto.Status;
             product.UpdatedAt = DateTime.Now;
