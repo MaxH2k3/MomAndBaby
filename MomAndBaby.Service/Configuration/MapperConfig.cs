@@ -14,6 +14,11 @@ namespace MomAndBaby.Service.Configuration
 			CreateMap<Order, OrderResponseModel>()
 				.ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
 			.ReverseMap();
+			CreateMap<OrderDetail, OrderDetailResponseModel>()
+				.ForMember(x => x.OrderId, opt => opt.MapFrom(src => src.Order.Id))
+				.ForMember(x => x.ProductName, opt => opt.MapFrom(src => src.Product.Name))
+				.ForMember(x => x.ProductImage, opt => opt.MapFrom(src => src.Product.Image))
+				.ReverseMap();
 		}
 	}
 }
