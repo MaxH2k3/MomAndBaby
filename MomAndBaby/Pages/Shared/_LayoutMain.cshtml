@@ -127,7 +127,7 @@
     <!--=== Custom Js ===-->
      <script>
             const thisUserId = "@(User.Identity!.IsAuthenticated ? User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))!.Value : "")";
-    </script>
+     </script>
     
     <script src="~/main/assets/js/custom.js" asp-append-version="true"></script>
 
