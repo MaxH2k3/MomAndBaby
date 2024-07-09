@@ -14,6 +14,8 @@
             public const string SidebarMenu = PrePathComponentMain + "/Elements/SidebarMenu";
             public const string SideMenu = PrePathComponentMain + "/Elements/SideMenu";
 
+            public const string ButtonCustom = PrePathComponentMain + "/Common/Button";
+
             public const string QuickView = "QuickView";
 
             public const string Chat = "../Chat/Menu";

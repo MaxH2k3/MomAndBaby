@@ -1,5 +1,6 @@
 ﻿@page "/myaccount"
 @model MomAndBaby.Pages.Main.Body.MyAccountModel
+@using MomAndBaby.Utilities.Constants
 @{
 }
 
@@ -14,6 +15,7 @@
                         <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> My Account</span></div>
                     </div>
                 </div>
+    using MomAndBaby.Utilities.Constants;
             </div>
         </div>
     </section>
@@ -59,6 +61,8 @@
                                                             <th>PaymentMethod</th>
                                                             <th>ShippingAddress</th>
                                                             <th>Action</th>
+                                                            <th>Update</th>
+
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -72,6 +76,12 @@
                                                                 <td>@order.PaymentMethod</td>
                                                                 <td>@order.ShippingAddress</td>
                                                                 <td><a href="shop-cart.html" class="check-btn sqr-btn">View</a></td>
+                                                                <td>
+                                                                @{
+                                                                    await Html.RenderPartialAsync(ConstantPage.MainPage.ButtonCustom);
+                                                                }
+                                                                </td>
+                                                               
                                                             </tr>
                                                         }
                                                     </tbody>
