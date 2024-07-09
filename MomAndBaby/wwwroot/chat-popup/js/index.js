@@ -4,7 +4,6 @@ const connection = new signalR.HubConnectionBuilder()
     .build();
 
 // Get element storage userId
-const thisUserId = document.getElementById("user-id").value;
 const btnSendMessage = document.getElementById("groupmsg");
 
 // Prevent key on textarea 
@@ -33,20 +32,5 @@ scrollToEndOfPage();
 // Handle join group
 Array.from(document.getElementsByClassName("detail-group")).forEach((element, index) => {
     addEventClickJoinGroup(element);
-});
-
-// Add event listener for the group exist
-Array.from(document.getElementById("groups").getElementsByTagName("li")).forEach((element, index) => {
-
-    // Add event click active group
-    element.addEventListener("click", function () {
-        addEventClickForGroup(element);
-    });
-
-    // Add event load message for group click
-    addEventLoadMessageForGroup($(element));
-
-    // Add event leave group exist
-    addEventLeaveGroup(element);
 });
 

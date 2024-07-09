@@ -1,4 +1,4 @@
-CREATE TABLE [role] (
+﻿CREATE TABLE [role] (
 [id] int PRIMARY KEY IDENTITY(1, 1),
 [name] varchar(50)
 )
@@ -92,14 +92,13 @@ CREATE TABLE [Voucher] (
 FOREIGN KEY ([created_by]) REFERENCES [User] ([id])
 )
 
-
 CREATE TABLE [Message] (
   [id] int PRIMARY KEY IDENTITY(1, 1),
   [sender_id] uniqueidentifier references [User](id),
-  [receiver_id] uniqueidentifier references [User](id),
+  [receiver_id] uniqueidentifier,-- user này đang nhắn vào group nào
+  [is_system] bit,
   [content] varchar(max),
-  [created_at] datetime,
-  [is_system] bit
+  [created_at] datetime
 )
 
 CREATE TABLE [Order_Tracking] (

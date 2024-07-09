@@ -32,6 +32,8 @@ namespace MomAndBaby.Service.MessageCommunication
 				IsSystem = await _unitOfWork.UserRepository.IsStaff(senderId),
 				CreatedAt = DateTime.Now
 			};
+
+			await _unitOfWork.MessageRepository.AddMessage(message);
 			
 			if(await _unitOfWork.SaveChangesAsync())
 			{
@@ -42,9 +44,9 @@ namespace MomAndBaby.Service.MessageCommunication
 
 		}
 
-		public async Task<IEnumerable<MessageDTO>> GetMessages(Guid userId)
+		public IEnumerable<MessageDTO> GetMessages(Guid userId)
 		{
-			var messages = await _unitOfWork.MessageRepository.GetMessageCommunication(userId);
+			var messages = _unitOfWork.MessageRepository.GetMessageCommunication(userId);
 
 			return _mapper.Map<IEnumerable<MessageDTO>>(messages);
 		}
