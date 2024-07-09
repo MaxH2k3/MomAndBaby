@@ -186,6 +186,8 @@ namespace MomAndBaby.Service
 
         }
 
+        
+
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _unitOfWork.ProductRepository.GetTrendingItems();
