@@ -5,7 +5,6 @@ namespace MomAndBaby.Service
 {
     public interface IProductService
     {
-        Task<ProductDto> GetById(Guid productId);
         Task<IEnumerable<Product>> GetAll();
         Task<IEnumerable<Product>> GetNewItems();
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
@@ -16,9 +15,12 @@ namespace MomAndBaby.Service
         Task<bool> CreateProduct(ProductDto dto);
         Task<bool> UpdateProduct(ProductDto dto);
         Task<bool> SoftDeleteProduct(List<Guid> productIds);
+<<<<<<< HEAD
 
         Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria);
         Task<bool> SoftDeleteProduct(Guid productId);
+=======
+>>>>>>> parent of 0ef4ac0 (Merge branch 'Khang')
     }
 
 }
