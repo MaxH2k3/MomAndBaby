@@ -13,7 +13,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         {
             _articleService = articleService;
         }
-        public PaginatedList<ArticleDTO> Articles { get; set; }
+        public PaginatedList<Article> Articles { get; set; }
 
         public void OnGet(int pageIndex = 1)
         {

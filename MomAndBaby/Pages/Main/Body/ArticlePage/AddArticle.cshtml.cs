@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
-using MomAndBaby.Entity;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
 

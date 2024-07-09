@@ -1,4 +1,5 @@
 ﻿@page "/article-detail"
+@using MomAndBaby.BusinessObject.Constants
 @model ArticleDetailModel
 @{
 }
@@ -43,7 +44,7 @@
                                     <div class="content">
                                         <div class="meta">
                                             By,
-                                            <a class="author" href="blog.html">@Model.Article.AuthorName </a>
+                                            <a class="author" href="blog.html">@Model.Article.Author.Id </a>
                                             <span class="dots"></span><span class="post-date">@Model.Article.CreatedAt</span>
                                         </div>
                                         <h4 class="title">@Model.Article.Title</h4>
@@ -51,11 +52,14 @@
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    <a href="/edit-article?articleId=@Model.Article.Id" class="btn btn-primary">Edit</a>
-                                    <form method="post" asp-page-handler="Delete" style="display: inline;">
-                                        <input type="hidden" name="articleId" value="@Model.Article.Id" />
-                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                    </form>
+                                    @if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString() == Model.Article.Author.Id.ToString())
+                                    {
+                                        <a href="/edit-article?articleId=@Model.Article.Id" class="btn btn-primary">Edit</a>
+                                        <form method="post" asp-page-handler="Delete" style="display: inline;">
+                                            <input type="hidden" name="articleId" value="@Model.Article.Id" />
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
+                                    }
                                 </div>
                             </div>
                         </div>

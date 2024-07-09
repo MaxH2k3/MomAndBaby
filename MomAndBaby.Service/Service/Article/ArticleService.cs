@@ -18,7 +18,7 @@ namespace MomAndBaby.Service
 			_unitOfWork = unitOfWork;
 		}
 
-        public PaginatedList<ArticleDTO> GetListArticle(int pageNumber, int pageSize)
+        public PaginatedList<ArticleDTO> GetListArticleDTO(int pageNumber, int pageSize)
 		{
 			var articles = _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
 			var totalArticles = _unitOfWork.ArticleRepository.GetTotalArticlesCount();
@@ -34,6 +34,15 @@ namespace MomAndBaby.Service
 
 			return new PaginatedList<ArticleDTO>(articleDTOs, totalArticles, pageNumber, pageSize);
 		}
+
+
+        public PaginatedList<Article> GetListArticle(int pageNumber, int pageSize)
+        {
+            var articles = _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
+            var totalArticles = _unitOfWork.ArticleRepository.GetTotalArticlesCount();
+
+            return new PaginatedList<Article>(articles, totalArticles, pageNumber, pageSize);
+        }
 
         public ArticleDTO GetArticleDTOById(int id)
         {
@@ -51,7 +60,8 @@ namespace MomAndBaby.Service
 			return articleDTO;
         }
 
-		public void AddArticle(Article article)
+
+        public void AddArticle(Article article)
 		{
 			_unitOfWork.ArticleRepository.AddArticle(article);
 		}

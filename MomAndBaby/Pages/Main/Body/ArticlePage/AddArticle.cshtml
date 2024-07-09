@@ -1,7 +1,14 @@
 ﻿@page "/add-article"
+@using MomAndBaby.BusinessObject.Constants
 @model AddArticleModel
 @{
 	ViewData["Title"] = "Add Article";
+
+}
+
+@if (!User.Identity!.IsAuthenticated)
+{
+	Redirect("/article");
 }
 
 <main class="main-content">
@@ -17,7 +24,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</div>	 
 	</section>
 	<section class="edit-article-area">
 		<div class="container">
@@ -35,9 +42,7 @@
 							<span asp-validation-for="Article.Content" class="text-danger"></span>
 						</div>
 						<div class="form-group">
-							<label asp-for="Article.AuthorId"></label>
-							<input asp-for="Article.AuthorId" class="form-control" />
-							<span asp-validation-for="Article.AuthorId" class="text-danger"></span>
+							<input asp-for="Article.AuthorId" hidden value="@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()" class="form-control" />
 						</div>
 						<button type="submit" class="btn btn-primary">Post Article</button>
 					</form>
