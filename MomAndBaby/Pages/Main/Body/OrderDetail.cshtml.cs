@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 using MomAndBaby.Service.OrderService;
 
@@ -15,9 +16,10 @@ public class OrderDetail : PageModel
         _orderService = orderService;
     }
 
-    public void OnGet(int id)
+    public IEnumerable<OrderDetailResponseModel> listOrders { get; set; } = new List<OrderDetailResponseModel>();
+    public async Task OnGet(int id)
     {
        
-        _orderService.GetAllOrderDetailOrder(id);
+        listOrders = await _orderService.GetAllOrderDetailOrder(id);
     }
 }
