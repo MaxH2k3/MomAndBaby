@@ -73,6 +73,8 @@ namespace MomAndBaby.Repository
             return _context.Products.Include(p => p.Statistic).ToList();
         }
 
+        
+
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
         //    return await _context.Products.Where(p => p.TotalPurchase.HasValue).OrderByDescending(p => p.TotalPurchase).ToListAsync();

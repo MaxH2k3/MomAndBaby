@@ -141,9 +141,13 @@ namespace MomAndBaby.Service
             return mapper;
         }
 
-        public IEnumerable<Product> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
+        public async Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
-            var productsQuery =  _unitOfWork.ProductRepository.GetAllProduct();
+            var productsQuery =  await _unitOfWork.ProductRepository.GetAll();
+            if (categoryId.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId);
+            }
             if (startPrice.HasValue)
             {
                 productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice);
@@ -186,17 +190,25 @@ namespace MomAndBaby.Service
 
         }
 
+        public async Task<IEnumerable<ProductCategoryDto>> GetCategoryShopping()
+        {
+            var categories = await _unitOfWork.CategoryRepository.GetAllCategory();
+            var productCategory = _mapper.Map<IEnumerable< ProductCategoryDto>>(categories);
+            foreach (var category in productCategory)
+            {
+                var listProductByCategory = await _unitOfWork.ProductRepository.GetRelatedProducts(category.Id);
+                category.NumberOfProduct = listProductByCategory.Count();
+            }
+
+            return productCategory;
+            
+        }
+
+       
+
+
+
         
-
-        //public async Task<IEnumerable<Product>> GetTrendingItems()
-        //{
-        //    return await _unitOfWork.ProductRepository.GetTrendingItems();
-        //}
-
-        //public async Task<Product> UpdateTotalStar(Guid ProductId, int newRating)
-        //{
-        //    return await _unitOfWork.ProductRepository.UpdateTotalStar(ProductId, newRating);
-        //}
     }
     
 }

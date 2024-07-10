@@ -1,6 +1,17 @@
 ﻿@page "/productshopping"
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
 
+<style>
+    .category-link {
+        color: dimgray; /* Make it look like a link */
+       
+        cursor: pointer; /* Show a hand cursor on hover */
+    }
+
+    .category-link:hover {
+        color: hotpink; /* Change color on hover for visual feedback */
+    }
+</style>
 
 <main class="main-content">
     <!--== Start Page Title Area ==-->
@@ -127,13 +138,12 @@
                             <div class="widget-body">
                                 <div class="widget-categories">
                                     <ul>
-                                        <li><a href="shop.html">Accesasories <span>(6)</span></a></li>
-                                        <li><a href="shop.html">Computer <span>(4)</span></a></li>
-                                        <li><a href="shop.html">Covid-19 <span>(2)</span></a></li>
-                                        <li><a href="shop.html">Electronics <span>(6)</span></a></li>
-                                        <li><a href="shop.html">Frame Sunglasses <span>(12)</span></a></li>
-                                        <li><a href="shop.html">Furniture <span>(7)</span></a></li>
-                                        <li><a href="shop.html">Genuine Leather <span>(9)</span></a></li>
+                                        @foreach (var item in Model.ProductCategoryDto)
+                                        {
+                                            <li><span class="category-link" data-category-id="@item.Id">@item.Name <span>(@item.NumberOfProduct)</span></span></li>
+                                        }
+                                       
+                                       
                                     </ul>
                                 </div>
                             </div>
@@ -145,14 +155,14 @@
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-price-filter">
-                                        <form action="#" method="post">
-                                                <input type="text" id="search" placeholder="From">
-                                                <input type="text" id="search" placeholder="To">
+                                        @* <form action="#" method="post"> *@
+                                            <input type="text" id="searchFrom" value="" placeholder="From">
+                                            <input type="text" id="searchTo" value="" placeholder="To">
                                                 <button type="submit" class="btn-src">
                                                     <i class="pe-7s-search"></i>
                                                 </button>
                                          
-                                        </form>
+                                        @* </form> *@
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +204,7 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio8">
+                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio9">
                                         <label class="form-check-label" for="colorRadio9">
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
@@ -220,18 +230,33 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function () {
-            function filterProducts() {
-                var sortCriteria = $('.sort-option.active').data('sort') || 'Default';
-                var numOfStar = $('.form-check-input:checked').siblings('label').find('.fa-star').length || 0;
+            var currentCategoryId = null;
+
+            function filterProducts(categoryId) {
+                if (categoryId !== undefined) {
+                    currentCategoryId = categoryId;
+                }
+
+                var sortCriteria = $('.sort-option.active').data('sort');
+                var numOfStar = $('.form-check-input:checked').siblings('label').find('.fa-star').length || null;
+                var searchFrom = $('#searchFrom').val();
+                var searchTo = $('#searchTo').val();
+
+                console.log(currentCategoryId);
+
+
+                $("#searchFrom").val(searchFrom);
+                $("#searchTo").val(searchTo);
+
 
                 $('#current-sort').text(sortCriteria);
 
                 $.ajax({
-                    url: '/productshopping?handler=FilterProducts',
+                    url: '/api/v1/products/filter',
                     type: "GET",
                     contentType: "application/json",
                     dataType: "json",
-                    data: { sortCriteria: sortCriteria, numOfStars: numOfStar },
+                    data: { categoryId: currentCategoryId, startPrice: searchFrom, endPrice: searchTo, numOfStars: numOfStar, sortCriteria: sortCriteria },
                     success: function (data) {
                         console.log(data);
                         var productRow = $('#product-list');
@@ -303,6 +328,8 @@
                 });
             }
 
+
+            //Sort
             $('.sort-option').click(function (e) {
                 e.preventDefault();
                 $('.sort-option').removeClass('active');
@@ -310,8 +337,36 @@
                 filterProducts();
             });
 
-            $('.form-check-input').change(function () {
+
+            //Star
+            var lastSelected = null;
+
+
+            $('.form-check-input').on('click', function () {
+
+                if (lastSelected && lastSelected[0] === this) {
+                    $(this).prop('checked', false);
+                    lastSelected = null;
+                } else {
+                    lastSelected = $(this);
+                }
+
                 filterProducts();
+            });
+
+
+            //Search Price
+            $(".btn-src").click(function (e) {
+                e.preventDefault();
+                filterProducts();
+            });
+
+            //Category
+            $('.widget-categories ul li .category-link').on('click', function () {
+               
+                var categoryId = $(this).data('category-id');
+                console.log(categoryId);
+                filterProducts(categoryId);
             });
         });
     </script>

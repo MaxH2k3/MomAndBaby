@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Service;
 using Newtonsoft.Json;
 
 namespace MomAndBaby.Pages.Main.Body
@@ -9,10 +11,12 @@ namespace MomAndBaby.Pages.Main.Body
     public class ProductShoppingModel : PageModel
     {
         private readonly IProductService _productService;
+        private readonly ICategoryService _categoryService;
 
-        public ProductShoppingModel(IProductService productService)
+        public ProductShoppingModel(IProductService productService, ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
         
         }
 
@@ -20,34 +24,20 @@ namespace MomAndBaby.Pages.Main.Body
         public IEnumerable<Product> Products { get; set; }
         public int TotalProductsCount { get; set; }
         public int FilteredProductsCount { get; set; }
+        
+        public IEnumerable<ProductCategoryDto> ProductCategoryDto { get; set; }
+
+       
 
         public async Task OnGet()
         {
             Products = await _productService.GetAll();
             TotalProductsCount = Products.Count();
-            TotalProductsCount = Products.Count();
             FilteredProductsCount = TotalProductsCount;
+
+            ProductCategoryDto = await _productService.GetCategoryShopping();
         }
 
-        public IActionResult OnGetFilterProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria)
-        {
-            var products = _productService.GetFilteredProducts(startPrice, endPrice, numOfStars, sortCriteria);
-            TotalProductsCount = _productService.GetFilteredProducts(null, null, null, null).Count();
-
-
-            var jsonSettings = new JsonSerializerSettings
-            {
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-            };
-            var productJson = JsonConvert.SerializeObject(products, jsonSettings);
-            var response = new 
-            {
-                Products = productJson,
-                TotalProductsCount,
-                FilteredProductsCount = products.Count()
-
-            };
-            return new JsonResult(response);
-        }
+       
     }
 }
