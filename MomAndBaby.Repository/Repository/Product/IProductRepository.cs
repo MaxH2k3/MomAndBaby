@@ -16,6 +16,7 @@ namespace MomAndBaby.Repository
         Task DeleteProduct(Guid productIds);
         Task<bool> NameExistAsync(string name);
         Task<bool> NameUpdateExistAsync(Guid productId, string name);
+        Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
 
     }
 }

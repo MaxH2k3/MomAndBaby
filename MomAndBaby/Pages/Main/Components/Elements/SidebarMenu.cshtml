@@ -12,30 +12,81 @@
                 </div>
                 <div class="cart-content cart-content-padding">
                     <ul>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="shop-single-product.html"><img src="assets/img/shop/details/nav1.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="shop-single-product.html">Jigsaw Puzzles For Kids </a></h4>
-                                <span> 1 × <span class="price"> $12.00 </span></span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#/"><i class="pe-7s-trash icons"></i></a>
-                            </div>
-                        </li>
-                        <li class="single-product-cart">
-                            <div class="cart-img">
-                                <a href="shop-single-product.html"><img src="assets/img/shop/details/nav2.jpg" alt=""></a>
-                            </div>
-                            <div class="cart-title">
-                                <h4><a href="shop-single-product.html">Bruder Toys Mini Ships </a></h4>
-                                <span> 1 × <span class="price"> $59.00 </span></span>
-                            </div>
-                            <div class="cart-delete">
-                                <a href="#/"><i class="pe-7s-trash icons"></i></a>
-                            </div>
-                        </li>
+                        <script>
+                            $(document).ready(function () {
+                                function loadCart() {
+                                    $.ajax({
+                                        url: '/productshopping?handler=CartData',
+                                        type: 'GET',
+                                        success: function (products) {
+                                            renderCart(products);
+                                        },
+                                        error: function (error) {
+                                            console.log(error);
+                                        }
+                                    });
+                                }
+
+                                function renderCart(products) {
+                                    var cartContent = $('.cart-content ul');
+                                    cartContent.empty();
+
+                                    var subtotal = 0;
+
+                                    products.forEach(function (product) {
+                                        var productHtml = `
+                    <li class="single-product-cart">
+                        <div class="cart-img">
+                            <a href="shop-single-product.html"><img src="${product.imageUrl}" alt="${product.name}"></a>
+                        </div>
+                        <div class="cart-title">
+                            <h4><a href="shop-single-product.html">${product.name}</a></h4>
+                            <span> 1 × <span class="price"> $${product.price.toFixed(2)} </span></span>
+                        </div>
+                        <div class="cart-delete">
+                            <a href="#" class="delete-product" data-id="${product.id}"><i class="pe-7s-trash icons"></i></a>
+                        </div>
+                    </li>
+                `;
+                                        cartContent.append(productHtml);
+                                        subtotal += product.price;
+                                    });
+
+                                    $('.cart-total span').text(`$${subtotal.toFixed(2)}`);
+                                }
+
+                                // Load cart on page load
+                                loadCart();
+
+                                // Update cart when a product is added
+                                $('.add-to-cart-button').click(function () {
+                                    var productId = $(this).data('id');
+                                    $.ajax({
+                                        url: '/productshopping?handler=AddToCart',
+                                        type: 'POST',
+                                        data: { productId: productId },
+                                        success: function (response) {
+                                            if (response.success) {
+                                                loadCart();
+                                            } else {
+                                                alert("Error adding product to cart.");
+                                            }
+                                        },
+                                        error: function (error) {
+                                            console.log(error);
+                                            alert("Error adding product to cart.");
+                                        }
+                                    });
+                                });
+
+                                // Handle cart item deletion
+                                $(document).on('click', '.delete-product', function () {
+                                    var productId = $(this).data('id');
+                                    // TODO: Add AJAX call to remove product from cart session and then reload cart
+                                });
+                            });
+                        </script>
+
                     </ul>
                     <div class="cart-total">
                         <h4>Subtotal: <span>$278.90</span></h4>
