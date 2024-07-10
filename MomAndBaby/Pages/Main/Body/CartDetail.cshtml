@@ -1,0 +1,91 @@
+@page "/cart-detail"
+@model MomAndBaby.Pages.Main.Body.CartDetailModel
+
+@{
+    ViewData["Title"] = "Cart Details";
+}
+
+<main class="main-content">
+    <!-- Start Page Title Area -->
+    <section class="page-title-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 m-auto">
+                    <div class="page-title-content text-center">
+                        <h2 class="title">Cart Details</h2>
+                        <div class="bread-crumbs">
+                            <a href="index.html">Home</a>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Page Title Area -->
+
+    <!-- Start Cart Area Wrapper -->
+    <section class="product-area cart-page-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <div class="section-title text-center">
+                        <h2 class="title">Cart Details</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table-wrap">
+                        <div class="cart-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width-thumbnail">Image</th>
+                                        <th class="width-name">Product Name</th>
+                                        <th class="width-price">Price</th>
+                                        <th class="width-quantity">Quantity</th>
+                                        <th class="width-subtotal">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cart in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <img src="@cart.Image" alt="@cart.Name">
+                                            </td>
+                                            <td class="product-name">
+                                                <h5>@cart.Name</h5>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount">@cart.UnitPrice?.ToString("C")</span>
+                                            </td>
+                                            <td class="cart-quality">
+                                                <div class="product-details-quality">
+                                                    <input type="number" class="input-text qty text" step="1" min="1" value="@cart.NumberOfProduct" title="Quantity" readonly>
+                                                </div>
+                                            </td>
+                                            <td class="product-total">
+                                                <span>@(cart.UnitPrice * cart.NumberOfProduct)?.ToString()</span>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="cart-shiping-update-wrapper">
+                        <div class="cart-shiping-btn continure-btn">
+                            <a class="btn btn-link" href="myaccount"><i class="ion-ios-arrow-left"></i> Back To My Account</a>
+                        </div>
+                        <div class="cart-shiping-btn update-btn">
+                            <a class="btn btn-link" href="shop"><i class="ion-ios-reload"></i> Back To Shop</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Cart Area Wrapper -->
+</main>

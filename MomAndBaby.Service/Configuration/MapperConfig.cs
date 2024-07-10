@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 
 namespace MomAndBaby.Service.Configuration
@@ -10,7 +11,9 @@ namespace MomAndBaby.Service.Configuration
 		public MapperConfig()
 		{
 			CreateMap<Message, MessageDTO>().ReverseMap();
-			CreateMap<Product, ProductDto>();
+			CreateMap<Product, ProductDto>().ReverseMap();
+			CreateMap<ProductDto, CartSessionModel>().ReverseMap();
+
 			CreateMap<ProductDto, Product>()
 				.ForPath(dest => dest.CategoryNavigation, opt => opt.Ignore())
 				.ForPath(dest => dest.Statistic, opt => opt.Ignore());
