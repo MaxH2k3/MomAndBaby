@@ -18,7 +18,7 @@
 
             public const string QuickView = "QuickView";
 
-            public const string Chat = "../Chat/Menu";
+            public const string Chat = PrePathComponentMain + "/Chat/Component/DisplayMessage";
         }
 
         // Set up path for each page on Dashboard

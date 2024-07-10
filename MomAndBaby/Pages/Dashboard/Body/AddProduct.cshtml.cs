@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
+using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body;
 
@@ -11,7 +13,7 @@ public class AddProduct : PageModel
     
     [BindProperty]
     public ProductDto ProductDto { get; set; }
-    
+
     public AddProduct(IProductService productService)
     {
         _productService = productService;
@@ -20,7 +22,7 @@ public class AddProduct : PageModel
 
     public void OnGet()
     {
-        
+        TempData[VariableConstant.CurrentMenu] = (int)Menu.ProductAdd;
     }
 
     public async Task<IActionResult> OnPostSave()

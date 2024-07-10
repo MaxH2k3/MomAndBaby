@@ -47,21 +47,10 @@
                     <!-- Description -->
                     <div>
                         <label class="form-label">Description <span class="text-muted">(Optional)</span></label>
-                        <div class="form-control p-0 pt-1">
-                            <div class="comment-toolbar border-0 border-bottom">
-                                <div class="d-flex justify-content-start">
-                                    <span class="ql-formats me-0">
-                                        <button class="ql-bold"></button>
-                                        <button class="ql-italic"></button>
-                                        <button class="ql-underline"></button>
-                                        <button class="ql-list" value="ordered"></button>
-                                        <button class="ql-list" value="bullet"></button>
-                                        <button class="ql-link"></button>
-                                        <button class="ql-image"></button>
-                                    </span>
+                        <div class="form-control p-0">
+                            <div class="comment-editor border-0" id="ecommerce-category-description">
+                                <div id="editor" style="width: 100%; height: 100%;">
                                 </div>
-                            </div>
-                            <div class="comment-editor border-0 pb-4" id="ecommerce-category-description">
                             </div>
 
                         </div>
@@ -443,3 +432,11 @@
 </div>
 </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+       let quill = new Quill('#editor', {
+               theme: 'snow'
+             }); 
+    });
+</script>
