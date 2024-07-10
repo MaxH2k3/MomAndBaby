@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
@@ -17,9 +18,9 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 
         [BindProperty]
         public Article Article { get; set; }
-
         public void OnGet()
         {
+
         }
 
         public IActionResult OnPost()

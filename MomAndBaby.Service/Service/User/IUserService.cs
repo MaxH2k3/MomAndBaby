@@ -11,6 +11,7 @@ namespace MomAndBaby.Service
         Task<User?> GetUserByEmail(string email);
         Task<bool> SigninGoogle(User user);
         Task<User> UpdateUser(string email, UpdateUserDto updateUserDto);
+        Task<User> getUserById(Guid? id);
 
     }
 }

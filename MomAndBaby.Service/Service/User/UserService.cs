@@ -7,101 +7,102 @@ using MomAndBaby.Service.Helper;
 
 namespace MomAndBaby.Service
 {
-    public class UserService : IUserService
-    {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
+	public class UserService : IUserService
+	{
+		private readonly IUnitOfWork _unitOfWork;
+		private readonly IMapper _mapper;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
-        {
-            _unitOfWork = unitOfWork;
-            _mapper = mapper;
-        }
+		public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+		{
+			_unitOfWork = unitOfWork;
+			_mapper = mapper;
+		}
 
-        public async Task<bool> AddNewUser(LoginUserDto loginUser)
-        {
-            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
-            if (userCheck == null)
-            {
-                var userEntity = new User();
+		public async Task<bool> AddNewUser(LoginUserDto loginUser)
+		{
+			var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
+			if (userCheck == null)
+			{
+				var userEntity = new User();
 
-                AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                userEntity.Email = loginUser.Email;
-                userEntity.Username = loginUser.UserName;
-                userEntity.Id = Guid.NewGuid();
-                userEntity.Password = passwordHash;
-                userEntity.PasswordSalt = passwordSalt;
-               
-                await _unitOfWork.UserRepository.AddUser(userEntity);
-            }
-            else
-            {
-                return false;
-            }
-                
-            return await _unitOfWork.SaveChangesAsync();
-        }
+				AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+				userEntity.Email = loginUser.Email;
+				userEntity.Username = loginUser.UserName;
+				userEntity.Id = Guid.NewGuid();
+				userEntity.Password = passwordHash;
+				userEntity.PasswordSalt = passwordSalt;
 
-        public async Task<bool> SigninGoogle(User user)
-        {
-            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
-            if(userCheck == null)
-            {
-                await _unitOfWork.UserRepository.AddUser(user);
-                return await _unitOfWork.SaveChangesAsync();
-            }
-            else
-            {
-                return true;
-            }
-            
-            
-        }
+				await _unitOfWork.UserRepository.AddUser(userEntity);
+			}
+			else
+			{
+				return false;
+			}
 
-        public async Task<User?> GetUserByEmail(string email)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
+			return await _unitOfWork.SaveChangesAsync();
+		}
 
-            
-            return user;
-        }
+		public async Task<bool> SigninGoogle(User user)
+		{
+			var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
+			if (userCheck == null)
+			{
+				await _unitOfWork.UserRepository.AddUser(user);
+				return await _unitOfWork.SaveChangesAsync();
+			}
+			else
+			{
+				return true;
+			}
+		}
 
-        public async Task<User?> Login(string userSelection, string password)
-        {
-            var user = await _unitOfWork.UserRepository.GetUserByUsernameOrEmail(userSelection);
+		public async Task<User?> GetUserByEmail(string email)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
+			return user;
+		}
 
-            if (user == null)
-            {
-                return null;
-            }
+		public async Task<User?> Login(string userSelection, string password)
+		{
+			var user = await _unitOfWork.UserRepository.GetUserByUsernameOrEmail(userSelection);
 
-            if (!AuthenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
-            {
-                return null;
-            }
+			if (user == null)
+			{
+				return null;
+			}
 
-            return user;
-        }
+			if (!AuthenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
+			{
+				return null;
+			}
 
-        public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
-        {
-            var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
-            if (existUser != null)
-            {
-                existUser.Username = updateUserDto.UserName;
-                existUser.FullName = updateUserDto.FullName;
-                existUser.Address = updateUserDto.Address;
-                existUser.PhoneNumber = updateUserDto.PhoneNumber;
-                if(updateUserDto.Password != null)
-                {
-                    AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+			return user;
+		}
 
-                    existUser.Password = passwordHash;
-                    existUser.PasswordSalt = passwordSalt;
-                }
-            }
-            await _unitOfWork.UserRepository.UpdateUser(existUser);
-            return existUser;
-        }
-    }
+		public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
+		{
+			var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
+			if (existUser != null)
+			{
+				existUser.Username = updateUserDto.UserName;
+				existUser.FullName = updateUserDto.FullName;
+				existUser.Address = updateUserDto.Address;
+				existUser.PhoneNumber = updateUserDto.PhoneNumber;
+				if (updateUserDto.Password != null)
+				{
+					AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+
+					existUser.Password = passwordHash;
+					existUser.PasswordSalt = passwordSalt;
+				}
+			}
+			await _unitOfWork.UserRepository.UpdateUser(existUser);
+			return existUser;
+		}
+
+		public async Task<User> getUserById(Guid? id)
+		{
+			return await _unitOfWork.UserRepository.getUserById(id);
+		}
+	}
 }
