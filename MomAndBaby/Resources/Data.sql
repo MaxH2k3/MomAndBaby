@@ -2,8 +2,8 @@
 INSERT INTO [role] ([name])
 VALUES 
 ('Admin'),
+('Staff'),
 ('Customer'),
-('Seller'),
 ('Guest');
 
 -- Insert data into [Status]

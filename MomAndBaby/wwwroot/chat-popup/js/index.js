@@ -14,7 +14,7 @@ document.getElementById("group-message-text").addEventListener("keydown", (e) =>
     }
 });
 
-// Scroll to page at the begining
+// Scroll to page at the beginning
 scrollToEndOfPage();
 
 // We need an async function in order to use await, but we want this code to run immediately,
@@ -22,15 +22,22 @@ scrollToEndOfPage();
 (async () => {
     try {
         await connection.start();
-    }
-    catch (e) {
+        joinGroup(); // Invoke joinGroup after the connection is started
+    } catch (e) {
         console.error(e.toString());
     }
 })();
-
 
 // Handle join group
 Array.from(document.getElementsByClassName("detail-group")).forEach((element, index) => {
     addEventClickJoinGroup(element);
 });
 
+// join group
+const joinGroup = async () => {
+    try {
+        await connection.invoke("JoinGroupAsync", thisUserId);
+    } catch (e) {
+        console.error(e.toString());
+    }
+};

@@ -14,7 +14,7 @@ namespace MomAndBaby.Repository
 
         public async Task<Product?> GetById(Guid productId)
         {
-            return await _context.Products.FindAsync(productId);
+            return await _context.Products.Include(x => x.CategoryNavigation).FirstOrDefaultAsync(x => x.Id == productId);
         }
         
         public async Task<IEnumerable<Product>> GetAll()
@@ -36,6 +36,12 @@ namespace MomAndBaby.Repository
         {
             return await _context.Products.Include(p => p.Statistic).OrderByDescending(p => p.Statistic.TotalPurchase).Take(8).ToListAsync();
         }
+
+        public async Task<IEnumerable<Product>> GetRelatedProducts(int categoryId)
+        {
+            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId).Take(6).ToListAsync();
+        }
+
         public async Task CreateProduct(Product product)
         {
             await _context.Products.AddAsync(product);
@@ -60,6 +66,13 @@ namespace MomAndBaby.Repository
         public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
         {
             return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
+        }
+
+        public async Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds)
+        {
+            return await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync();
         }
 
         //public async Task<IEnumerable<Product>> GetTrendingItems()

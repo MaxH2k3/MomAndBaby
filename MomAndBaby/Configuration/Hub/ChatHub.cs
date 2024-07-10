@@ -34,7 +34,10 @@ namespace MomAndBaby.Configuration.Hub
 			await Clients.Group(userId.ToString()).LoadMessage(messages);
 		}
 
-
+		public async Task JoinGroupAsync(Guid userId)
+		{
+			await Groups.AddToGroupAsync(Context.ConnectionId, userId.ToString());
+        }
 
 
     }
