@@ -25,12 +25,23 @@ namespace MomAndBaby.Service
 			{
 				var userEntity = new User();
 
-				AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
-				userEntity.Email = loginUser.Email;
-				userEntity.Username = loginUser.UserName;
-				userEntity.Id = Guid.NewGuid();
-				userEntity.Password = passwordHash;
-				userEntity.PasswordSalt = passwordSalt;
+                AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
+                userEntity.Email = loginUser.Email;
+                userEntity.Username = loginUser.UserName;
+                userEntity.FullName = loginUser.UserName;
+                userEntity.Id = Guid.NewGuid();
+                userEntity.Password = passwordHash;
+                userEntity.PasswordSalt = passwordSalt;
+               
+                await _unitOfWork.UserRepository.AddUser(userEntity);
+            }
+            else
+            {
+                return false;
+            }
+                
+            return await _unitOfWork.SaveChangesAsync();
+        }
 
 				await _unitOfWork.UserRepository.AddUser(userEntity);
 			}
