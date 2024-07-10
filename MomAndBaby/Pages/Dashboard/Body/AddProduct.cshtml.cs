@@ -22,7 +22,7 @@ public class AddProduct : PageModel
 
     public void OnGet()
     {
-        TempData[VariableConstant.CurrentMenu] = (int)Menu.ProductAdd;
+        ViewData[VariableConstant.CurrentMenu] = (int)Menu.ProductAdd;
     }
 
     public async Task<IActionResult> OnPostSave()

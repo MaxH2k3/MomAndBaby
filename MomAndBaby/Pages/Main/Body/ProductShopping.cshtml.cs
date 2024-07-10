@@ -5,6 +5,7 @@ using MomAndBaby.Service;
 
 namespace MomAndBaby.Pages.Main.Body
 {
+    [IgnoreAntiforgeryToken]
     public class ProductShoppingModel : PageModel
     {
         private readonly IProductService _productService;
@@ -29,6 +30,7 @@ namespace MomAndBaby.Pages.Main.Body
             Products = await _productService.GetFilteredProducts(startPrice, endPrice, numOfStars, sortCriteria);
             return new JsonResult(Products); ;
         }
+
         public async Task<IActionResult> OnPostAddToCart(Guid productId)
         {
             var cart = HttpContext.Session.GetString("Cart");

@@ -118,6 +118,22 @@
     <!-- Editor JS -->
     <script src="~/quill-editor/editor.js"></script>
     
-</body>
+    <!-- Custom JS -->
+    <script src="~/dashboard/assets/js/custom.js"></script>
+    
+    @* active sidebar *@
+        @{
+            var currentMenu = 0;
+            Console.WriteLine(ViewData[VariableConstant.CurrentMenu]);
+            currentMenu = ViewData[VariableConstant.CurrentMenu] != null ? (int)ViewData[VariableConstant.CurrentMenu]! : currentMenu;
+        }
+     <script>
+        $(document).ready(function () {
+            let currentMenu = @(currentMenu);
+            changeActiveMenu(currentMenu);
+        });
+     </script>
+    
+    </body>
 
 </html>

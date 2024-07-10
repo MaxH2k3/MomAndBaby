@@ -9,7 +9,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
     {
         public void OnGet()
         {
-            TempData[VariableConstant.CurrentMenu] = (int)Menu.Dashboard;
+            ViewData[VariableConstant.CurrentMenu] = (int)Menu.Dashboard;
         }
     }
 }

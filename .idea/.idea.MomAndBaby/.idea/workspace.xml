@@ -9,19 +9,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="14e94a14-8c7a-43ef-a181-dfbddb6357fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MomAndBaby/Utilities/Constants/VariableConstant.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/AddProduct.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/AddProduct.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/AddProduct.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/AddProduct.cshtml.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/Dashboard.cshtml.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Body/Dashboard.cshtml.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MomAndBaby/wwwroot/dashboard/assets/js/custom.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Components/Common/Menu.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Components/Common/Menu.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Main/Components/Chat/Chat.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Main/Components/Chat/Chat.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Shared/_LayoutDashboard.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Shared/_LayoutDashboard.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Utilities/Constants/ConstantPage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Utilities/Constants/ConstantPage.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -101,6 +104,7 @@
       <option name="presentableId" value="Default" />
       <updated>1720570820812</updated>
       <workItem from="1720570826422" duration="4815000" />
+      <workItem from="1720578446461" duration="11748000" />
     </task>
     <servers />
   </component>
