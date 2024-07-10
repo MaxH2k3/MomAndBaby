@@ -10,7 +10,10 @@ namespace MomAndBaby.Repository
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
         Task<IEnumerable<Product>> GetHighestRating();
         Task<IEnumerable<Product>> GetTrendingItems();
+        Task<IEnumerable<Product>> GetRelatedProducts(int categoryId);
         //Task<Product> UpdatePurchase(Guid ProductId);
+        
+        //CRUD
         Task CreateProduct(Product product);
         void UpdateProduct(Product product);
         Task DeleteProduct(Guid productIds);

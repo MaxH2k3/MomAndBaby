@@ -16,7 +16,7 @@ namespace MomAndBaby.Service
         Task<bool> CreateProduct(ProductDto dto);
         Task<bool> UpdateProduct(ProductDto dto);
         Task<bool> SoftDeleteProduct(Guid productId);
-
+        Task<IEnumerable<ProductDto>> GetRelatedProducts(int categoryId);
         Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria);
         Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
 
