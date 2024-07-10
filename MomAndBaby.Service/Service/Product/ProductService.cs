@@ -141,21 +141,33 @@ namespace MomAndBaby.Service
             return mapper;
         }
 
-        public async Task<IEnumerable<Product>> GetFilteredProducts(decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
+        public async Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
-            var productsQuery = await _unitOfWork.ProductRepository.GetAll();
+            var productsQuery =  await _unitOfWork.ProductRepository.GetAll();
+            if (categoryId.HasValue)
+            {
+                productsQuery = productsQuery.Where(p => p.CategoryId == categoryId);
+            }
             if (startPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice);
             }
             if (endPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice.Value);
+                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice);
             }
 
             if (numOfStars.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.Statistic.AverageStar == numOfStars.Value);
+                if(numOfStars == 5)
+                {
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar == numOfStars);
+                }
+                else
+                {
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars && p.Statistic.AverageStar < (numOfStars + 1));
+                }
+                
             }
 
             switch (sortCriteria)
@@ -169,7 +181,7 @@ namespace MomAndBaby.Service
                 case "Date":
                     productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
                     break;
-                case "Default":
+                default:
                     break;
                 
             }
@@ -187,11 +199,25 @@ namespace MomAndBaby.Service
         //{
         //    return await _unitOfWork.ProductRepository.GetTrendingItems();
         //}
+        public async Task<IEnumerable<ProductCategoryDto>> GetCategoryShopping()
+        {
+            var categories = await _unitOfWork.CategoryRepository.GetAllCategory();
+            var productCategory = _mapper.Map<IEnumerable< ProductCategoryDto>>(categories);
+            foreach (var category in productCategory)
+            {
+                var listProductByCategory = await _unitOfWork.ProductRepository.GetRelatedProducts(category.Id);
+                category.NumberOfProduct = listProductByCategory.Count();
+            }
 
-        //public async Task<Product> UpdateTotalStar(Guid ProductId, int newRating)
-        //{
-        //    return await _unitOfWork.ProductRepository.UpdateTotalStar(ProductId, newRating);
-        //}
+            return productCategory;
+            
+        }
+
+       
+
+
+
+        
     }
     
 }

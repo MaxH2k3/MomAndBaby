@@ -1,0 +1,181 @@
+﻿
+
+<div class="tab-pane fade show active" id="column-three" role="tabpanel" aria-labelledby="column-three-tab">
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-sm-6 col-md-4">
+                <!-- Start Product Item -->
+                <div class="product-item">
+                    <div class="product-thumb">
+                        <img src="assets/img/shop/1.png" alt="Image">
+                        <div class="product-action">
+                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="rating">
+                            @{
+                                double averageStar = product.Statistic.AverageStar;
+                                int fullStars = (int)averageStar; // Number of full stars
+                                bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                            }
+                            @for (int i = 0; i < fullStars; i++)
+                            {
+                                <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @if (hasHalfStar)
+                            {
+                                <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @for (int i = 0; i < emptyStars; i++)
+                            {
+                                <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                            }
+                            <h4>@product.Statistic.AverageStar</h4>
+                        </div>
+                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                        <div class="prices">
+                            <span class="price">@product.UnitPrice</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Product Item -->
+            </div>
+        }
+
+
+    </div>
+</div>
+<div class="tab-pane fade" id="nav-list" role="tabpanel" aria-labelledby="nav-list-tab">
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-12 product-items-list">
+                <!-- Start Product Item -->
+                <div class="product-item">
+                    <div class="product-thumb">
+                        <img src="assets/img/shop/1.png" alt="Image">
+                        <div class="product-action">
+                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="rating">
+                            @{
+                                double averageStar = product.Statistic.AverageStar;
+                                int fullStars = (int)averageStar; // Number of full stars
+                                bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                            }
+                            @for (int i = 0; i < fullStars; i++)
+                            {
+                                <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @if (hasHalfStar)
+                            {
+                                <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @for (int i = 0; i < emptyStars; i++)
+                            {
+                                <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                            }
+                            <h4>@product.Statistic.AverageStar</h4>
+                        </div>
+                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                        <div class="prices">
+                            <span class="price">@product.UnitPrice</span>
+                        </div>
+                        <p>@product.Description</p>
+                    </div>
+                </div>
+                <!-- End Product Item -->
+            </div>
+        }
+    </div>
+</div>
+<div class="tab-pane fade" id="column-two" role="tabpanel" aria-labelledby="column-two-tab">
+    <div class="row">
+        @foreach (var product in Model.Products)
+        {
+            <div class="col-sm-6">
+                <!-- Start Product Item -->
+                <div class="product-item">
+                    <div class="product-thumb">
+                        <img src="assets/img/shop/1.png" alt="Image">
+                        <div class="product-action">
+                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
+                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="rating">
+                            @{
+                                double averageStar = product.Statistic.AverageStar;
+                                int fullStars = (int)averageStar; // Number of full stars
+                                bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+                                int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+                            }
+                            @for (int i = 0; i < fullStars; i++)
+                            {
+                                <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @if (hasHalfStar)
+                            {
+                                <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                            }
+                            @for (int i = 0; i < emptyStars; i++)
+                            {
+                                <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                            }
+                            <h4>@product.Statistic.AverageStar</h4>
+                        </div>
+                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                        <div class="prices">
+                            <span class="price">@product.UnitPrice</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Product Item -->
+            </div>
+
+        }
+    </div>
+    }
+</div>
+               
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="pagination-area mb-md-50">
+            <nav>
+                <ul class="page-numbers justify-content-end">
+                    <li>
+                        <a class="page-number active" href="blog.html">1</a>
+                    </li>
+                    <li>
+                        <a class="page-number" href="blog.html">2</a>
+                    </li>
+                    <li>
+                        <a class="page-number" href="blog.html">3</a>
+                    </li>
+                    <li>
+                        <a class="page-number next" href="blog.html">
+                            <i class="fa fa-angle-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+                </div>

@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.Repository;
+using MomAndBaby.Repository.Repository;
 
 namespace MomAndBaby.Repository.Uow
 {
@@ -15,6 +16,7 @@ namespace MomAndBaby.Repository.Uow
         IReviewRepository ReviewRepository { get; }
         IUserRepository UserRepository { get; }
         IVoucherRepository VoucherRepository { get; }
+        ICategoryRepository CategoryRepository { get; }
     
 
         Task<bool> SaveChangesAsync();

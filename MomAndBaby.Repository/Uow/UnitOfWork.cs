@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.Repository.Repository;
 
 namespace MomAndBaby.Repository.Uow
 {
@@ -17,6 +18,7 @@ namespace MomAndBaby.Repository.Uow
         private readonly IReviewRepository _reviewRepository = null!;
         private readonly IUserRepository _userRepository = null!;
         private readonly IVoucherRepository _voucherRepository = null!;
+        private readonly ICategoryRepository _categoryRepository = null!;
 
         public UnitOfWork(MomAndBabyContext context)
         {
@@ -39,6 +41,7 @@ namespace MomAndBaby.Repository.Uow
         public IReviewRepository ReviewRepository => _reviewRepository ?? new ReviewRepository(_context);
         public IUserRepository UserRepository => _userRepository ?? new UserRepository(_context);
         public IVoucherRepository VoucherRepository => _voucherRepository ?? new VoucherRepository(_context);
+        public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
 
         public void Dispose()
         {
