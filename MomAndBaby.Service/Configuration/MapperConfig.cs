@@ -22,6 +22,10 @@ namespace MomAndBaby.Service.Configuration
 				.ForMember(x => x.ProductName, opt => opt.MapFrom(src => src.Product.Name))
 				.ForMember(x => x.ProductImage, opt => opt.MapFrom(src => src.Product.Image))
 				.ReverseMap();
-		}
+
+
+			//CreateMap<IEnumerable< ProductCategoryDto>, IEnumerable<Category>>().ReverseMap();
+            CreateMap<Category, ProductCategoryDto>().ReverseMap();
+        }
 	}
 }

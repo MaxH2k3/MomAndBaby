@@ -10,6 +10,7 @@ using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Service.OrderService;
+using MomAndBaby.Service.Service;
 using MomAndBaby.Service.Service.PayPalService;
 using MomAndBaby.Utilities.Constants;
 
@@ -43,6 +44,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
 
 builder.Services.AddSession();
 
@@ -98,6 +101,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+app.MapControllers();
 
 app.MapHub<ChatHub>(SystemConstant.HubConnection);
 
