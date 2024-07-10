@@ -47,6 +47,7 @@
                     <!-- Description -->
                     <div>
                         <label class="form-label">Description <span class="text-muted">(Optional)</span></label>
+                        <input id="editor-input"  type="hidden" value="" />
                         <div class="form-control p-0">
                             <div class="comment-editor border-0" id="ecommerce-category-description">
                                 <div id="editor" style="width: 100%; height: 100%;">
@@ -432,11 +433,3 @@
 </div>
 </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-       let quill = new Quill('#editor', {
-               theme: 'snow'
-             }); 
-    });
-</script>
