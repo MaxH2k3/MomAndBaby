@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
+using MomAndBaby.Utilities.Helper;
 
 namespace MomAndBaby.Pages.Main.Body
 {
@@ -12,7 +13,15 @@ namespace MomAndBaby.Pages.Main.Body
         {
             _userService = userService;
         }
-       
+
+        public IActionResult OnGet()
+        {
+            if (HttpContext.Session.IsAuthenticated())
+            {
+                return Redirect("/");
+            }
+            return Page();
+        }
 
         public async Task<IActionResult> OnPostRegisterAccount()
         {

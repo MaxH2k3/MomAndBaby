@@ -1,7 +1,19 @@
 ﻿@page "/productshopping"
+@using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
+@{
+    var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
+}
 
 <style>
+    .sort-option.active {
+        background-color: hotpink !important;
+    }
+
+    .selected-category{
+        color: hotpink !important;
+    }
+
     .category-link {
         color: dimgray; /* Make it look like a link */
 
@@ -11,6 +23,10 @@
     .category-link:hover {
         color: hotpink; /* Change color on hover for visual feedback */
     }
+
+    
+   
+    
 </style>
 
 <main class="main-content">
@@ -42,15 +58,22 @@
 
                         <div class="product-sorting-menu product-sorting">
                             <span class="current">Sort By : <span id="current-sort"> Default <i class="fa fa-angle-down"></i></span></span>
-                            <ul id="sort-options">
-                                <li class="active"><a  data-sort="Default" class="sort-option">Sort by Default</a></li>
-                                <li><a  data-sort="Purchases" class="sort-option">Sort by Purchases</a></li>
-                                <li><a  data-sort="Star" class="sort-option">Sort by Star</a></li>
-                                <li><a  data-sort="Date" class="sort-option">Sort by Date</a></li>
+                            <!-- <div class="sorting"> -->
+                                <ul id="sort-options">
+                                    <li><a data-sort="Default" class="sort-option active">Sort by Default</a></li>
+                                    <li><a data-sort="Purchases" class="sort-option">Sort by Purchases</a></li>
+                                    <li><a data-sort="Star" class="sort-option">Sort by Star</a></li>
+                                    <li><a data-sort="Date" class="sort-option">Sort by Date</a></li>
+                                    <li><a data-sort="IncreasePrice" class="sort-option">Sort by Increasing Price</a></li>
+                                    <li><a data-sort="DecreasePrice" class="sort-option">Sort by Decreasing Price</a></li>
 
-                            </ul>
+                                </ul>
+                            <!-- </div> -->
                         </div>
+                        
+                        
                     </div>
+                    
                     <div  class="tab-content" id="nav-tabContent">
                         <div class="tab-pane fade show active" id="column-three" role="tabpanel" aria-labelledby="column-three-tab">
                             <div class="row" id="product-list">
@@ -106,26 +129,37 @@
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="pagination-area mb-md-50">
-                                <nav>
-                                    <ul class="page-numbers justify-content-end">
-                                        <li>
-                                            <a class="page-number active" href="blog.html">1</a>
-                                        </li>
-                                        <li>
-                                            <a class="page-number" href="blog.html">2</a>
-                                        </li>
-                                        <li>
-                                            <a class="page-number" href="blog.html">3</a>
-                                        </li>
-                                        <li>
-                                            <a class="page-number next" href="blog.html">
-                                                <i class="fa fa-angle-right"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
+                            @if (Model.FilteredProductsCount > 9)
+                            {
+                                <div class="pagination-area mb-md-50">
+                                    <nav>
+                                        <ul class="page-numbers justify-content-end">
+                                            @{
+
+                                                double divisionResult = (double)Model.TotalProductsCount / 9;
+                                                int totalPages = (int)Math.Ceiling(divisionResult);
+                                                int currentPage = 1;
+
+                                                for (int i = 1; i <= totalPages; i++)
+                                                {
+                                                    <li>
+                                                        <a class="page-number @(i == currentPage ? "active" : "")" data-page="@i">@i</a>
+                                                    </li>
+                                                }
+                                                if (totalPages > 1 && currentPage < totalPages)
+                                                {
+                                                    <li>
+                                                        <a class="page-number next">
+                                                            <i class="fa fa-angle-right"></i>
+                                                        </a>
+                                                    </li>
+                                                }
+                                            }
+                                        </ul>
+                                    </nav>
+                                </div>
+                            }
+                            
                         </div>
                     </div>
                 </div>
@@ -227,173 +261,7 @@
 </main>
 
 @section Scripts {
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-            function addToCart(productId) {
-                $.ajax({
-                    url: '/productshopping?handler=AddToCart',
-                    type: 'POST',
-                    data: { productId: productId },
-                    success: function (response) {
-                        console.log(response);
-                        if(response.success) {
-                            alert("Product added to cart successfully!");
-                            // Optionally, you can update the cart icon or other UI elements here
-                        } else {
-                            alert("Error adding product to cart.");
-                        }
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        alert("Error adding product to cart.");
-                    }
-                });
-            }
-
-            $(document).ready(function () {
-                var currentCategoryId = null;
-
-                function filterProducts(categoryId) {
-                    if (categoryId !== undefined) {
-                        currentCategoryId = categoryId;
-                    }
-
-                    var sortCriteria = $('.sort-option.active').data('sort');
-                    var numOfStar = $('.form-check-input:checked').siblings('label').find('.fa-star').length || null;
-                    var searchFrom = $('#searchFrom').val();
-                    var searchTo = $('#searchTo').val();
-
-                    console.log(currentCategoryId);
-
-
-                    $("#searchFrom").val(searchFrom);
-                    $("#searchTo").val(searchTo);
-
-
-                    $('#current-sort').text(sortCriteria);
-
-                    $.ajax({
-                        url: '/api/v1/products/filter',
-                        type: "GET",
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: { categoryId: currentCategoryId, startPrice: searchFrom, endPrice: searchTo, numOfStars: numOfStar, sortCriteria: sortCriteria },
-                        success: function (data) {
-                            console.log(data);
-                            var productRow = $('#product-list');
-                            productRow.empty();
-
-                            // Check if data is a JSON string, if so parse it
-                            if (typeof data === 'string') {
-                                data = JSON.parse(data);
-                            }
-
-
-                            const productsArray = JSON.parse(data.products);
-                            const filter = JSON.parse(data.filteredProductsCount);
-                            const total = JSON.parse(data.totalProductsCount);
-
-                            productsArray.forEach(function (product) {
-                                console.log(product);
-                                var fullStars = Math.floor(product.Statistic.AverageStar);
-                                var hasHalfStar = (product.Statistic.AverageStar - fullStars) >= 0.5;
-                                var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-
-                                var starsHtml = '';
-                                for (var i = 0; i < fullStars; i++) {
-                                    starsHtml += '<span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>';
-                                }
-                                if (hasHalfStar) {
-                                    starsHtml += '<span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>';
-                                }
-                                for (var i = 0; i < emptyStars; i++) {
-                                    starsHtml += '<span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>';
-                                }
-
-                                var productHtml = `
-                                            <div class="col-sm-6 col-md-4">
-                                                <!-- Start Product Item -->
-                                                <div class="product-item">
-                                                    <div class="product-thumb">
-                                                        <img src="assets/img/shop/1.png" alt="Image">
-                                                        <div class="product-action">
-                                                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-info">
-                                                        <div class="rating">
-                                                            ${starsHtml}
-                                                            <h4>${product.Statistic.AverageStar}</h4>
-                                                        </div>
-                                                        <h4 class="title"><a href="shop-single-product.html">${product.Name}</a></h4>
-                                                        <div class="prices">
-                                                            <span class="price">${product.UnitPrice}</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <!-- End Product Item -->
-                                            </div>`;
-                                productRow.append(productHtml);
-
-                            });
-                            $('#filtered-products-count').text(filter);
-                            $('#total-products-count').text(total);
-                        },
-                        error: function (xhr, status, error) {
-                            console.error('An error occurred:', error);
-                            alert('Failed to load products.');
-                        }
-                    });
-                }
-
-
-                //Sort
-                $('.sort-option').click(function (e) {
-                    e.preventDefault();
-                    $('.sort-option').removeClass('active');
-                    $(this).addClass('active');
-                    filterProducts();
-                });
-
-
-                //Star
-                var lastSelected = null;
-
-
-                $('.form-check-input').on('click', function () {
-
-                    if (lastSelected && lastSelected[0] === this) {
-                        $(this).prop('checked', false);
-                        lastSelected = null;
-                    } else {
-                        lastSelected = $(this);
-                    }
-
-                    filterProducts();
-                });
-
-
-                //Search Price
-                $(".btn-src").click(function (e) {
-                    e.preventDefault();
-                    filterProducts();
-                });
-
-                //Category
-                $('.widget-categories ul li .category-link').on('click', function () {
-
-                    var categoryId = $(this).data('category-id');
-                    console.log(categoryId);
-                    filterProducts(categoryId);
-                });
-            });
-        </script>
-}
-
-
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/product-shopping.js"></script>
 }
 

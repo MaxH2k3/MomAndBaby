@@ -1,6 +1,8 @@
 ﻿@page "/"
+@using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.HomePageModel
 @{
+    var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
 }
 
 <main class="main-content">
