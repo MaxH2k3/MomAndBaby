@@ -17,7 +17,6 @@ namespace MomAndBaby.Pages.Main.Body
         {
             _productService = productService;
             _categoryService = categoryService;
-        
         }
 
         [BindProperty]
