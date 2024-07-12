@@ -4,62 +4,41 @@
     <projectFile profileName="IIS Express">MomAndBaby/MomAndBaby.csproj</projectFile>
     <projectFile profileName="MomAndBaby">MomAndBaby/MomAndBaby.csproj</projectFile>
   </component>
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="14e94a14-8c7a-43ef-a181-dfbddb6357fa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/MomAndBaby/wwwroot/dashboard/assets/js/custom.js" afterDir="false" />
+    <list default="true" id="6997907a-cf80-446c-80dd-eb78e1379586" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/jsLibraryMappings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.MomAndBaby/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Components/Common/Menu.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Dashboard/Components/Common/Menu.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MomAndBaby/Pages/Shared/_LayoutDashboard.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/MomAndBaby/Pages/Shared/_LayoutDashboard.cshtml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="JavaScript File" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="MarkdownSettingsMigration">
-    <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 0
 }</component>
-  <component name="ProjectId" id="2j22O8UWD8FNU6xh259IaLVt0lp" />
+  <component name="ProjectId" id="2j6gjWvf42RndCxg935AvCtlPR7" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;.NET Launch Settings Profile.MomAndBaby.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
   &quot;keyToStringList&quot;: {
     &quot;rider.external.source.directories&quot;: [
-      &quot;C:\\Users\\huy11\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\DecompilerCache&quot;,
-      &quot;C:\\Users\\huy11\\AppData\\Roaming\\JetBrains\\Rider2023.3\\resharper-host\\SourcesCache&quot;,
-      &quot;C:\\Users\\huy11\\AppData\\Local\\Symbols\\src&quot;
+      &quot;C:\\Users\\khang\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache&quot;,
+      &quot;C:\\Users\\khang\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache&quot;,
+      &quot;C:\\Users\\khang\\AppData\\Local\\Symbols\\src&quot;
     ]
   }
 }</component>
@@ -98,20 +77,29 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="14e94a14-8c7a-43ef-a181-dfbddb6357fa" name="Changes" comment="" />
-      <created>1720570820812</created>
+      <changelist id="6997907a-cf80-446c-80dd-eb78e1379586" name="Changes" comment="" />
+      <created>1720713075503</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1720570820812</updated>
-      <workItem from="1720570826422" duration="4815000" />
-      <workItem from="1720578446461" duration="11748000" />
+      <updated>1720713075503</updated>
+      <workItem from="1720713076639" duration="16000" />
+      <workItem from="1720762380058" duration="294000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
