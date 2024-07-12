@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.ProductDto;
@@ -12,13 +13,13 @@ namespace MomAndBaby.Controller
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
+        private readonly IMapper _mapper;
 
-        public ProductController(IProductService productService)
+        public ProductController(IProductService productService, IMapper mapper)
         {
             _productService = productService;
+            _mapper = mapper;
         }
-
-        
 
         [HttpGet("filter")]
         public async Task<ProductShoppingDto> FilterProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria)
@@ -40,6 +41,14 @@ namespace MomAndBaby.Controller
 
             };
             return response;
+        }
+
+        [HttpGet("")]
+        public async Task<IEnumerable<ProductPreview>> GetProducts()
+        {
+            var products = await _productService.GetAll();
+
+            return _mapper.Map<IEnumerable<ProductPreview>>(products);
         }
 
     }

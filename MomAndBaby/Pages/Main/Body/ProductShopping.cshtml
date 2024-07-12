@@ -294,7 +294,6 @@
                             const total = JSON.parse(data.totalProductsCount);
 
                             productsArray.forEach(function (product) {
-                                console.log(product);
                                 var fullStars = Math.floor(product.Statistic.AverageStar);
                                 var hasHalfStar = (product.Statistic.AverageStar - fullStars) >= 0.5;
                                 var emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);

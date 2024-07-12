@@ -17,7 +17,17 @@ namespace MomAndBaby.Service.Configuration
 			CreateMap<ProductDto, Product>()
 				.ForPath(dest => dest.CategoryNavigation, opt => opt.Ignore())
 				.ForPath(dest => dest.Statistic, opt => opt.Ignore());
-			CreateMap<Order, OrderResponseModel>()
+
+			CreateMap<Product, ProductPreview>()
+				.ForMember(x => x.CategoryId, opt => opt.MapFrom(src => src.CategoryNavigation!.Id))
+				.ForMember(x => x.CategoryName, opt => opt.MapFrom(src => src.CategoryNavigation!.Name))
+				.ForMember(x => x.TotalPurchase, opt => opt.MapFrom(src => src.Statistic.TotalPurchase))
+				.ForMember(x => x.TotalReview, opt => opt.MapFrom(src => src.Statistic.TotalReview))
+				.ForMember(x => x.AverageStar, opt => opt.MapFrom(src => src.Statistic.AverageStar))
+				.ReverseMap();
+
+
+            CreateMap<Order, OrderResponseModel>()
 				.ForMember(x => x.StatusName, opt => opt.MapFrom(src => src.Status.Name))
 			.ReverseMap();
 			CreateMap<OrderDetail, OrderDetailResponseModel>()

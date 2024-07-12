@@ -1,6 +1,14 @@
 ﻿@page "/dashboard"
 @model MomAndBaby.Pages.Dashboard.Body.DashboardModel
-@{
+
+@section Styles {
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="~/ok/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="~/ok/assets/vendor/libs/typeahead-js/typeahead.css" />
+    <link rel="stylesheet" href="~/ok/assets/vendor/libs/apex-charts/apex-charts.css" />
+
+    <!-- Page CSS -->
+    <link rel="stylesheet" href="~/ok/assets/vendor/css/pages/card-analytics.css" />
 }
 
 
@@ -654,5 +662,12 @@
     <div class="content-backdrop fade"></div>
 </div>
 <!-- Content wrapper -->
-<!-- Page JS -->
-<script src="~/ok/assets/js/app-ecommerce-dashboard.js"></script>
+
+@section Scripts {
+    
+    <!-- Vendors JS -->
+    <script src="~/ok/assets/vendor/libs/apex-charts/apexcharts.js"></script>
+
+    <!-- Page JS -->
+    <script src="~/ok/assets/js/app-ecommerce-dashboard.js"></script>
+}
