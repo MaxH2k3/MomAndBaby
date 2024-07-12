@@ -7,6 +7,7 @@ using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
+using MomAndBaby.Utilities.Helper;
 using System.Security.Claims;
 
 namespace MomAndBaby.Pages.Main.Body
@@ -33,7 +34,16 @@ namespace MomAndBaby.Pages.Main.Body
             
 
 
-        }           
+        }  
+        
+        public IActionResult OnGet()
+        {
+            if (HttpContext.Session.IsAuthenticated())
+            {
+                return Redirect("/");
+            }
+            return Page();
+        }
 
 
         public async Task<IActionResult> OnPostLogin()
@@ -45,6 +55,15 @@ namespace MomAndBaby.Pages.Main.Body
             if(user == null)
             {
                 return Page();
+            }
+
+            if(user.RoleId == 2)
+            {
+                HttpContext.Session.SignIn(user);
+
+            } else if(user.RoleId == 4) 
+            {
+                HttpContext.Session.SignIn(user, true);
             }
 
             var claims = new List<Claim>
@@ -80,7 +99,8 @@ namespace MomAndBaby.Pages.Main.Body
 
         public async Task<IActionResult> OnGetLogout()
         {
-            await HttpContext.SignOutAsync();
+            //await HttpContext.SignOutAsync();
+            HttpContext.Session.SignOut();
             return Redirect("/login");
         }
     }

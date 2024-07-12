@@ -1,10 +1,14 @@
 ﻿@page "/article"
+@using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ArticleModel
 @{
     foreach (var article in Model.articles)
     {
         Console.WriteLine(article.Title.ToString());
     }
+ 
+    var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
+
 }
 
 <main class="main-content">

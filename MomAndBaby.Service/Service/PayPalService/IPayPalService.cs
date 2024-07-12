@@ -10,5 +10,6 @@ namespace MomAndBaby.Service.Service.PayPalService
     public interface IPayPalService
     {
         Payment CreatePayment(string baseUrl, string intent, string currency, string total, string description);
+        Payment ExecutePayment(string paymentId, string payerId);
     }
 }

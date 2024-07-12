@@ -181,6 +181,12 @@ namespace MomAndBaby.Service
                 case "Date":
                     productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
                     break;
+                case "IncreasePrice":
+                    productsQuery = productsQuery.OrderBy(p => p.UnitPrice);
+                    break;
+                case "DecreasePrice":
+                    productsQuery = productsQuery.OrderByDescending(p => p.UnitPrice);
+                    break;
                 default:
                     break;
                 
