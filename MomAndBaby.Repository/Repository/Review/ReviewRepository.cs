@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {
@@ -11,21 +12,38 @@ namespace MomAndBaby.Repository
             _context = context;
         }
 
-		public IEnumerable<Review> getAllReviewByProduct(Guid productId)
+		public async Task<IEnumerable<Review>> GetAllReviewByProduct(Guid productId)
 		{
-			return _context.Reviews.Where(r => r.ProductId.Equals(productId) && r.Status == true).ToList();
+			return await _context.Reviews.Where(r => r.ProductId.Equals(productId) && r.Status == true).ToListAsync();
 		}
-		public void AddReview(Review review)
+		public async Task AddReview(Review review)
 		{
-			_context.Reviews.Add(review);
-			_context.SaveChanges();
+			await _context.Reviews.AddAsync(review);
 		}
 
-		public void DeleteReview(int reviewId)
+		public async Task DeleteReview(int reviewId)
 		{
-			var reviewToDelete = _context.Reviews.FirstOrDefault(r => r.Id.Equals(reviewId));
-			_context.Reviews.Remove(reviewToDelete);
-			_context.SaveChanges();
+			var reviewToDelete = await _context.Reviews.FirstOrDefaultAsync(r => r.Id.Equals(reviewId));
+			if (reviewToDelete != null)
+			{
+				_context.Reviews.Remove(reviewToDelete);
+			}
+		}
+
+		public async Task EditReview(Review review, int reviewId)
+		{
+			var reviewToEdit = await _context.Reviews.FirstOrDefaultAsync(r => r.Id.Equals(reviewId));
+			if (reviewToEdit != null)
+			{
+				reviewToEdit.CreatedAt = DateTime.Now;
+				reviewToEdit.Comment = review.Comment;
+				reviewToEdit.Rating = review.Rating;
+			}
+		}
+
+		public async Task<Review> GetReviewById(int id)
+		{
+			return await _context.Reviews.FirstOrDefaultAsync(r => r.Id.Equals(id));
 		}
 	}
 }

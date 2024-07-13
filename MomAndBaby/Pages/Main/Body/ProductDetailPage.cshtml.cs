@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
@@ -14,8 +15,6 @@ public class ProductDetailPage : PageModel
 	public IEnumerable<Review> productReview { get; set; }
 	[BindProperty]
 	public float ProductAverageRating { get; set; }
-	[BindProperty]
-	public Review Review { get; set; }
 	private readonly IProductService _productService;
 	private readonly IReviewService _reviewService;
 	private readonly IUserService _userService;
@@ -29,20 +28,11 @@ public class ProductDetailPage : PageModel
 	public async Task OnGet(Guid productId)
 	{
 		ProductDto = await _productService.GetById(productId);
-		productReview = _reviewService.getAllReviewByProduct(productId);
-		ProductAverageRating = _reviewService.getAverageRating(productId);
+		productReview = await _reviewService.GetAllReviewByProduct(productId);
+		ProductAverageRating = await _reviewService.GetAverageRating(productId);
 		foreach (var review in productReview)
 		{
 			review.User = await _userService.getUserById(review.UserId);
 		}
-	}
-
-	public IActionResult OnPost()
-	{
-		//Review.ProductId = ProductDto.Id;
-		Review.CreatedAt = DateTime.Now;
-		Review.Status = true;
-		_reviewService.AddReview(Review);
-		return Page();
 	}
 }

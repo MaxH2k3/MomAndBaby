@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.Service;
 
@@ -16,9 +17,14 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         [BindProperty]
         public Article Article { get; set; }
 
-        public IActionResult OnGet(int articleId)
+        public async Task<IActionResult> OnGet(int articleId)
         {
-            Article = _articleService.GetArticleById(articleId);
+			Article = await _articleService.GetArticleById(articleId);
+
+			if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value != Article.AuthorId.ToString())
+            {
+                return Redirect("/article");
+            }
             if (Article == null)
             {
                 return RedirectToPage("/article");
@@ -33,8 +39,10 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
                 return Page();
             }
 
+            var id = articleId;
+            
             _articleService.UpdateArticle(Article, articleId);
-            return Redirect("/article-detail?articleId=" + Article.Id);
+            return Redirect("/article-detail?articleId=" + id);
         }
     }
 }

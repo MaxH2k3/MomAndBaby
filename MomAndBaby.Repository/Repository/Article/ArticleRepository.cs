@@ -12,51 +12,48 @@ namespace MomAndBaby.Repository
             _context = context;
         }
 
-        public IEnumerable<Article> GetListArticle(int pageNumber, int pageSize)
-		{
-			return _context.Articles
-						   .Include(article => article.Author)
-						   .Skip((pageNumber - 1) * pageSize)
-						   .Take(pageSize)
-						   .ToList();
-		}
-
-		public int GetTotalArticlesCount()
-		{
-			return _context.Articles.Count();
-		}
-
-        public Article GetArticleById(int id)
+        public async Task<IEnumerable<Article>> GetListArticle(int pageNumber, int pageSize)
         {
-			return _context.Articles.Include(article => article.Author).FirstOrDefault(a => a.Id.Equals(id));
+            return await _context.Articles
+                           .Include(article => article.Author)
+                           .Skip((pageNumber - 1) * pageSize)
+                           .Take(pageSize)
+                           .ToListAsync();
         }
 
-		public void AddArticle(Article article)
-		{
-			_context.Articles.Add(article);
-			_context.SaveChanges();
-		}
+        public async Task<int> GetTotalArticlesCount()
+        {
+            return await _context.Articles.CountAsync();
+        }
 
-		public void UpdateArticle(Article article, int articleId)
-		{
-			var articleToUpdate = GetArticleById(articleId);
-			if (articleToUpdate != null)
-			{
-				articleToUpdate.Title = article.Title;
-				articleToUpdate.Content = article.Content;
-				_context.Update(articleToUpdate);
-				_context.SaveChanges();
-			}
-		}
+        public async Task<Article?> GetArticleById(int id)
+        {
+            return await _context.Articles.Include(article => article.Author).FirstOrDefaultAsync(a => a.Id.Equals(id));
+        }
 
-		public void DeleteArticle(int id)
-		{
-			var articleToDelete = GetArticleById(id);
-			if (articleToDelete != null)
-			{
-				_context.Remove(articleToDelete);
-				_context.SaveChanges();
-			}
-		}
-	}
+        public async Task AddArticle(Article article)
+        {
+            await _context.Articles.AddAsync(article);
+        }
+
+        public async Task UpdateArticle(Article article, int articleId)
+        {
+            var articleToUpdate = await GetArticleById(articleId);
+            if (articleToUpdate != null)
+            {
+                articleToUpdate.Title = article.Title;
+                articleToUpdate.Content = article.Content;
+                _context.Update(articleToUpdate);
+            }
+        }
+
+        public async Task DeleteArticle(int id)
+        {
+            var articleToDelete = await GetArticleById(id);
+            if (articleToDelete != null)
+            {
+                _context.Remove(articleToDelete);
+            }
+        }
+    }
 }

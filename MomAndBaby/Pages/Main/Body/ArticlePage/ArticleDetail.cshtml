@@ -44,19 +44,20 @@
                                     <div class="content">
                                         <div class="meta">
                                             By,
-                                            <a class="author" href="blog.html">@Model.Article.Author.Id </a>
-                                            <span class="dots"></span><span class="post-date">@Model.Article.CreatedAt</span>
+                                            <a class="author" href="blog.html">@Model.ArticleDTO.AuthorName </a>
+                                            <span class="dots"></span><span class="post-date">@Model.ArticleDTO.CreatedAt</span>
                                         </div>
-                                        <h4 class="title">@Model.Article.Title</h4>
-                                        <p>@Model.Article.Content</p>
+                                        <h4 class="title">@Model.ArticleDTO.Title</h4>
+                                        @Html.Raw(Model.ArticleDTO.Content)
+                                        
                                     </div>
                                 </div>
                                 <div class="actions">
-                                    @if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString() == Model.Article.Author.Id.ToString())
+                                    @if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString() == Model.ArticleDTO.AuthorId.ToString())
                                     {
-                                        <a href="/edit-article?articleId=@Model.Article.Id" class="btn btn-primary">Edit</a>
+                                        <a href="/edit-article?articleId=@Model.ArticleDTO.Id" class="btn btn-primary">Edit</a>
                                         <form method="post" asp-page-handler="Delete" style="display: inline;">
-                                            <input type="hidden" name="articleId" value="@Model.Article.Id" />
+                                            <input type="hidden" name="articleId" value="@Model.ArticleDTO.Id" />
                                             <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     }

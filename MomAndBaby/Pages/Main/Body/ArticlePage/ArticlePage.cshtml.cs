@@ -15,10 +15,10 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         }
         public PaginatedList<Article> Articles { get; set; }
 
-        public void OnGet(int pageIndex = 1)
+        public async Task OnGet(int pageIndex = 1)
         {
             int pageSize = 5;
-            Articles = _articleService.GetListArticle(pageIndex, pageSize);
+            Articles = await _articleService.GetListArticle(pageIndex, pageSize);
         }
     }
 }

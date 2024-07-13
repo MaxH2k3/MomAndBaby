@@ -159,53 +159,17 @@
 													}
 												</ul>
 												<span class="review-caption">Based on @Model.productReview.Count() review</span>
-												<span class="review-write-btn">Write a review</span>
+												@if (User.Identity.IsAuthenticated)
+												{
+													<a style="color: black" href="/create-review?productId=@Model.ProductDto.Id" class="review-write-btn">Write a review</a>
+												}
+												else
+												{
+													<a style="color: black" href="/login">Login to review</a>
+												}
 											</div>
 										</div>
-										<div class="product-review-form">
-											@if (@User.Identity.IsAuthenticated)
-											{
-												<h4 class="title">Write a review</h4>
-												<form method="post">
-													<div class="review-form-content">
-														<input asp-for=Review.UserId value="@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()" required>
-														 <input asp-for=Review.ProductId value="@Model.ProductDto.Id" required> 
-														<div class="row">
-															<div class="col-md-12">
-																<div class="rating">
-																	<span class="rating-title">Rating</span>
-																	<span id="rating-stars">
-																		<a class="fa fa-star" data-rating="1" style="color: white; text-shadow: 0 0 1px black"></a>
-																		<a class="fa fa-star" data-rating="2" style="color: white; text-shadow: 0 0 1px black"></a>
-																		<a class="fa fa-star" data-rating="3" style="color: white; text-shadow: 0 0 1px black"></a>
-																		<a class="fa fa-star" data-rating="4" style="color: white; text-shadow: 0 0 1px black"></a>
-																		<a class="fa fa-star" data-rating="5" style="color: white; text-shadow: 0 0 1px black"></a>
-																	</span>
-																	<input type="hidden" id="rating" asp-for="Review.Rating" name="rating" required>
-																</div>
-															</div>
-															<div class="col-md-12">
-																<div class="form-group">
-																	<label asp-for="Review.Comment">What do you think of this product <span>(1500)</span></label>
-																	<textarea asp-for="Review.Comment" class="form-control textarea" rows="7" placeholder="Write your comments here" required></textarea>
-																</div>
-															</div>
-														</div>
-														<div class="row">
-															<div class="col-md-12">
-																<div class="form-group pull-right">
-																	<button class="btn btn-theme" type="submit">Submit Review</button>
-																</div>
-															</div>
-														</div>
-													</div>
-												</form>
-											}
-											else
-											{
-												<a style="color: black" href="/login">Login to review</a>
-											}
-										</div>
+
 										@{
 											foreach (var review in Model.productReview)
 											{
@@ -223,6 +187,10 @@
 														</ul>
 														<h4 class="title">@review.Comment</h4>
 														<h5 class="review-date"><span>@review.User!.FullName</span> on <span>@review.CreatedAt</span></h5>
+														@if (review.UserId.ToString() == User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString())
+														{
+															<a href="/edit-review?reviewId=@review.Id&productId=@review.ProductId" style="margin-left: 10px" class="btn btn-dark">View</a>
+														}	
 													</div>
 												</div>
 											}

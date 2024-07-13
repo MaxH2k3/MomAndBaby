@@ -6,26 +6,28 @@ using MomAndBaby.Service;
 
 namespace MomAndBaby.Pages.Main.Body.ArticlePage
 {
-    public class ArticleDetailModel : PageModel
-    {
-        private readonly IArticleService _articleService;
+	public class ArticleDetailModel : PageModel
+	{
+		private readonly IArticleService _articleService;
+		private readonly IUserService _userService;
 
-        public ArticleDetailModel(IArticleService articleService)
-        {
-            _articleService = articleService;
-        }
+		public ArticleDetailModel(IArticleService articleService, IUserService userService)
+		{
+			_articleService = articleService;
+			_userService = userService;
+		}
 
-        public Article Article { get; set; }
+		public ArticleDTO ArticleDTO { get; set; }
 
-        public void OnGet(int articleId)
-        {
-            Article = _articleService.GetArticleById(articleId);
-        }
+		public async Task OnGet(int articleId)
+		{
+			ArticleDTO = await _articleService.GetArticleDTOById(articleId);
+		}
 
-        public IActionResult OnPostDelete(int articleId)
-        {
-            _articleService.DeleteArticle(articleId);
-            return Redirect("/article");
-        }
-    }
+		public IActionResult OnPostDelete(int articleId)
+		{
+			_articleService.DeleteArticle(articleId);
+			return Redirect("/article");
+		}
+	}
 }

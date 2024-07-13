@@ -4,11 +4,11 @@ namespace MomAndBaby.Repository
 {
     public interface IArticleRepository
     {
-		public IEnumerable<Article> GetListArticle(int pageNumber, int pageSize);
-		public int GetTotalArticlesCount();
-		public Article GetArticleById(int id);
-		public void AddArticle(Article article);
-		public void UpdateArticle(Article article, int articleId);
-		public void DeleteArticle(int id);
+		public Task<IEnumerable<Article>> GetListArticle(int pageNumber, int pageSize);
+		public Task<int> GetTotalArticlesCount();
+		public Task<Article?> GetArticleById(int id);
+		public Task AddArticle(Article article);
+		public Task UpdateArticle(Article article, int articleId);
+		public Task DeleteArticle(int id);
 	}
 }

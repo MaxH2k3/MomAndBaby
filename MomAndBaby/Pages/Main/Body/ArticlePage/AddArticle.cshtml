@@ -32,19 +32,22 @@
 				<div class="col-lg-8 m-auto">
 					<form method="post">
 						<div class="form-group">
-							<label asp-for="Article.Title"></label>
-							<input asp-for="Article.Title" class="form-control" />
-							<span asp-validation-for="Article.Title" class="text-danger"></span>
+							<label asp-for="ArticleDTO.Title"></label>
+							<input asp-for="ArticleDTO.Title" class="form-control" />
+							<span asp-validation-for="ArticleDTO.Title" class="text-danger"></span>
 						</div>
-						<div class="form-group">
-							<label asp-for="Article.Content"></label>
-							<textarea asp-for="Article.Content" class="form-control"></textarea>
-							<span asp-validation-for="Article.Content" class="text-danger"></span>
+						<div>
+							<label asp-for="ArticleDTO.Content">Content</label>
+							<input id="editor-input" type="hidden" asp-for="ArticleDTO.Content" />
+							<div class="form-control p-0">
+								<div class="comment-editor border-0" id="ecommerce-category-description">
+									<div id="editor" style="width: 100%; height: 300px;">
+									</div>
+								</div>
+							</div>
+							<span asp-validation-for="ArticleDTO.Content" class="text-danger"></span>
 						</div>
-						<div class="form-group">
-							<input asp-for="Article.AuthorId" hidden value="@User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()" class="form-control" />
-						</div>
-						<button type="submit" class="btn btn-primary">Post Article</button>
+						<button style="margin-top: 10px" type="submit" class="btn btn-primary">Post Article</button>
 					</form>
 				</div>
 			</div>

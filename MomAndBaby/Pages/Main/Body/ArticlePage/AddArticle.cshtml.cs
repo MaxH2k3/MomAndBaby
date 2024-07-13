@@ -2,8 +2,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
 
 namespace MomAndBaby.Pages.Main.Body.ArticlePage
 {
@@ -17,7 +19,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         }
 
         [BindProperty]
-        public Article Article { get; set; }
+        public ArticleDTO ArticleDTO { get; set; }
         public void OnGet()
         {
 
@@ -30,9 +32,15 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
                 return Page();
             }
 
-            Article.CreatedAt = DateTime.Now;
+            Article articleToCreate = new Article
+            {
+                AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
+                Title = ArticleDTO.Title,
+                Content = ArticleDTO.Content,
+                CreatedAt = DateTime.Now,
+            };
 
-            _articleService.AddArticle(Article);
+            _articleService.AddArticle(articleToCreate);
 
             return Redirect("/article");
         }

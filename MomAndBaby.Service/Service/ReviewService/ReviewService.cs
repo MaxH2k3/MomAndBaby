@@ -22,14 +22,14 @@ namespace MomAndBaby.Service
 			_unitOfWork = unitOfWork;
 		}
 
-		public IEnumerable<Review> getAllReviewByProduct(Guid productId)
+		public async Task<IEnumerable<Review>> GetAllReviewByProduct(Guid productId)
 		{
-			return _unitOfWork.ReviewRepository.getAllReviewByProduct(productId);
+			return await _unitOfWork.ReviewRepository.GetAllReviewByProduct(productId);
 		}
 
-		public float getAverageRating(Guid productId)
+		public async Task<float> GetAverageRating(Guid productId)
 		{
-			var reviewList = getAllReviewByProduct(productId);
+			var reviewList = await GetAllReviewByProduct(productId);
 			float averageRating = 0;
 			foreach (var review in reviewList)
 			{
@@ -38,19 +38,33 @@ namespace MomAndBaby.Service
 			return averageRating / reviewList.Count();
 		}
 
-		public int getTotalRating(Guid productId)
+		public async Task<int> GetTotalRating(Guid productId)
 		{
-			return getAllReviewByProduct(productId).Count();
+			return (await GetAllReviewByProduct(productId)).Count();
+		}
+			
+		public async Task AddReview(Review review)
+		{
+			await _unitOfWork.ReviewRepository.AddReview(review);
+			await _unitOfWork.SaveChangesAsync();
 		}
 
-		public void AddReview(Review review)
+		public async Task DeleteReview(int reviewId)
 		{
-			_unitOfWork.ReviewRepository.AddReview(review);
+			await _unitOfWork.ReviewRepository.DeleteReview(reviewId);
+			await _unitOfWork.SaveChangesAsync();
 		}
 
-		public void DeleteReview(int reviewId)
+		public async Task<Review> GetReviewById(int id)
 		{
-			_unitOfWork.ReviewRepository.DeleteReview(reviewId);
+			return await _unitOfWork.ReviewRepository.GetReviewById(id);
+
+		}
+
+		public async Task EditReview(Review review, int reviewId)
+		{
+			await _unitOfWork.ReviewRepository.EditReview(review, reviewId);
+			await _unitOfWork.SaveChangesAsync();
 		}
 	}
 }

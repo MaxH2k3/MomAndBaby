@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository.Uow;
 
@@ -18,10 +19,10 @@ namespace MomAndBaby.Service
 			_unitOfWork = unitOfWork;
 		}
 
-        public PaginatedList<ArticleDTO> GetListArticleDTO(int pageNumber, int pageSize)
+        public async Task<PaginatedList<ArticleDTO>> GetListArticleDTO(int pageNumber, int pageSize)
 		{
-			var articles = _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
-			var totalArticles = _unitOfWork.ArticleRepository.GetTotalArticlesCount();
+			var articles = await _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
+			var totalArticles = await _unitOfWork.ArticleRepository.GetTotalArticlesCount();
 
 			var articleDTOs = articles.Select(article => new ArticleDTO
 			{
@@ -29,6 +30,7 @@ namespace MomAndBaby.Service
 				Title = article.Title,
 				Content = article.Content,
 				AuthorName = article.Author?.FullName,
+				AuthorId = article.AuthorId,
 				CreatedAt = article.CreatedAt
 			}).ToList();
 
@@ -36,23 +38,24 @@ namespace MomAndBaby.Service
 		}
 
 
-        public PaginatedList<Article> GetListArticle(int pageNumber, int pageSize)
+        public async Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize)
         {
-            var articles = _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
-            var totalArticles = _unitOfWork.ArticleRepository.GetTotalArticlesCount();
+            var articles = await _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
+            var totalArticles = await _unitOfWork.ArticleRepository.GetTotalArticlesCount();
 
             return new PaginatedList<Article>(articles, totalArticles, pageNumber, pageSize);
         }
 
-        public ArticleDTO GetArticleDTOById(int id)
+        public async Task<ArticleDTO> GetArticleDTOById(int id)
         {
-			var article = _unitOfWork.ArticleRepository.GetArticleById(id);
+			var article = await _unitOfWork.ArticleRepository.GetArticleById(id);
 
 			var articleDTO = new ArticleDTO
 			{
-				Id = article.Id,
-				Title = article.Title,
+                Id = article.Id,
+                Title = article.Title,
 				Content = article.Content,
+				AuthorId = article.AuthorId,
 				AuthorName = article.Author?.FullName,
 				CreatedAt = article.CreatedAt
 			};
@@ -61,24 +64,27 @@ namespace MomAndBaby.Service
         }
 
 
-        public void AddArticle(Article article)
+        public async Task AddArticle(Article article)
 		{
-			_unitOfWork.ArticleRepository.AddArticle(article);
-		}
+			await _unitOfWork.ArticleRepository.AddArticle(article);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
-		public void UpdateArticle(Article article, int articleId)
+		public async Task UpdateArticle(Article article, int articleId)
 		{
-			_unitOfWork.ArticleRepository.UpdateArticle(article, articleId);
-		}
+			await _unitOfWork.ArticleRepository.UpdateArticle(article, articleId);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
-		public void DeleteArticle(int id)
+		public async Task DeleteArticle(int id)
 		{
-			_unitOfWork.ArticleRepository.DeleteArticle(id);
-		}
+			await _unitOfWork.ArticleRepository.DeleteArticle(id);
+            await _unitOfWork.SaveChangesAsync();
+        }
 
-        public Article GetArticleById(int id)
+        public async Task<Article?> GetArticleById(int id)
         {
-			return _unitOfWork.ArticleRepository.GetArticleById(id);
+			return await _unitOfWork.ArticleRepository.GetArticleById(id);
 		}
     }
 }

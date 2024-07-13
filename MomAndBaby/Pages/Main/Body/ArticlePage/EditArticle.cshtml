@@ -28,11 +28,18 @@
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="Title" value="@Model.Article.Title" required>
                         </div>
-                        <div class="form-group">
-                            <label for="content">Content</label>
-                            <textarea class="form-control" id="content" name="Content" required>@Model.Article.Content</textarea>
+                        <div>
+                            <label>Content</label>
+                            <input id="editor-input" name="Content" required type="hidden" asp-for="@Model.Article.Content" />
+                            <div class="form-control p-0">
+                                <div class="comment-editor border-0" id="ecommerce-category-description">
+                                    <div id="editor" style="width: 100%; height: 300px;">
+                                        @Html.Raw(Model.Article.Content)
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button style="margin-top: 10px" type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
                 </div>
             </div>
