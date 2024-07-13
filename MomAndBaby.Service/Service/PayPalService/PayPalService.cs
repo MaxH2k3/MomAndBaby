@@ -41,8 +41,8 @@ namespace MomAndBaby.Service.Service.PayPalService
             },
                 redirect_urls = new RedirectUrls
                 {
-                    cancel_url = $"{baseUrl}/paypal/cancel",
-                    return_url = $"{baseUrl}/paypal/execute"
+                    cancel_url = $"{baseUrl}/cart-detail?handler=PaymentCancelled",
+                    return_url = $"{baseUrl}/cart-detail?handler=PaymentSuccess"
                 }
             };
 
@@ -61,5 +61,16 @@ namespace MomAndBaby.Service.Service.PayPalService
             var accessToken = new OAuthTokenCredential(config).GetAccessToken();
             return new APIContext(accessToken);
         }
+
+        public Payment ExecutePayment(string paymentId, string payerId)
+        {
+            var apiContext = GetApiContext();
+
+            var paymentExecution = new PaymentExecution { payer_id = payerId };
+            var payment = new Payment { id = paymentId };
+
+            return payment.Execute(apiContext, paymentExecution);
+        }
+
     }
 }

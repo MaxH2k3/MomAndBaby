@@ -19,7 +19,10 @@ namespace MomAndBaby.Repository
         
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Products.Include(p=>p.Statistic).ToListAsync();
+            return await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .Include(p=>p.Statistic)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetHighestRating()

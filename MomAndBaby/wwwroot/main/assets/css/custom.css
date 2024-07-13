@@ -20,3 +20,32 @@
     vertical-align: middle;
 }
 
+.form-data input {
+    border: none !important;
+    outline: none !important;
+}
+
+.widget-price-filter {
+    display: flex;
+    flex-direction: column;
+}
+
+#searchFrom, #searchTo {
+    width: 4vw;
+    border: none;
+}
+
+#searchTo input:hover {
+    border: 1px solid black;
+}
+
+.widget-price-filter span {
+    margin: 0 1rem;
+}
+
+.product-info .title {
+    width: 90%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

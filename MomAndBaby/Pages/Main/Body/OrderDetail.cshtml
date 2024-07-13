@@ -2,7 +2,7 @@
 @model MomAndBaby.Pages.Main.Body.OrderDetail
 
 @{
-ViewData["Title"] = "Order Details";
+    ViewData["Title"] = "Order Details";
 }
 
 <main class="main-content">
@@ -13,7 +13,8 @@ ViewData["Title"] = "Order Details";
                 <div class="col-lg-12 m-auto">
                     <div class="page-title-content text-center">
                         <h2 class="title">Order Details</h2>
-                        <div class="bread-crumbs"><a href="index.html">Home</a><span class="breadcrumb-sep"> // </span><span class="active">Order Details</span></div>
+                        <div class="bread-crumbs"><a href="index.html">Home</a><span class="breadcrumb-sep"> //
+                            </span><span class="active">Order Details</span></div>
                     </div>
                 </div>
             </div>
@@ -21,7 +22,7 @@ ViewData["Title"] = "Order Details";
     </section>
     <!--== End Page Title Area ==-->
 
-    <!--== Start Cart Area Wrapper ==-->
+    <!--== Start Cart Area Wrapper ==------------------------------------------------------------------------------>
     <section class="product-area cart-page-area">
         <div class="container">
             <div class="row">
@@ -37,42 +38,100 @@ ViewData["Title"] = "Order Details";
                         <div class="cart-table table-responsive">
                             <table>
                                 <thead>
-                                <tr>
-                                    <th class="width-thumbnail"></th>
-                                    <th class="width-name">Product</th>
-                                    <th class="width-price">Price</th>
-                                    <th class="width-quantity">Quantity</th>
-                                    <th class="width-subtotal">Subtotal</th>
-                                </tr>
+                                    <tr>
+                                        <th class="width-thumbnail"></th>
+                                        <th class="width-name">Product</th>
+                                        <th class="width-price">Price</th>
+                                        <th class="width-quantity">Quantity</th>
+
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                @foreach (var order in Model.listOrders)
-                                {
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="shop-single-product.html">
-                                            <img src="@order.ProductImage" alt="Image">
-                                        </a>
-                                    </td>
-                                    <td class="product-name">
-                                        <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
-                                    </td>
-                                    <td class="product-price"><span class="amount">@order.Price.ToString("C")</span></td>
-                                    <td class="cart-quality">
-                                        <div class="product-details-quality">
-                                            <input type="number" class="input-text qty text" step="1" min="1" value="@order.Quantity" title="Qty" readonly>
-                                        </div>
-                                    </td>
-                                    <td class="product-total"><span>@(order.Price * order.Quantity).ToString("C")</span></td>
-                                </tr>
-                                }
+                                    @foreach (var order in Model.listOrders)
+                                    {
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <a href="shop-single-product.html">
+                                                    <img src="@order.ProductImage" alt="Image">
+                                                </a>
+                                            </td>
+                                            <td class="product-name">
+                                                <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
+                                            </td>
+                                            <td class="product-price"><span class="amount">@order.Price.ToString("C")</span>
+                                            </td>
+                                            <td class="cart-quality">
+                                                <div class="product-details-quality">
+                                                    <input type="number" class="input-text qty text" step="1" min="1"
+                                                        value="@order.Quantity" title="Qty" readonly>
+                                                </div>
+                                            </td>
+                                            @* <td class="product-total"><span>@(order.Price *
+                                        order.Quantity).ToString("C")</span></td> *@
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--== Start tracking Area Wrapper ==------------------------------------------------------------------------------>
+
+    <section class="product-area cart-page-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <div class="section-title text-center">
+                        <h2 class="title">Order Tracking</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table-wrap">
+                        <div class="cart-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width-thumbnail"></th>
+
+                                        <th class="width-price">OrderConfimation</th>
+                                        <th class="width-quantity">Package</th>
+                                        <th class="width-quantity">Delivery</th>
+                                        <th class="width-quantity">Complete</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="shop-single-product.html">
+                                                @Model.orderTracking.OrderConfirmation
+                                            </a>
+                                        </td>
+                                        <td class="product-name">
+                                            <h5><a href="shop-single-product.html">@Model.orderTracking.Package</a></h5>
+                                        </td>
+                                        <td class="product-price"><span
+                                                class="amount">@Model.orderTracking.Delivery</span></td>
+                                        <td class="product-price"><span
+                                                class="amount">@Model.orderTracking.Complete</span></td>
+
+                                        @* <td class="product-total"><span>@(order.Price *
+                                        order.Quantity).ToString("C")</span></td> *@
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="cart-shiping-update-wrapper">
                         <div class="cart-shiping-btn continure-btn">
-                            <a class="btn btn-link" href="myaccount"><i class="ion-ios-arrow-left"></i> Back To My Account</a>
+                            <a class="btn btn-link" href="myaccount"><i class="ion-ios-arrow-left"></i> Back To My
+                                Account</a>
                         </div>
                         <div class="cart-shiping-btn update-btn">
                             <a class="btn btn-link" href="shop"><i class="ion-ios-reload"></i> Back To Shop</a>
