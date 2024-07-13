@@ -82,7 +82,7 @@ namespace MomAndBaby.Pages.Main.Body
             }
 
             var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type == UserClaimType.Email).Value;
-            var updateUser = new UpdateUserDto(UserName, FullName, NewPassword, PhoneNumber, Address);
+            var updateUser = new UpdateUserDto(UserName, FullName, NewPassword, PhoneNumber, Address, null);
             var userUpdatedEntity = await _userService.UpdateUser(email, updateUser);
             UserName = userUpdatedEntity.Username;
             FullName = userUpdatedEntity.FullName;

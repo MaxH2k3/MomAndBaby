@@ -4,6 +4,7 @@ using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service.Helper;
+using MomAndBaby.Service.Service.Email;
 
 namespace MomAndBaby.Service
 {
@@ -11,19 +12,22 @@ namespace MomAndBaby.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
+        private readonly IEmailService _emailService;
 
-        public UserService(IUnitOfWork unitOfWork, IMapper mapper)
+        public UserService(IUnitOfWork unitOfWork, IMapper mapper, IEmailService emailService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public async Task<bool> AddNewUser(LoginUserDto loginUser)
         {
             var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
+            var userEntity = new User();
             if (userCheck == null)
             {
-                var userEntity = new User();
+                
 
                 AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
                 userEntity.Email = loginUser.Email;
@@ -40,7 +44,8 @@ namespace MomAndBaby.Service
                 return false;
             }
                 
-            return await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync();
+            return await GenerateAndSendOTP(userEntity.Email!, userEntity.FullName!, userEntity.Otp);
         }
 
         public async Task<bool> SigninGoogle(User user)
@@ -104,5 +109,40 @@ namespace MomAndBaby.Service
             await _unitOfWork.UserRepository.UpdateUser(existUser);
             return existUser;
         }
+
+        public async Task<User> UpdateUserOtp(string email, string Otp)
+        {
+            var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
+            if (existUser != null)
+            {
+                existUser.Otp = Otp;
+            }
+            await _unitOfWork.UserRepository.UpdateUser(existUser);
+            return existUser;
+
+        }
+
+        public async Task<bool> GenerateAndSendOTP(string email, string userName, string? Otp)
+        {
+            var otp = AuthenHelper.GenerateOTP();
+            if (Otp == null)
+            {
+                Otp = otp;
+            }
+            var updatedUser = UpdateUserOtp(email, otp);
+
+            var emailSent = await _emailService.SendEmailWithTemplate("Your OTP Code", new UserMailDto()
+            {
+                UserName = userName,
+                Email = email,
+                OTP = otp,
+            });
+            return true;
+
+        }
+
+      
+
+       
     }
 }
