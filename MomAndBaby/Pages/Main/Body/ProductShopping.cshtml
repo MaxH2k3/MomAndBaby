@@ -28,6 +28,8 @@
     }
 </style>
 
+<link rel="stylesheet" href="~/main/assets/css/price-slider.css" asp-append-version="true" />
+
 <main class="main-content">
     <!--== Start Page Title Area ==-->
     <section class="page-title-area">
@@ -196,18 +198,42 @@
                         <div class="widget-item">
                             <div class="widget-filter">
                                 <div class="widget-title">
-                                    <h3 class="title">Price Search</h3>
+                                    <h3 class="title">Price Search (000 VND)</h3>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-price-filter">
-                                        @* <form action="#" method="post"> *@
-                                        <input type="text" id="searchFrom" value="" placeholder="From">
-                                        <input type="text" id="searchTo" value="" placeholder="To">
-                                        <button type="submit" class="btn-src">
+                                        <form action="#" method="post"> 
+                                        @* <input type="text" id="searchFrom" value="" placeholder="From">
+                                        <span>-</span>
+                                        <input type="text" id="searchTo" value="" placeholder="To"> *@
+                                        @* <button type="submit" class="btn-src">
                                             <i class="pe-7s-search"></i>
-                                        </button>
+                                        </button> *@
 
-                                        @* </form> *@
+                                        <div class="price-input">
+                                            <div class="field">
+                                                <input type="number" id="searchFrom" class="input-min" value="250">
+                                            </div>
+                                            <div class="separator">-</div>
+                                            <div class="field">
+                                                <input type="number" id="searchTo" class="input-max" value="750">
+                                            </div>
+                                        </div>
+                                        <div class="slider">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="range-input">
+                                            <input type="range" class="range-min" min="0" max="1000" value="250" step="10">
+                                            <input type="range" class="range-max" min="0" max="1000" value="750" step="10">
+                                        </div>
+
+                                            <button type="submit" class="btn-src" style="margin-top: 1rem;">
+                                                <i class="pe-7s-search"></i>
+                                            </button>
+
+                                        </form>
+                                            
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -280,4 +306,5 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/product-shopping.js"></script>
+    <script src="~/main/assets/js/price-slider.js" asp-append-version="true"></script>
 }
