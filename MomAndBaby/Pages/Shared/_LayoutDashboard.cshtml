@@ -37,16 +37,8 @@
     <!-- Vendors CSS -->
     <link rel="stylesheet" href="~/ok/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="~/ok/assets/vendor/libs/typeahead-js/typeahead.css" />
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/quill/typography.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/quill/katex.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/quill/editor.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/select2/select2.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/dropzone/dropzone.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/flatpickr/flatpickr.css">
-    <link rel="stylesheet" href="~/ok/assets/vendor/libs/tagify/tagify.css" />
 
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="~/ok/assets/vendor/css/pages/card-analytics.css" />
+    @RenderSection("Styles", required: false)
 
     <!-- Helpers -->
     <script src="~/ok/assets/vendor/js/helpers.js"></script>
@@ -72,7 +64,18 @@
                     await Html.RenderPartialAsync(ConstantPage.DashboardPage.Header);
                 }
 
-                @RenderBody();
+                <div class="content-wrapper">
+
+                    <!-- Content -->
+
+                    <div class="container-xxl flex-grow-1 container-p-y">
+
+                        @RenderBody()
+                    </div>
+                
+                </div>
+
+                
                 
                 @{
                     await Html.RenderPartialAsync(ConstantPage.DashboardPage.Footer);
@@ -94,8 +97,7 @@
     </div>
     <!-- / Layout wrapper -->
 
-    @RenderBody();
-
+    <!-- Core JS -->
     <script src="~/ok/assets/vendor/libs/jquery/jquery.js"></script>
     <script src="~/ok/assets/vendor/libs/popper/popper.js"></script>
     <script src="~/ok/assets/vendor/js/bootstrap.js"></script>
@@ -105,21 +107,26 @@
     <script src="~/ok/assets/vendor/libs/typeahead-js/typeahead.js"></script>
     <script src="~/ok/assets/vendor/js/menu.js"></script>
 
-    <!-- endbuild -->
-    <!-- Vendors JS -->
-    <script src="~/ok/assets/vendor/libs/quill/katex.js"></script>
-    <script src="~/ok/assets/vendor/libs/quill/quill.js"></script>
-    <script src="~/ok/assets/vendor/libs/select2/select2.js"></script>
-    <script src="~/ok/assets/vendor/libs/dropzone/dropzone.js"></script>
-    <script src="~/ok/assets/vendor/libs/jquery-repeater/jquery-repeater.js"></script>
-    <script src="~/ok/assets/vendor/libs/flatpickr/flatpickr.js"></script>
-    <script src="~/ok/assets/vendor/libs/tagify/tagify.js"></script>>
-
     <!-- Main JS -->
     <script src="~/ok/assets/js/main.js"></script>
-
-
     
-</body>
+    <!-- Custom JS -->
+    <script src="~/dashboard/assets/js/custom.js"></script>
+
+    @RenderSection("Scripts", required: false)
+    
+    @* active sidebar *@
+        @{
+            var currentMenu = 0;
+            currentMenu = ViewData[VariableConstant.CurrentMenu] != null ? (int)ViewData[VariableConstant.CurrentMenu]! : currentMenu;
+        }
+     <script>
+        $(document).ready(function () {
+            let currentMenu = @(currentMenu);
+            changeActiveMenu(currentMenu);
+        });
+     </script>
+    
+    </body>
 
 </html>

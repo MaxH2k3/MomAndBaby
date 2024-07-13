@@ -51,16 +51,18 @@
     $("body").removeClass('fix');
   });
 
-  // Sidebar Cart JS
-  var sidebarCartModal = $(".sidebar-cart-modal");
-  $(".cart-icon").on('click', function() {
-    sidebarCartModal.addClass('sidebar-cart-active');
-    $(".sidebar-cart-overlay").addClass('show');
-  });
-  $(".sidebar-cart-content .cart-close").on('click', function() {
-    sidebarCartModal.removeClass('sidebar-cart-active');
-    $(".sidebar-cart-overlay").removeClass('show');
-  });
+// Sidebar Cart JS
+var sidebarCartModal = $(".sidebar-cart-modal");
+$(".cart-icon").on('click', function() {
+    // Navigate to /cart-detail page
+    window.location.href = '/cart-detail';
+});
+
+// $(".sidebar-cart-content .cart-close").on('click', function() {
+//     sidebarCartModal.removeClass('sidebar-cart-active');
+//     $(".sidebar-cart-overlay").removeClass('show');
+// });
+
 
   // Checkout Toggle Active
   $('.checkout-coupon-active').on('click', function(e) {

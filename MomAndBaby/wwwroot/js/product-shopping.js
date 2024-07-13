@@ -73,7 +73,7 @@
                                                 <div class="product-thumb">
                                                     <img src="assets/img/shop/1.png" alt="Image">
                                                     <div class="product-action">
-                                                        <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
+                                                        <a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>
                                                         <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
                                                         <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
                                                         <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>

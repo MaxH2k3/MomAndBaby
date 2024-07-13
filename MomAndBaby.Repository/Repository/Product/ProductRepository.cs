@@ -19,7 +19,10 @@ namespace MomAndBaby.Repository
         
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _context.Products.Include(p=>p.Statistic).ToListAsync();
+            return await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .Include(p=>p.Statistic)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetHighestRating()
@@ -66,6 +69,13 @@ namespace MomAndBaby.Repository
         public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
         {
             return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
+        }
+
+        public async Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds)
+        {
+            return await _context.Products
+                .Where(p => productIds.Contains(p.Id))
+                .ToListAsync();
         }
 
         public IEnumerable<Product> GetAllProduct()

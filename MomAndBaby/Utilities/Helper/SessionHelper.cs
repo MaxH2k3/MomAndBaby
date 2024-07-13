@@ -1,31 +1,33 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+using AutoMapper.Execution;
+using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.Utilities.Constants;
 using Newtonsoft.Json;
 
-namespace MomAndBaby.Utilities.Helper
-{
+namespace MomAndBaby.Utilities.Helper;
+
+
     public static class SessionHelper
     {
-        public static void SetSession<T>(this ISession session, string key, T value)
+        public static void SetObjectAsJson(this ISession session, string key, object value)
         {
             session.SetString(key, JsonConvert.SerializeObject(value));
         }
 
-        public static T? GetSession<T>(this ISession session, string key)
+        public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default : JsonConvert.DeserializeObject<T>(value);
+            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
         }
-
+        
         public static bool IsAuthenticated(this ISession session)
         {
-            return session.GetSession<User>(SessionConstant.UserSession) != null;
+            return session.GetObjectFromJson<User>(SessionConstant.UserSession) != null;
         }
 
         public static void SignIn(this ISession session, User user, bool isAdmin = false)
         {
-            session.SetSession(SessionConstant.UserSession, user);
-            session.SetSession(SessionConstant.IsAdmin, isAdmin);
+            session.SetObjectAsJson(SessionConstant.UserSession, user);
+            session.SetObjectAsJson(SessionConstant.IsAdmin, isAdmin);
         }
 
         public static void SignOut(this ISession session)
@@ -35,14 +37,16 @@ namespace MomAndBaby.Utilities.Helper
 
         public static T GetCurrentUser<T>(this ISession session)
         {
-            return session.GetSession<T>(SessionConstant.UserSession)!;
+            return session.GetObjectFromJson<T>(SessionConstant.UserSession)!;
         }
 
         public static bool IsAdmin(this ISession session)
         {
-            return session.GetSession<bool>(SessionConstant.IsAdmin);
+            return session.GetObjectFromJson<bool>(SessionConstant.IsAdmin);
         }
+    }
+
 
         
-    }
-}
+
+    

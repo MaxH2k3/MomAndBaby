@@ -5287,10 +5287,15 @@ table p {
   }
 }
 
+.login-register-content {
+    width: 40vw;
+    text-align:center;
+}
+
 .login-register-content.lr-content-padding-mrg {
-  margin: auto;
-  max-width: 20.8333333333%;
-  padding: 76px 0 120px;
+    margin: auto;
+    max-width: 20.8333333333%;
+    padding: 76px 0 120px;
 }
 .login-register-content .login-register-style {
   margin: 33px 0 0;

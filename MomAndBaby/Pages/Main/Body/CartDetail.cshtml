@@ -1,0 +1,217 @@
+@page "/cart-detail"
+@model MomAndBaby.Pages.Main.Body.CartDetailModel
+
+@{
+    ViewData["Title"] = "Cart Details";
+}
+
+<main class="main-content">
+    <!-- Start Page Title Area -->
+    <section class="page-title-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 m-auto">
+                    <div class="page-title-content text-center">
+                        <h2 class="title">Cart Details</h2>
+                        <div class="bread-crumbs">
+                            <a href="index.html">Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Page Title Area -->
+
+    <!-- Start Cart Area Wrapper -->
+    <section class="product-area cart-page-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <div class="section-title text-center">
+                        <h2 class="title">Cart Details</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-table-wrap">
+                        <div class="cart-table table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="width-thumbnail">Image</th>
+                                        <th class="width-name">Product Name</th>
+                                        <th class="width-price">Price</th>
+                                        <th class="width-remove">Remove</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cart in Model.CartItems)
+                                    {
+                                        <tr>
+                                            <td class="product-thumbnail">
+                                                <img src="@cart.Image" alt="@cart.Name">
+                                            </td>
+                                            <td class="product-name">
+                                                <h5>@cart.Name</h5>
+                                            </td>
+                                            <td class="product-price">
+                                                <span class="amount">@cart.UnitPrice?.ToString("C")</span>
+                                            </td>
+                                            <td class="product-remove">
+                                                <form method="post" asp-page-handler="RemoveFromCart"
+                                                    asp-route-productId="@cart.Id">
+                                                    <button type="submit" class="btn btn-danger">Remove</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="cart-totals">
+                        <h3>Cart Totals</h3>
+
+                        <div class="cart-total">
+                            <span>Total</span>
+                            <span class="amount">@Model.Total.ToString("C")</span>
+                        </div>
+                    </div>
+                  
+                    <!--== Start Checkout Area Wrapper ==-->
+                    <section class="product-area shop-checkout-area">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-6 m-auto">
+                                    <div class="section-title text-center">
+                                        <h2 class="title">Checkout</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <div class="billing-info-wrap">
+                                        <h3>Billing Details</h3>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="billing-info mb-20">
+                                                    <label>First name <abbr class="required"
+                                                            title="required">*</abbr></label>
+                                                    <input type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="billing-info mb-20">
+                                                    <label>Last name <abbr class="required"
+                                                            title="required">*</abbr></label>
+                                                    <input type="text">
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="billing-info mb-20">
+                                                    <label>Email Address <abbr class="required"
+                                                            title="required">*</abbr></label>
+                                                    <input type="text">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="different-address open-toggle mt-30">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="billing-info mb-20">
+                                                        <label>First name <abbr class="required"
+                                                                title="required">*</abbr></label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="billing-info mb-20">
+                                                        <label>Last name <abbr class="required"
+                                                                title="required">*</abbr></label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <div class="billing-info mb-20">
+                                                        <label>Email Address <abbr class="required"
+                                                                title="required">*</abbr></label>
+                                                        <input type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-5">
+                                    <div class="your-order-area">
+                                        <h3>Your order</h3>
+                                        <div class="your-order-wrap">
+                                            <div class="your-order-info-wrap">
+                                                <div class="your-order-title">
+                                                    <h4>Product <span>Subtotal</span></h4>
+                                                </div>
+                                                 @foreach (var cart in Model.CartItems)
+                                                    {
+                                                <div class="your-order-product">
+                                                    <ul>
+                                                        <li>@cart.Name<span>@cart.UnitPrice?.ToString("C")</span></li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                               
+                                                }
+                                                 <div class="your-order-total">
+                                                    <h3>Total <span>@Model.Total.ToString("C")</span></h3>
+                                                </div>
+                                            </div>
+                                            <div class="payment-method">
+
+                                                <div class="pay-top sin-payment sin-payment-3">
+                                                    <input id="payment-method-4" class="input-radio" type="radio"
+                                                        value="cheque" name="payment_method">
+                                                    <label for="payment-method-4">PayPal <img alt=""
+                                                            src="assets/img/icons/payment-3.png"><a href="#">What is
+                                                            PayPal?</a></label>
+                                                    <div class="payment-box payment_method_bacs">
+                                                        <p>Pay via PayPal; you can pay with your credit card if you
+                                                            don’t have a PayPal account.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="payment-condition">
+                                                <p>Your personal data will be used to process your order, support your
+                                                    experience throughout this website, and for other purposes described
+                                                    in our <a href="#">privacy policy</a>.</p>
+                                            </div>
+
+                                        </div>
+                                        <form method="post" asp-page-handler="Pay">
+                                            <button class="btn btn-link" type="submit">Pay with PayPal</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="cart-shiping-update-wrapper">
+                        <div class="cart-shiping-btn continure-btn">
+                            <a class="btn btn-link" href="productshopping"><i class="ion-ios-arrow-left"></i> Back To
+                                Shop</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Cart Area Wrapper -->
+</main>

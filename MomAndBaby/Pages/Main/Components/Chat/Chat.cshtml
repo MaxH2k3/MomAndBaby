@@ -1,4 +1,4 @@
-﻿
+﻿@using MomAndBaby.Utilities.Constants
 @using System.Text.Json;
 
 @* <input type="hidden" id="user-id" value="@(HttpContext.User.Claims.ElementAt(0).Value)" /> *@
@@ -6,7 +6,7 @@
 	<div class="custom-popup-chat">
 		<div class="chat-btn"> <i class="fa fa-commenting-o comment"></i> <i class="fa fa-close close"></i> </div>
 		@{
-            await Html.RenderPartialAsync("../Components/Chat/Component/DisplayMessage");
+            await Html.RenderPartialAsync(ConstantPage.MainPage.Chat);
         }
 		
 	</div>

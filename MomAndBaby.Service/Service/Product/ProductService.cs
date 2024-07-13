@@ -196,6 +196,15 @@ namespace MomAndBaby.Service
 
         }
 
+        public async Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds)
+        {
+            return await _unitOfWork.ProductRepository.GetProductsByIdsAsync(productIds);
+        }
+
+        //public async Task<IEnumerable<Product>> GetTrendingItems()
+        //{
+        //    return await _unitOfWork.ProductRepository.GetTrendingItems();
+        //}
         public async Task<IEnumerable<ProductCategoryDto>> GetCategoryShopping()
         {
             var categories = await _unitOfWork.CategoryRepository.GetAllCategory();

@@ -81,8 +81,7 @@
                                     </button>
                                 </div>
                                 <div class="header-action-cart">
-                                    <button class="btn-cart cart-icon">
-                                        <span class="cart-count">01</span>
+                                    <button class="cart-icon" href="/cart-detail">
                                         <i class="pe-7s-shopbag"></i>
                                     </button>
                                 </div>
@@ -110,28 +109,14 @@
                 <div class="col-lg-8 sticky-md-none">
                     <div class="header-navigation-area d-none d-md-block">
                         <ul class="main-menu nav position-relative">
-                            <li class="has-submenu active">
-                                <a class="ml--2" href="index.html">Home</a>
-                                <ul class="submenu-nav">
-                                    <li><a href="index.html">Home One</a></li>
-                                    <li><a href="index-2.html">Home Two</a></li>
-                                </ul>
+                            <li class="active">
+                                <a class="ml--2" href="/">Home</a>
                             </li>
                             <li><a href="about.html">About</a></li>
                             
-                            <li ><a href="/productshopping">Shop</a></li>
-                            <li class="has-submenu">
-                                <a href="blog.html">Blog</a>
-                                <ul class="submenu-nav">
-                                    <li><a href="blog.html">Blog 3 Column</a></li>
-                                    <li><a href="blog-4-column.html">Blog 4 Column</a></li>
-                                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                                    <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                                    <li><a href="blog.html">Blog No Sidebar</a></li>
-                                    <li><a href="blog-details.html">Blog Details Left Sidebar</a></li>
-                                    <li><a href="blog-details-right-sidebar.html">Blog Details Right Sidebar</a></li>
-                                    <li><a href="blog-details-no-sidebar.html">Blog Details No Sidebar</a></li>
-                                </ul>
+                            <li ><a href="/shopping">Shop</a></li>
+                            <li class="">
+                                <a href="/article">Blog</a>
                             </li>
                             <li><a href="contact.html">Contact</a></li>
                         </ul>
@@ -145,19 +130,14 @@
                             </button>
                         </div>
                         <div class="header-action-login">
-                            <button class="btn-login" onclick="window.location.href='login-register.html'">
+                            <a class="btn-login" href="@(!User.Identity.IsAuthenticated ? "/login" : "/myaccount")">
                                 <i class="pe-7s-users"></i>
-                            </button>
+                            </a>
                         </div>
-                        <div class="header-action-wishlist">
-                            <button class="btn-wishlist" onclick="window.location.href='shop-wishlist.html'">
-                                <i class="pe-7s-like"></i>
-                            </button>
-                        </div>
+                       
                         <div class="header-action-cart">
-                            <button class="btn-cart cart-icon">
-                                <span class="cart-count">01</span>
-                                <i class="pe-7s-shopbag"></i>
+                            <button onclick="window.location.href='cart-detail'" class="cart-icon">
+                                
                             </button>
                         </div>
                         <button class="btn-menu d-lg-none">

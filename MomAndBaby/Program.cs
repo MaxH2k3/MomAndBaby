@@ -19,6 +19,12 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Set up auto mapper.
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Set session timeout
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 // Set up database context.
 builder.Services.AddDbContext<MomAndBabyContext>(options =>

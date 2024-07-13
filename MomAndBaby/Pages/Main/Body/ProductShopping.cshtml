@@ -1,4 +1,4 @@
-﻿@page "/productshopping"
+﻿@page "/shopping"
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
 @{
@@ -10,24 +10,25 @@
         background-color: hotpink !important;
     }
 
-    .selected-category{
+    .selected-category {
         color: hotpink !important;
     }
 
     .category-link {
-        color: dimgray; /* Make it look like a link */
-       
-        cursor: pointer; /* Show a hand cursor on hover */
+        color: dimgray;
+        /* Make it look like a link */
+
+        cursor: pointer;
+        /* Show a hand cursor on hover */
     }
 
     .category-link:hover {
-        color: hotpink; /* Change color on hover for visual feedback */
+        color: hotpink;
+        /* Change color on hover for visual feedback */
     }
-
-    
-   
-    
 </style>
+
+<link rel="stylesheet" href="~/main/assets/css/price-slider.css" asp-append-version="true" />
 
 <main class="main-content">
     <!--== Start Page Title Area ==-->
@@ -37,7 +38,8 @@
                 <div class="col-lg-12 m-auto">
                     <div class="page-title-content text-center">
                         <h2 class="title">Product</h2>
-                        <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> Product</span></div>
+                        <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> //
+                            </span><span class="active"> Product</span></div>
                     </div>
                 </div>
             </div>
@@ -51,33 +53,37 @@
                 <div class="col-lg-9 order-0 order-lg-1">
                     <div class="shop-toolbar-wrap">
                         <div class="product-showing-status">
-                            <p class="count-result"><span id="filtered-products-count">@Model.FilteredProductsCount</span> Product Found of <span id="total-products-count">@Model.TotalProductsCount</span></p>
+                            <p class="count-result"><span
+                                    id="filtered-products-count">@Model.FilteredProductsCount</span> Product Found of
+                                <span id="total-products-count">@Model.TotalProductsCount</span></p>
                         </div>
-                        
 
-                          
+
+
                         <div class="product-sorting-menu product-sorting">
-                            <span class="current">Sort By : <span id="current-sort"> Default <i class="fa fa-angle-down"></i></span></span>
-                            <div class="sorting">
-                                <ul id="sort-options">
-                                    <li><a data-sort="Default" class="sort-option active">Sort by Default</a></li>
-                                    <li><a data-sort="Purchases" class="sort-option">Sort by Purchases</a></li>
-                                    <li><a data-sort="Star" class="sort-option">Sort by Star</a></li>
-                                    <li><a data-sort="Date" class="sort-option">Sort by Date</a></li>
-                                    <li><a data-sort="IncreasePrice" class="sort-option">Sort by Increasing Price</a></li>
-                                    <li><a data-sort="DecreasePrice" class="sort-option">Sort by Decreasing Price</a></li>
+                            <span class="current">Sort By : <span id="current-sort"> Default <i
+                                        class="fa fa-angle-down"></i></span></span>
+                            <!-- <div class="sorting"> -->
+                            <ul id="sort-options">
+                                <li><a data-sort="Default" class="sort-option active">Sort by Default</a></li>
+                                <li><a data-sort="Purchases" class="sort-option">Sort by Purchases</a></li>
+                                <li><a data-sort="Star" class="sort-option">Sort by Star</a></li>
+                                <li><a data-sort="Date" class="sort-option">Sort by Date</a></li>
+                                <li><a data-sort="IncreasePrice" class="sort-option">Sort by Increasing Price</a></li>
+                                <li><a data-sort="DecreasePrice" class="sort-option">Sort by Decreasing Price</a></li>
 
-                                </ul>
-                            </div>
+                            </ul>
+                            <!-- </div> -->
                         </div>
-                        
-                        
+
+
                     </div>
-                    
-                    <div  class="tab-content" id="nav-tabContent">
-                        <div class="tab-pane fade show active" id="column-three" role="tabpanel" aria-labelledby="column-three-tab">
+
+                    <div class="tab-content" id="nav-tabContent">
+                        <div class="tab-pane fade show active" id="column-three" role="tabpanel"
+                            aria-labelledby="column-three-tab">
                             <div class="row" id="product-list">
-                                @foreach(var product in Model.Products)
+                                @foreach (var product in Model.Products)
                                 {
                                     <div class="col-sm-6 col-md-4">
                                         <!-- Start Product Item -->
@@ -85,10 +91,13 @@
                                             <div class="product-thumb">
                                                 <img src="assets/img/shop/1.png" alt="Image">
                                                 <div class="product-action">
-                                                    <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                                                    <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                    <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                    <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                    <a href="?handler=AddToCart&productId=@product.Id"><i
+                                                            class="ion-ios-cart"></i></a>
+                                                    <a class="action-quick-view" href="javascript:void(0)"><i
+                                                            class="ion-arrow-expand"></i></a>
+                                                    <a class="" href="javascript:void(0)"><i
+                                                            class="fa-solid fa-info"></i></a>
+                                                    <a class="" href="javascript:void(0)"><i class="ion-shuffle"></i></a>
                                                 </div>
                                             </div>
                                             <div class="product-info">
@@ -98,18 +107,20 @@
                                                         int fullStars = (int)averageStar; // Number of full stars
                                                         bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
                                                         int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
-                                                    }
+                                                }
                                                     @for (int i = 0; i < fullStars; i++)
                                                     {
                                                         <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                                     }
                                                     @if (hasHalfStar)
                                                     {
-                                                        <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+                                                        <span class="fa fa-star-half-alt"
+                                                            style="text-shadow: 0 0 1px black"></span>
                                                     }
                                                     @for (int i = 0; i < emptyStars; i++)
                                                     {
-                                                        <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+                                                        <span class="fa fa-star"
+                                                            style="color: white; text-shadow: 0 0 1px black"></span>
                                                     }
                                                     <h4>@product.Statistic.AverageStar</h4>
 
@@ -123,7 +134,7 @@
                                         <!-- End Product Item -->
                                     </div>
                                 }
-                                
+
                             </div>
                         </div>
                     </div>
@@ -143,7 +154,8 @@
                                                 for (int i = 1; i <= totalPages; i++)
                                                 {
                                                     <li>
-                                                        <a class="page-number @(i == currentPage ? "active" : "")" data-page="@i">@i</a>
+                                                        <a class="page-number @(i == currentPage ? "active" : "")"
+                                                            data-page="@i">@i</a>
                                                     </li>
                                                 }
                                                 if (totalPages > 1 && currentPage < totalPages)
@@ -159,7 +171,7 @@
                                     </nav>
                                 </div>
                             }
-                            
+
                         </div>
                     </div>
                 </div>
@@ -174,10 +186,11 @@
                                     <ul>
                                         @foreach (var item in Model.ProductCategoryDto)
                                         {
-                                            <li><span class="category-link" data-category-id="@item.Id">@item.Name <span>(@item.NumberOfProduct)</span></span></li>
+                                            <li><span class="category-link" data-category-id="@item.Id">@item.Name
+                                                    <span>(@item.NumberOfProduct)</span></span></li>
                                         }
-                                       
-                                       
+
+
                                     </ul>
                                 </div>
                             </div>
@@ -185,23 +198,47 @@
                         <div class="widget-item">
                             <div class="widget-filter">
                                 <div class="widget-title">
-                                    <h3 class="title">Price Search</h3>
+                                    <h3 class="title">Price Search (000 VND)</h3>
                                 </div>
                                 <div class="widget-body">
                                     <div class="widget-price-filter">
-                                        @* <form action="#" method="post"> *@
-                                            <input type="text" id="searchFrom" value="" placeholder="From">
-                                            <input type="text" id="searchTo" value="" placeholder="To">
-                                                <button type="submit" class="btn-src">
-                                                    <i class="pe-7s-search"></i>
-                                                </button>
-                                         
-                                        @* </form> *@
+                                        <form action="#" method="post"> 
+                                        @* <input type="text" id="searchFrom" value="" placeholder="From">
+                                        <span>-</span>
+                                        <input type="text" id="searchTo" value="" placeholder="To"> *@
+                                        @* <button type="submit" class="btn-src">
+                                            <i class="pe-7s-search"></i>
+                                        </button> *@
+
+                                        <div class="price-input">
+                                            <div class="field">
+                                                <input type="number" id="searchFrom" class="input-min" value="250">
+                                            </div>
+                                            <div class="separator">-</div>
+                                            <div class="field">
+                                                <input type="number" id="searchTo" class="input-max" value="750">
+                                            </div>
+                                        </div>
+                                        <div class="slider">
+                                            <div class="progress"></div>
+                                        </div>
+                                        <div class="range-input">
+                                            <input type="range" class="range-min" min="0" max="1000" value="250" step="10">
+                                            <input type="range" class="range-max" min="0" max="1000" value="750" step="10">
+                                        </div>
+
+                                            <button type="submit" class="btn-src" style="margin-top: 1rem;">
+                                                <i class="pe-7s-search"></i>
+                                            </button>
+
+                                        </form>
+                                            
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+
                         <div class="widget-item mb-md-0">
                             <div class="widget-title">
                                 <h3 class="title">Star</h3>
@@ -209,11 +246,14 @@
                             <div class="widget-body">
                                 <div class="widget-size">
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio5">
-                                        <label class="form-check-label" for="colorRadio5"><span class="fa fa-star" style="text-shadow: 0 0 1px black"></span></label>
+                                        <input class="form-check-input black" type="radio" name="colorRadio2"
+                                            id="colorRadio5">
+                                        <label class="form-check-label" for="colorRadio5"><span class="fa fa-star"
+                                                style="text-shadow: 0 0 1px black"></span></label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio6">
+                                        <input class="form-check-input black" type="radio" name="colorRadio2"
+                                            id="colorRadio6">
                                         <label class="form-check-label" for="colorRadio6">
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
@@ -221,7 +261,8 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio7">
+                                        <input class="form-check-input black" type="radio" name="colorRadio2"
+                                            id="colorRadio7">
                                         <label class="form-check-label" for="colorRadio7">
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
@@ -229,7 +270,8 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio8">
+                                        <input class="form-check-input black" type="radio" name="colorRadio2"
+                                            id="colorRadio8">
                                         <label class="form-check-label" for="colorRadio8">
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
@@ -238,7 +280,8 @@
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input black" type="radio" name="colorRadio2" id="colorRadio9">
+                                        <input class="form-check-input black" type="radio" name="colorRadio2"
+                                            id="colorRadio9">
                                         <label class="form-check-label" for="colorRadio9">
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
                                             <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
@@ -263,5 +306,5 @@
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="~/js/product-shopping.js"></script>
+    <script src="~/main/assets/js/price-slider.js" asp-append-version="true"></script>
 }
-
