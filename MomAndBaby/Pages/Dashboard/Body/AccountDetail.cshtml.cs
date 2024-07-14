@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace MomAndBaby.Pages.Dashboard.Body
 {
-    public class TestModel : PageModel
+    public class AccountDetailModel : PageModel
     {
         public void OnGet()
         {

@@ -62,7 +62,7 @@ namespace MomAndBaby.Pages.Main.Body
                                 new(UserClaimType.UserName, nameClaim),
                                 new(UserClaimType.FullName, nameClaim),
                                 new(UserClaimType.Email, emailClaim),
-                                new(UserClaimType.Role, ((int)RoleType.User).ToString())
+                                new(UserClaimType.Role, ((int)RoleType.Customer).ToString())
 
                             };  
                             var claimsIdentity = new ClaimsIdentity(

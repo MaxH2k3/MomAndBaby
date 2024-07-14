@@ -2,10 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
-using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
-using MomAndBaby.Repository;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
@@ -55,9 +53,24 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
 {
-    opt.AddPolicy("User", policy => policy.RequireClaim(UserClaimType.Role, RoleType.User.ToString()));
-    opt.AddPolicy("Staff", policy => policy.RequireClaim(UserClaimType.Role, RoleType.Staff.ToString()));
-    opt.AddPolicy("Admin", policy => policy.RequireClaim(UserClaimType.Role, RoleType.Admin.ToString()));
+    opt.AddPolicy("User", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Customer).ToString()));
+    opt.AddPolicy("Staff", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString()));
+    opt.AddPolicy("Admin", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Admin).ToString()));
+    opt.AddPolicy("SA", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString(), ((int)RoleType.Admin).ToString()));
+    opt.AddPolicy("NonAdmin", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            // Allow access if the user is not authenticated (anonymous)
+            if (context.User.Identity!.IsAuthenticated)
+            {
+                // Allow access if the user is authenticated and does not have the Admin role
+                return !context.User.HasClaim(UserClaimType.Role, ((int)RoleType.Admin).ToString());
+            }
+
+            return true;
+        });
+    });
 });
 
 // Set up http context accessor.
@@ -69,7 +82,11 @@ builder.Services.AddSignalR(option =>
 {
     option.EnableDetailedErrors = true;
 });
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    options.Conventions.AuthorizeFolder("/Dashboard/Body", "SA");
+    options.Conventions.AuthorizeFolder("/Main/Body", "NonAdmin");
+});
 
 var app = builder.Build();
 
@@ -89,6 +106,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithRedirects(SystemConstant.DefaultPageError);
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -102,6 +121,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
 app.MapControllers();
 
 app.MapHub<ChatHub>(SystemConstant.HubConnection);

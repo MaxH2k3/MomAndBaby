@@ -22,7 +22,7 @@ namespace MomAndBaby.Repository
         public async Task<User> AddUser(User userRegitser)
         {
             userRegitser.Status = "Active";
-            userRegitser.RoleId = (int)RoleType.User;
+            userRegitser.RoleId = (int)RoleType.Customer;
             await _context.Users.AddAsync(userRegitser);
             return userRegitser;
         }
