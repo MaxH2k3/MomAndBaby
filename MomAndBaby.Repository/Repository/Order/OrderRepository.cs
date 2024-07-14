@@ -38,5 +38,12 @@ namespace MomAndBaby.Repository
                 .ToListAsync();
             return orderDetail;
         }
+
+        public async Task<int> CreateOrder(Order order)
+        {
+            var result = await _context.Orders.AddAsync(order);
+            await _context.SaveChangesAsync();
+            return result.Entity.Id;
+        }
     }
 }
