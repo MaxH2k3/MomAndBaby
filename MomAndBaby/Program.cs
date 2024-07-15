@@ -43,6 +43,7 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
 
 
 builder.Services.AddSession();
@@ -52,7 +53,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
 {
-    opt.AddPolicy("User", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Customer).ToString()));
+    opt.AddPolicy("Customer", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Customer).ToString()));
     opt.AddPolicy("Staff", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString()));
     opt.AddPolicy("Admin", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Admin).ToString()));
     opt.AddPolicy("SA", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString(), ((int)RoleType.Admin).ToString()));
@@ -70,6 +71,18 @@ builder.Services.AddAuthorization(opt =>
             return true;
         });
     });
+    opt.AddPolicy("User", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            if(context.User.Identity!.IsAuthenticated)
+            {
+                return true;
+            }
+
+            return false;
+        });
+    });
 });
 
 // Set up http context accessor.
@@ -85,6 +98,7 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Dashboard/Body", "SA");
     options.Conventions.AuthorizeFolder("/Main/Body", "NonAdmin");
+    options.Conventions.AuthorizePage("/Main/Body/CartDetail", "User");
 });
 
 var app = builder.Build();

@@ -127,11 +127,11 @@ public class CartDetailModel : PageModel
              HttpContext.Session.Remove("Cart");
             HttpContext.Session.Remove("Total");
 
-            return RedirectToPage("/cart-detail");
+            return Redirect("/cart-detail");
         }
 
         // Handle payment failure
-        return RedirectToPage("PaymentFailed");
+        return Redirect("/PaymentFailed");
     }
 
     private async Task SaveOrderDetails()

@@ -83,6 +83,20 @@ namespace MomAndBaby.Repository
             return _context.Products.Include(p => p.Statistic).ToList();
         }
 
+        public async Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory()
+        {
+            var result = await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .GroupBy(p => p.CategoryNavigation!.Name)
+                .Select(g => new { CategoryName = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            var categoryNames = result.Select(x => x.CategoryName!.ToString()).ToList();
+            var counts = result.Select(x => x.Count).ToList();
+
+            return Tuple.Create(categoryNames, counts);
+
+        }
         
 
         //public async Task<IEnumerable<Product>> GetTrendingItems()

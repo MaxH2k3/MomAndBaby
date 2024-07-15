@@ -22,6 +22,7 @@ namespace MomAndBaby.Repository
         Task<bool> NameExistAsync(string name);
         Task<bool> NameUpdateExistAsync(Guid productId, string name);
         Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
+        Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory();
 
     }
 }
