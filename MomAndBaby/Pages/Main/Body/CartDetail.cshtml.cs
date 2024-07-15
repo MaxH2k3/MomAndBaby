@@ -40,11 +40,11 @@ public class CartDetailModel : PageModel
 
     public void OnGet()
     {
-        if(!User.Identity!.IsAuthenticated)
-            {
-                Redirect("/login");
-            }
-        
+        if (!User.Identity!.IsAuthenticated)
+        {
+            Redirect("/login");
+        }
+
         var cart = HttpContext.Session.GetString("Cart");
         if (!string.IsNullOrEmpty(cart))
         {
@@ -99,9 +99,9 @@ public class CartDetailModel : PageModel
     public async Task<IActionResult> OnPostPay()
     {
         if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+        {
+            return Page();
+        }
         HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(Address));
         var sessionData = HttpContext.Session.GetString("Total");
         if (JsonConvert.DeserializeObject<Decimal>(sessionData) == 0)
@@ -124,7 +124,7 @@ public class CartDetailModel : PageModel
             // Save the order details to the database
             await SaveOrderDetails();
             // Clear the cart after successful payment
-             HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove("Cart");
             HttpContext.Session.Remove("Total");
 
             return Redirect("/cart-detail");
@@ -137,7 +137,7 @@ public class CartDetailModel : PageModel
     private async Task SaveOrderDetails()
     {
         var cart = HttpContext.Session.GetString("Cart");
-         var cartData = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
+        var cartData = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
         var sessionData = HttpContext.Session.GetString("Total");
         // var firstNameData = HttpContext.Session.GetString("FirstName");
         // var lastNameData = HttpContext.Session.GetString("LastName");
@@ -163,7 +163,7 @@ public class CartDetailModel : PageModel
         {
             OrderId = orderSave,
             ProductId = cartItem.Id,
-            Quantity = 1, 
+            Quantity = 1,
             Price = cartItem.UnitPrice.Value
         }).ToList();
 

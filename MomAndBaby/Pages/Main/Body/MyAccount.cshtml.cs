@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using PayPal.Api;
 using MomAndBaby.Service.OrderService;
+using MomAndBaby.Service.Extension;
 
 namespace MomAndBaby.Pages.Main.Body
 {
@@ -69,7 +70,7 @@ namespace MomAndBaby.Pages.Main.Body
                     FullName = user.FullName;
                     Address = user.Address;
                     PhoneNumber = user.PhoneNumber;
-                    Orders = await _orderService.GetAllOrder();
+                    Orders = await _orderService.GetAllOrder(Guid.Parse(User.GetUserIdFromToken()));
                 }
             }
         }
