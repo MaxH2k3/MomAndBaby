@@ -4,7 +4,7 @@ using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Helper;
 
-namespace MomAndBaby.Pages.Main.Body
+namespace MomAndBaby.Pages.Main.Authorize
 {
     public class SignupPageModel : PageModel
     {
