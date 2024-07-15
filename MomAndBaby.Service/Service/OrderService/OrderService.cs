@@ -15,9 +15,9 @@ namespace MomAndBaby.Service.OrderService
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderResponseModel>> GetAllOrder()
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrder(Guid userId)
         {
-            var orders = await _unitOfWork.OrderRepository.GetAllOrder();
+            var orders = await _unitOfWork.OrderRepository.GetAllOrder(userId);
             return _mapper.Map<IEnumerable<OrderResponseModel>>(orders);
         }
 
