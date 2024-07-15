@@ -219,11 +219,15 @@ namespace MomAndBaby.Service
             
         }
 
-       
+
+        public async Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory()
+        {
+            return await _unitOfWork.ProductRepository.GetStatisticsProductCategory();
+        }
 
 
 
-        
+
     }
     
 }

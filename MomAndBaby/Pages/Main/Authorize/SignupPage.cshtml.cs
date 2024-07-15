@@ -11,7 +11,7 @@ using MomAndBaby.Utilities.Helper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace MomAndBaby.Pages.Main.Body
+namespace MomAndBaby.Pages.Main.Authorize
 {
     public class SignupPageModel : PageModel
     {

@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
-using MomAndBaby.BusinessObject.Entity;
-using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Helper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
-namespace MomAndBaby.Pages.Main.Body
+namespace MomAndBaby.Pages.Main.Authorize
 {
     public class SigninPageModel : PageModel
     {
@@ -36,16 +35,13 @@ namespace MomAndBaby.Pages.Main.Body
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
             {
 
-               RedirectUri = "/gg"
+                RedirectUri = "/gg"
 
 
             });
 
-            
+        }
 
-
-        }  
-        
         public IActionResult OnGet()
         {
             if (HttpContext.Session.IsAuthenticated())
@@ -61,19 +57,10 @@ namespace MomAndBaby.Pages.Main.Body
             
             var user = await _userService.Login(UserName, Password);
 
-            if(user == null)
+            if (user == null)
             {
                 return Page();
             } 
-
-            //if(user.RoleId == 2)
-            //{
-            //    HttpContext.Session.SignIn(user);
-
-            //} else if(user.RoleId == 4) 
-            //{
-            //    HttpContext.Session.SignIn(user, true);
-            //}
 
             var claims = new List<Claim>
                 {
@@ -104,12 +91,17 @@ namespace MomAndBaby.Pages.Main.Body
                 authProperties);
 
             return Redirect("/verify");
+            // if (user.RoleId == (int)RoleType.Admin)
+            // {
+            //     return Redirect("/dashboard");
+            // }
+
+            // return Redirect("/");
         }
 
         public async Task<IActionResult> OnGetLogout()
         {
             await HttpContext.SignOutAsync();
-            //HttpContext.Session.SignOut();
             return Redirect("/login");
         }
     }

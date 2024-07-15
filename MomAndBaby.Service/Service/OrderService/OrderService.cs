@@ -15,9 +15,9 @@ namespace MomAndBaby.Service.OrderService
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<OrderResponseModel>> GetAllOrder()
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrder(Guid userId)
         {
-            var orders = await _unitOfWork.OrderRepository.GetAllOrder();
+            var orders = await _unitOfWork.OrderRepository.GetAllOrder(userId);
             return _mapper.Map<IEnumerable<OrderResponseModel>>(orders);
         }
 
@@ -42,6 +42,30 @@ namespace MomAndBaby.Service.OrderService
         {
             var orderDetails= await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
             return _mapper.Map<IEnumerable<OrderDetailResponseModel>>(orderDetails);
+        }
+
+        public async Task<int> CreateOrder(Order order)
+        {
+            return await _unitOfWork.OrderRepository.CreateOrder(order);
+        }
+
+        public async Task CreateOrderDetail(List<OrderDetail> orderDetail)
+        {
+            await _unitOfWork.OrderDetailRepository.CreateOrderDetail(orderDetail);
+        }
+
+        public async Task<bool> CompleteOrder(OrderTracking orderTracking)
+        {
+            var result = _unitOfWork.OrderTrackingRepository.CreateOrderTracking(orderTracking);
+            if(result.IsFaulted){
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<OrderTracking> GetOrderTracking(int orderId)
+        {
+            return await _unitOfWork.OrderTrackingRepository.GetOrderTrackingAsync(orderId);
         }
     }
 }

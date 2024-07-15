@@ -10,5 +10,12 @@ namespace MomAndBaby.Repository
         {
             _context = context;
         }
+
+        public async Task CreateOrderDetail(List<OrderDetail> orderDetail)
+        {
+             await _context.OrderDetails.AddRangeAsync(orderDetail);
+            await _context.SaveChangesAsync();
+            
+        }
     }
 }
