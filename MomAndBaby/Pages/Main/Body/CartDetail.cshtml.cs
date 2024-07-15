@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
@@ -17,11 +18,12 @@ public class CartDetailModel : PageModel
     private readonly IPayPalService _payPalService;
     private readonly IOrderService _orderService;
 
-    private readonly string _baseUrl = "https://localhost:7076";
+    private readonly string _baseUrl = "";
     public CartDetailModel(IPayPalService payPalService, IConfiguration configuration, IOrderService orderService)
     {
         _payPalService = payPalService;
         _orderService = orderService;
+        _baseUrl = HttpContext.Request.GetDisplayUrl();
     }
     public List<CartSessionModel> CartItems { get; set; } = new List<CartSessionModel>();
     public decimal Subtotal { get; set; }
