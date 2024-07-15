@@ -23,12 +23,12 @@ namespace MomAndBaby.BusinessObject.Entity
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public int RoleId { get; set; }
-        public string Otp { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
         public string? Status { get; set; }
 
         public virtual Role? Role { get; set; }
+        public virtual UserValidation UserValidation {get; set;}
         public virtual ICollection<Article> Articles { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

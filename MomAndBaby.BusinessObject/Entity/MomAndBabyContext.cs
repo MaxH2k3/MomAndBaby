@@ -30,6 +30,7 @@ namespace MomAndBaby.BusinessObject.Entity
         public virtual DbSet<Status> Statuses { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
+        public virtual DbSet<UserValidation> UserValidation { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -226,9 +227,6 @@ namespace MomAndBaby.BusinessObject.Entity
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
-                entity.Property(e => e.Category)
-                    .HasMaxLength(255)
-                    .HasColumnName("category");
 
                 entity.Property(e => e.CategoryId).HasColumnName("category_id");
 
@@ -397,9 +395,7 @@ namespace MomAndBaby.BusinessObject.Entity
                     .HasColumnName("phone_number");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
-                entity.Property(e => e.Otp)
-                    .HasMaxLength(6)
-                    .HasColumnName("otp");
+               
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
@@ -414,11 +410,41 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.Property(e => e.Username)
                     .HasMaxLength(255)
                     .HasColumnName("username");
+                entity.HasOne(u => u.UserValidation)
+                    .WithOne()
+                    .HasForeignKey<UserValidation>(uv => uv.UserId);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__User__role_id__33208881");
+
+            });
+
+            modelBuilder.Entity<UserValidation>(entity =>
+            {
+                entity.ToTable("UserValidation");
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .IsRequired();
+
+                entity.Property(e => e.Otp)
+                    .HasColumnName("otp")
+                    .HasMaxLength(6)
+                    .IsRequired();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.ExpiredAt)
+                    .HasColumnName("expired_at")
+                    .HasDefaultValueSql("GETDATE()");
+
+              
             });
 
             modelBuilder.Entity<Voucher>(entity =>

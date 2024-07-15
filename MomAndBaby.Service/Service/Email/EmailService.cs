@@ -11,7 +11,22 @@ namespace MomAndBaby.Service.Service.Email
     public class EmailService : IEmailService
     {
         private readonly IFluentEmail _fluentEmail;
-        private static readonly string CachedTemplate = File.ReadAllText("./Pages/Authentication/Dashboard/Components/Common/VerifyWithOTP.cshtml");
+        private static readonly string CachedTemplate;
+
+        static EmailService()
+        {
+            // Xây dựng đường dẫn tuyệt đối tới tệp VerifyWithOTP.cshtml
+            var projectRootPath = Directory.GetCurrentDirectory();
+            var templatePath = Path.Combine(projectRootPath, "Pages", "Dashboard", "Components", "Common", "VerifyWithOTP.cshtml");
+
+            // Đọc nội dung tệp vào CachedTemplate
+            CachedTemplate = File.ReadAllText(templatePath);
+        }
+
+        public EmailService(IFluentEmail fluentEmail)
+        {
+            _fluentEmail = fluentEmail;
+        }
 
 
         public async Task<bool> SendEmailWithTemplate(string title, UserMailDto userMail)

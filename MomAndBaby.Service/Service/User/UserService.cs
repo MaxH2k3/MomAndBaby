@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.UserDto;
@@ -21,31 +22,33 @@ namespace MomAndBaby.Service
             _emailService = emailService;
         }
 
-        public async Task<bool> AddNewUser(LoginUserDto loginUser)
+        public async Task<User?> AddNewUser(LoginUserDto loginUser)
         {
             var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
-            var userEntity = new User();
+            
             if (userCheck == null)
             {
-                
 
+                userCheck = new User();
                 AuthenHelper.CreatePasswordHash(loginUser.Password, out byte[] passwordHash, out byte[] passwordSalt);
-                userEntity.Email = loginUser.Email;
-                userEntity.Username = loginUser.UserName;
-                userEntity.FullName = loginUser.UserName;
-                userEntity.Id = Guid.NewGuid();
-                userEntity.Password = passwordHash;
-                userEntity.PasswordSalt = passwordSalt;
+                userCheck.Email = loginUser.Email;
+                userCheck.Username = loginUser.UserName;
+                userCheck.FullName = loginUser.UserName;
+                userCheck.Id = Guid.NewGuid();
+                userCheck.Password = passwordHash;
+                userCheck.PasswordSalt = passwordSalt;
                
-                await _unitOfWork.UserRepository.AddUser(userEntity);
+                await _unitOfWork.UserRepository.AddUser(userCheck);
+                await _unitOfWork.SaveChangesAsync();
             }
             else
             {
-                return false;
+                return null;
             }
-                
-            await _unitOfWork.SaveChangesAsync();
-            return await GenerateAndSendOTP(userEntity.Email!, userEntity.FullName!, userEntity.Otp);
+
+            await GenerateAndSendOTP(userCheck.Email!, userCheck.FullName!, userCheck.Id);
+
+            return userCheck;
         }
 
         public async Task<bool> SigninGoogle(User user)
@@ -85,7 +88,7 @@ namespace MomAndBaby.Service
             {
                 return null;
             }
-
+            await GenerateAndSendOTP(user.Email!, user.FullName!, user.Id);
             return user;
         }
 
@@ -110,26 +113,28 @@ namespace MomAndBaby.Service
             return existUser;
         }
 
-        public async Task<User> UpdateUserOtp(string email, string Otp)
-        {
-            var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
-            if (existUser != null)
-            {
-                existUser.Otp = Otp;
-            }
-            await _unitOfWork.UserRepository.UpdateUser(existUser);
-            return existUser;
+        
 
-        }
-
-        public async Task<bool> GenerateAndSendOTP(string email, string userName, string? Otp)
+        public async Task<bool> GenerateAndSendOTP(string email, string userName, Guid userId)
         {
             var otp = AuthenHelper.GenerateOTP();
-            if (Otp == null)
+            var existingUserValidation = await _unitOfWork.UserValidationRepository.GetUser(userId);
+
+            bool isNewUserValidation = existingUserValidation == null;
+            var userValidation = existingUserValidation ?? new UserValidation { UserId = userId };
+
+            userValidation.Otp = otp;
+            userValidation.ExpiredAt = DateTime.UtcNow.AddMinutes(5);
+            userValidation.CreatedAt = userValidation.CreatedAt == default ? DateTime.UtcNow : userValidation.CreatedAt;
+
+            if (isNewUserValidation)
             {
-                Otp = otp;
+                await _unitOfWork.UserValidationRepository.AddUserValidation(userValidation);
             }
-            var updatedUser = UpdateUserOtp(email, otp);
+            else
+            {
+                await _unitOfWork.UserValidationRepository.UpdateUserValidation(userValidation);
+            }
 
             var emailSent = await _emailService.SendEmailWithTemplate("Your OTP Code", new UserMailDto()
             {
@@ -137,12 +142,50 @@ namespace MomAndBaby.Service
                 Email = email,
                 OTP = otp,
             });
-            return true;
+            if (emailSent)
+            {
+                return true; // Return 200 OK if everything is successful
+            }
+            else
+            {
+                return false; // Return 500 Internal Server Error if email sending failed
+            }
 
         }
 
-      
+        public async Task<bool> ValidateOTP(ValidateOtpDTO validateOtp)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByEmail(validateOtp.Email!);
+            if(user  == null)
+            {
+                return false;
+            }
 
-       
+            var existOTP = await _unitOfWork.UserValidationRepository.GetUser(user.Id);
+            if(existOTP!.Otp == null)
+            {
+                return false;
+            } else if(existOTP.ExpiredAt < DateTime.UtcNow)
+            {
+                return false;
+            }
+
+            if (existOTP.Otp == validateOtp.Otp)
+            {
+                return await ProcessValidOTP(existOTP);
+            }
+            return false;
+        }
+
+        public async Task<bool> ProcessValidOTP(UserValidation userValidation)
+        {
+  
+           
+
+           
+            await _unitOfWork.UserValidationRepository.UpdateUserValidation(userValidation);
+            return await _unitOfWork.SaveChangesAsync();
+
+        }
     }
 }

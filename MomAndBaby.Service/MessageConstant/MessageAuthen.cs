@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MomAndBaby.Service.MessageConstant
 {
-    public class MessageOtp
+    public class MessageAuthen
     {
-        public const string OTPSent = "OTP sent successfully";
-        public const string OTPUnvalid = "OTP unvalid";
+        public const string ExistedEmail = "Email has been already used for signing up";
     }
 }

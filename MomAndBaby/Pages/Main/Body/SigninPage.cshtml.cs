@@ -8,6 +8,7 @@ using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Helper;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace MomAndBaby.Pages.Main.Body
@@ -19,6 +20,15 @@ namespace MomAndBaby.Pages.Main.Body
         {
             _userService = userService;
         }
+        [BindProperty]
+        [Required(ErrorMessage = "User Name is required")]
+        public string UserName { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
+        public string Password { get; set; }
 
         public async Task OnPostLoginGoogle()
         {
@@ -48,23 +58,22 @@ namespace MomAndBaby.Pages.Main.Body
 
         public async Task<IActionResult> OnPostLogin()
         {
-            string usernameValue = Request.Form["user-name"]!;
-            string passwordValue = Request.Form["user-password"]!;
-            var user = await _userService.Login(usernameValue, passwordValue);
+            
+            var user = await _userService.Login(UserName, Password);
 
             if(user == null)
             {
                 return Page();
-            }
+            } 
 
-            if(user.RoleId == 2)
-            {
-                HttpContext.Session.SignIn(user);
+            //if(user.RoleId == 2)
+            //{
+            //    HttpContext.Session.SignIn(user);
 
-            } else if(user.RoleId == 4) 
-            {
-                HttpContext.Session.SignIn(user, true);
-            }
+            //} else if(user.RoleId == 4) 
+            //{
+            //    HttpContext.Session.SignIn(user, true);
+            //}
 
             var claims = new List<Claim>
                 {
@@ -94,13 +103,13 @@ namespace MomAndBaby.Pages.Main.Body
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            return Redirect("/");
+            return Redirect("/verify");
         }
 
         public async Task<IActionResult> OnGetLogout()
         {
-            //await HttpContext.SignOutAsync();
-            HttpContext.Session.SignOut();
+            await HttpContext.SignOutAsync();
+            //HttpContext.Session.SignOut();
             return Redirect("/login");
         }
     }

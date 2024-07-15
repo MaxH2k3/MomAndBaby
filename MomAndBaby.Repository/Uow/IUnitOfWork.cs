@@ -17,6 +17,7 @@ namespace MomAndBaby.Repository.Uow
         IUserRepository UserRepository { get; }
         IVoucherRepository VoucherRepository { get; }
         ICategoryRepository CategoryRepository { get; }
+        IUserValidationRepository UserValidationRepository { get; }
     
 
         Task<bool> SaveChangesAsync();

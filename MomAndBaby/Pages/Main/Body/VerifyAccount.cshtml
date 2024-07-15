@@ -1,0 +1,56 @@
+﻿@page "/verify"
+@model MomAndBaby.Pages.Main.Body.VerifyAccountModel
+@{
+}
+
+
+
+<main class="main-content">
+    <!--== Start Page Title Area ==-->
+    <section class="page-title-area">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-12 m-auto">
+                    <div class="page-title-content text-center">
+                        <h2 class="title">My Account</h2>
+                        <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> My Account</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--== End Page Title Area ==-->
+    <section class="login-register-area">
+        <div class="container">
+            <div class="row d-flex justify-content-center">
+                <div class="login-register-content">
+                    <div class="login-register-title mb-30">
+                        <h2>Verify Account</h2>
+                        <p>Please input OTP was sent in your email</p>
+                    </div>
+                    <div class="login-register-style">
+                        <form method="post">
+                            <div class="login-register-input">
+                                <input type="hidden" asp-for="Email" placeholder="Email" value="@Model.Email" >
+                            </div>
+                            <div class="login-register-input">
+                                <input type="text" asp-for="Otp" placeholder="OTP">
+                            </div>
+                          
+                            <div class="btn-style-3">
+                                <button class="btn" asp-page-handler="RegisterAccount">Verify</button>
+                            </div>
+
+                        </form>
+                        <div class="text-info">@TempData["MessageVerify"]</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+
+    <!--== End Login Wrapper ==-->
+</main>

@@ -19,6 +19,7 @@ namespace MomAndBaby.Repository.Uow
         private readonly IUserRepository _userRepository = null!;
         private readonly IVoucherRepository _voucherRepository = null!;
         private readonly ICategoryRepository _categoryRepository = null!;
+        private readonly IUserValidationRepository _userValidationRepository = null!;
 
         public UnitOfWork(MomAndBabyContext context)
         {
@@ -42,6 +43,7 @@ namespace MomAndBaby.Repository.Uow
         public IUserRepository UserRepository => _userRepository ?? new UserRepository(_context);
         public IVoucherRepository VoucherRepository => _voucherRepository ?? new VoucherRepository(_context);
         public ICategoryRepository CategoryRepository => _categoryRepository ?? new CategoryRepository(_context);
+        public IUserValidationRepository UserValidationRepository => _userValidationRepository ?? new UserValidationRepository(_context);
 
         public void Dispose()
         {
