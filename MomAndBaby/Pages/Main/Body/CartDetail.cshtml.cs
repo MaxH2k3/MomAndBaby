@@ -34,10 +34,16 @@ public class CartDetailModel : PageModel
     public string FirstName { get; set; }
 
     [BindProperty]
-    public string LastName { get; set; }
+    public string Address { get; set; }
 
     [BindProperty]
-    public string Address { get; set; }
+    public string Tinh { get; set; }
+
+    [BindProperty]
+    public string Quan { get; set; }
+
+    [BindProperty]
+    public string Phuong { get; set; }
 
     public void OnGet()
     {
@@ -103,15 +109,16 @@ public class CartDetailModel : PageModel
         {
             return Page();
         }
-        HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(Address));
+        var address = Address;
+        HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(address));
         var sessionData = HttpContext.Session.GetString("Total");
         if (JsonConvert.DeserializeObject<Decimal>(sessionData) == 0)
         {
             return RedirectToPage();
         }
         var total = JsonConvert.DeserializeObject<Decimal>(sessionData);
-        Console.WriteLine($"Total Amount: {total.ToString("F2")}");
-        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("F2"), "Sample Payment");
+        Console.WriteLine($"Total Amount: {total.ToString("N0")}");
+        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("N0"), "Sample Payment");
         var approvalUrl = payment.GetApprovalUrl();
         return Redirect(approvalUrl);
     }
