@@ -24,9 +24,9 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 			ArticleDTO = await _articleService.GetArticleDTOById(articleId);
 		}
 
-		public IActionResult OnPostDelete(int articleId)
+		public async Task<IActionResult> OnPostDelete(int articleId)
 		{
-			_articleService.DeleteArticle(articleId);
+			await _articleService.DeleteArticle(articleId);
 			return Redirect("/article");
 		}
 	}

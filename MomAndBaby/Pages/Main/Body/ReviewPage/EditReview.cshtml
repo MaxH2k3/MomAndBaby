@@ -49,9 +49,8 @@
 	document.addEventListener('DOMContentLoaded', function () {
 		const stars = document.querySelectorAll('#rating-stars a');
 		const ratingInput = document.getElementById('rating');
-		const initialRating = parseInt(ratingInput.value) || 0; // Get the initial rating value or default to 0
+		const initialRating = parseInt(ratingInput.value) || 0;
 
-		// Update stars based on the initial rating
 		updateStars(initialRating);
 
 		stars.forEach(star => {

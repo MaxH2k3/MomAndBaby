@@ -32,7 +32,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
             return Page();
         }
 
-        public IActionResult OnPost(int articleId)
+        public async Task<IActionResult> OnPost(int articleId)
         {
             if (!ModelState.IsValid)
             {
@@ -41,7 +41,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 
             var id = articleId;
             
-            _articleService.UpdateArticle(Article, articleId);
+            await _articleService.UpdateArticle(Article, articleId);
             return Redirect("/article-detail?articleId=" + id);
         }
     }
