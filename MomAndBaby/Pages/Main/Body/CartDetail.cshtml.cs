@@ -17,10 +17,10 @@ public class CartDetailModel : PageModel
 
     private readonly IPayPalService _payPalService;
     private readonly IOrderService _orderService;
-    private readonly string _baseUrl = "https://localhost:7076";
+    // private readonly string _baseUrl = "https://localhost:7076";
 
 
-    // private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
+    private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
     public CartDetailModel(IPayPalService payPalService, IConfiguration configuration, IOrderService orderService)
     {
         _payPalService = payPalService;
