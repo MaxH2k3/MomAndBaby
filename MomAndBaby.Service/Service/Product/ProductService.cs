@@ -165,7 +165,7 @@ namespace MomAndBaby.Service
                 }
                 else
                 {
-                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars && p.Statistic.AverageStar < (numOfStars + 1));
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars);
                 }
                 
             }
@@ -225,9 +225,15 @@ namespace MomAndBaby.Service
             return await _unitOfWork.ProductRepository.GetStatisticsProductCategory();
         }
 
+        public Task<IEnumerable<ProductOriginalDto>> GetOriginalShopping()
+        {
+            throw new NotImplementedException();
+        }
 
-
-
+        public Task<IEnumerable<ProductCompanyDto>> GetCompanyShopping()
+        {
+            return 
+        }
     }
     
 }

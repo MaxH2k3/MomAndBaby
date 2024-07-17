@@ -34,6 +34,8 @@ namespace MomAndBaby.Pages.Main.Body
         public int TotalProductsCount { get; set; }
         public int FilteredProductsCount { get; set; }
         public IEnumerable<ProductCategoryDto> ProductCategoryDto { get; set; }
+        public IEnumerable<ProductOriginalDto> ProductOriginalDto { get; set; }
+        public IEnumerable<ProductCompanyDto> ProductCompanyDto { get; set; }
 
         public async Task OnGetAsync()
         {
@@ -42,6 +44,7 @@ namespace MomAndBaby.Pages.Main.Body
             FilteredProductsCount = TotalProductsCount;
 
             ProductCategoryDto = await _productService.GetCategoryShopping();
+
         }
 
         public async Task<IActionResult> OnGetAddToCartAsync(Guid productId)

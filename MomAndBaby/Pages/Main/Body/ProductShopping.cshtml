@@ -106,21 +106,28 @@
                                                         bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
                                                         int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
                                                 }
-                                                    @for (int i = 0; i < fullStars; i++)
+                                                    @if(averageStar > 0)
                                                     {
-                                                        <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
-                                                    }
-                                                    @if (hasHalfStar)
+                                                        @for (int i = 0; i < fullStars; i++)
+                                                        {
+                                                            <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        @if (hasHalfStar)
+                                                        {
+                                                            <span class="fa fa-star-half-alt"
+                                                                  style="text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        @for (int i = 0; i < emptyStars; i++)
+                                                        {
+                                                            <span class="fa fa-star"
+                                                                  style="color: white; text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        <h4>@product.Statistic.AverageStar</h4>
+                                                    } else
                                                     {
-                                                        <span class="fa fa-star-half-alt"
-                                                            style="text-shadow: 0 0 1px black"></span>
+                                                        <h4>No Reviews</h4>
                                                     }
-                                                    @for (int i = 0; i < emptyStars; i++)
-                                                    {
-                                                        <span class="fa fa-star"
-                                                            style="color: white; text-shadow: 0 0 1px black"></span>
-                                                    }
-                                                    <h4>@product.Statistic.AverageStar</h4>
+
 
                                                 </div>
                                                 <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
@@ -186,6 +193,28 @@
                                         {
                                             <li><span class="category-link" data-category-id="@item.Id">@item.Name
                                                     <span>(@item.NumberOfProduct)</span></span></li>
+                                        }
+
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-item">
+                            <div class="widget-title">
+                                <h3 class="title">Product Original</h3>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-categories">
+                                    <ul>
+                                        @foreach (var item in Model.)
+                                        {
+                                            <li>
+                                                <span class="category-link" data-category-id="@item.Id">
+                                                    @item.Name
+                                                    <span>(@item.NumberOfProduct)</span>
+                                                </span>
+                                            </li>
                                         }
 
 

@@ -12,6 +12,7 @@ namespace MomAndBaby.Repository
         Task<IEnumerable<Product>> GetHighestRating();
         Task<IEnumerable<Product>> GetTrendingItems();
         Task<IEnumerable<Product>> GetRelatedProducts(int categoryId);
+        Task<IEnumerable<Product>> GetAllCompany();
         
         //Task<Product> UpdatePurchase(Guid ProductId);
         

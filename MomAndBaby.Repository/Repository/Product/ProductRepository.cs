@@ -97,7 +97,15 @@ namespace MomAndBaby.Repository
             return Tuple.Create(categoryNames, counts);
 
         }
-        
+
+        public async Task<IEnumerable<string?>> GetAllCompany()
+        {
+            return await _context.Products
+                             .Select(p => p.Company)
+                             .Distinct()
+                             .ToListAsync();
+        }
+
 
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{
