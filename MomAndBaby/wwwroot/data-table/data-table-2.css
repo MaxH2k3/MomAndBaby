@@ -139,7 +139,11 @@ html, body {
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
+    max-width: 100px;
     margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-row__small {
@@ -231,6 +235,14 @@ html, body {
     .status--grey:before {
         background-color: #9eabb4;
     }
+
+.status--orange {
+    color: #ff7d46;
+}
+
+.status--orange:before {
+    background-color: #ff7d46;
+}
 
 .table__select-row {
     appearence: none;
@@ -326,7 +338,7 @@ html, body {
     }
 
     .table-row__td {
-        display: block;
+        display: inline-block;
         text-align: center;
         padding: 8px !important;
     }

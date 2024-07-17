@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 
 namespace MomAndBaby.Repository
 {
@@ -20,6 +21,16 @@ namespace MomAndBaby.Repository
         public async Task<IEnumerable<Product>> GetAll()
         {
             return await _context.Products
+                .Where(x => x.Status.Equals(StatusConstraint.AVAILABLE))
+                .Include(p => p.CategoryNavigation)
+                .Include(p=>p.Statistic)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetAllShopping()
+        {
+            return await _context.Products
+                .Where(x => !x.Status.Equals(StatusConstraint.DELETE))
                 .Include(p => p.CategoryNavigation)
                 .Include(p=>p.Statistic)
                 .ToListAsync();

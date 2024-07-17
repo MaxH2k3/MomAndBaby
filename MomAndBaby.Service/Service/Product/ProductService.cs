@@ -53,7 +53,7 @@ namespace MomAndBaby.Service
                 throw new ArgumentException("Image is required.");
             }
             
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/uploads");
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
             var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             

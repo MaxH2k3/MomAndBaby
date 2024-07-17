@@ -22,6 +22,7 @@
   <ItemGroup>
     <Folder Include="Pages\Main\Components\Star\" />
     <Folder Include="Pages\Shared\Components\" />
+    <Folder Include="wwwroot\images\product_images\" />
   </ItemGroup>
 
   <ItemGroup>

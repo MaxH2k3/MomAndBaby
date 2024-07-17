@@ -7,25 +7,25 @@ using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body;
 
-public class AddProduct : PageModel
+public class Product : PageModel
 {
     private readonly IProductService _productService;
     
     [BindProperty]
     public ProductDto ProductDto { get; set; }
 
-    public AddProduct(IProductService productService)
+    public Product(IProductService productService)
     {
         _productService = productService;
     }
 
 
-    public void OnGet()
+    public void OnGet(Guid? productId)
     {
         ViewData[VariableConstant.CurrentMenu] = (int)Menu.ProductAdd;
     }
 
-    public async Task<IActionResult> OnPostSave()
+    public async Task<IActionResult> OnPostSaveUpdate()
     {
         if (!ModelState.IsValid)
         {

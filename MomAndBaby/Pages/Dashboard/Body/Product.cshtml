@@ -1,5 +1,5 @@
-@page "/dashboard/addproduct"
-@model MomAndBaby.Pages.Dashboard.Body.AddProduct
+@page "/dashboard/product"
+@model MomAndBaby.Pages.Dashboard.Body.Product
 
 @section Styles {
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -375,22 +375,22 @@
                 </div>
                 <div class="card-body">
                     <!-- Vendor -->
-                    <div class="mb-3 col ecommerce-select2-dropdown">
-                        <label class="form-label mb-1" for="vendor">
-                            Vendor
-                        </label>
-                        <select id="vendor" class="select2 form-select" data-placeholder="Select Vendor">
-                            <option value="">Select Vendor</option>
-                            <option value="men-clothing">Men's Clothing</option>
-                            <option value="women-clothing">Women's-clothing</option>
-                            <option value="kid-clothing">Kid's-clothing</option>
-                        </select>
-                    </div>
+                    @* <div class="mb-3 col ecommerce-select2-dropdown"> *@
+                    @*     <label class="form-label mb-1" for="vendor"> *@
+                    @*         Vendor *@
+                    @*     </label> *@
+                    @*     <select id="vendor" class="select2 form-select" data-placeholder="Select Vendor"> *@
+                    @*         <option value="">Select Vendor</option> *@
+                    @*         <option value="men-clothing">Men's Clothing</option> *@
+                    @*         <option value="women-clothing">Women's-clothing</option> *@
+                    @*         <option value="kid-clothing">Kid's-clothing</option> *@
+                    @*     </select> *@
+                    @* </div> *@
                     <!-- Category -->
                     <div class="mb-3 col ecommerce-select2-dropdown">
-                        <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="category-org">
-                            <span>Category</span><a href="javascript:void(0);" class="fw-medium">Add new category</a>
-                        </label>
+                        @* <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="category-org"> *@
+                        @*     <span>Category</span><a href="javascript:void(0);" class="fw-medium">Add new category</a> *@
+                        @* </label> *@
                         <select id="category-org" class="select2 form-select" data-placeholder="Select Category">
                             <option value="">Select Category</option>
                             <option value="Household">Household</option>
