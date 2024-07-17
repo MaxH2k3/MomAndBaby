@@ -17,8 +17,10 @@ public class CartDetailModel : PageModel
 
     private readonly IPayPalService _payPalService;
     private readonly IOrderService _orderService;
+    private readonly string _baseUrl = "https://localhost:7076";
 
-    private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
+
+    // private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
     public CartDetailModel(IPayPalService payPalService, IConfiguration configuration, IOrderService orderService)
     {
         _payPalService = payPalService;
@@ -109,12 +111,16 @@ public class CartDetailModel : PageModel
         {
             return Page();
         }
+        
         var address = Address;
         HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(address));
         var sessionData = HttpContext.Session.GetString("Total");
-        if (JsonConvert.DeserializeObject<Decimal>(sessionData) == 0)
+        if(sessionData == null){
+            return Redirect("shopping");
+        }
+        if (JsonConvert.DeserializeObject<Decimal>(sessionData) <= 0)
         {
-            return RedirectToPage();
+            return Redirect("shopping");
         }
         var total = JsonConvert.DeserializeObject<Decimal>(sessionData);
         Console.WriteLine($"Total Amount: {total.ToString("N0")}");
@@ -139,7 +145,7 @@ public class CartDetailModel : PageModel
         }
 
         // Handle payment failure
-        return Redirect("/PaymentFailed");
+        return Redirect("/payment-canceled");
     }
 
     private async Task SaveOrderDetails()

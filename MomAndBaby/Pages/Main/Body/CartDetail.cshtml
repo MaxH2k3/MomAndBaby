@@ -106,23 +106,23 @@
                                                 <div class="billing-info mb-20">
                                                     <label>First name <abbr class="required"
                                                             title="required">*</abbr></label>
-                                                    <input asp-for="FirstName" class="form-control">
+                                                    <input asp-for="FirstName" class="form-control" required>
                                                 </div>
                                             </div>
                                             
                                     <div class="col-12">
                                     <div class="billing-info mb-20">
                                         <label>Address <abbr class="required" title="required">*</abbr></label>
-                                        <input asp-for="Address" class="form-control" id="address-input">
+                                        <input asp-for="Address" class="form-control" id="address-input" required>
                                     </div>
                                      <div class="css_select_div">
-                                        <select class="css_select" asp-for="Tinh" id="tinh" name="tinh" title="Chọn Tỉnh Thành">
+                                        <select class="css_select" asp-for="Tinh" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
                                             <option value="0">Tỉnh Thành</option>
                                         </select>
-                                        <select class="css_select" asp-for="Quan" id="quan" name="quan" title="Chọn Quận Huyện">
+                                        <select class="css_select" asp-for="Quan" id="quan" name="quan" title="Chọn Quận Huyện" required>
                                             <option value="0">Quận Huyện</option>
                                         </select>
-                                        <select class="css_select" asp-for="Phuong" id="phuong" name="phuong" title="Chọn Phường Xã">
+                                        <select class="css_select" asp-for="Phuong" id="phuong" name="phuong" title="Chọn Phường Xã" required>
                                             <option value="0">Phường Xã</option>
                                         </select>
                                     </div>
@@ -238,15 +238,36 @@
                 }
             });
 
-            // Combine address parts on form submission
-             $('form').submit(function() {
+            // Combine address parts on form submission and validate
+            $('form').submit(function(e) {
                 var address = $('#address-input').val();
                 var tinh = $('#tinh option:selected').text();
                 var quan = $('#quan option:selected').text();
                 var phuong = $('#phuong option:selected').text();
-                var fullAddress = `${address}, ${tinh}, ${quan}, ${phuong}`;
+                var fullAddress = `${address}, ${phuong}, ${quan}, ${tinh}`;
+
+                // Validate select fields
+                if (!validateSelects()) {
+                    alert('Please select all required fields.');
+                    return false;
+                }
+
                 $('#address-input').val(fullAddress);
             });
+
+            // Function to validate select fields
+            function validateSelects() {
+                var valid = true;
+                $('.css_select').each(function() {
+                    if ($(this).val() === "0") {
+                        valid = false;
+                        $(this).css('border', '1px solid red');
+                    } else {
+                        $(this).css('border', '1px solid #686868');
+                    }
+                });
+                return valid;
+            }
         });
     </script>
 }
