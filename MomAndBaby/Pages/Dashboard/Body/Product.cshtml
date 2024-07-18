@@ -1,0 +1,201 @@
+@page "/dashboard/product"
+@model MomAndBaby.Pages.Dashboard.Body.Product
+
+
+@{
+    var isUpdate = Model.ProductId != null;
+}
+
+@* @if (isUpdate) *@
+@* { *@
+@* <p>Product is being updated. Product ID: @Model.ProductId</p> *@
+@* } *@
+@* else *@
+@* { *@
+@* <p>New product creation.</p> *@
+@* } *@
+
+<div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+        <div class="app-ecommerce">
+            <form method="post" enctype="multipart/form-data">
+                <!-- Add Product -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+
+                    <div class="d-flex flex-column justify-content-center">
+                        <h4 class="mb-1 mt-3"> @(isUpdate ? "Update Product" : "Add a new Product")</h4>
+                        <p class="text-muted">Orders placed across your store</p>
+                    </div>
+                    <div class="d-flex align-content-center flex-wrap gap-3">
+                        <button asp-page-handler="Cancel" class="btn btn-label-secondary">Discard</button>
+                        <button asp-page-handler="Hidden" class="btn btn-info">Hidden</button>
+                        <button asp-page-handler="SaveDraft" class="btn btn-label-primary">Save draft</button>
+                        @if (isUpdate)
+                        {
+                            <button asp-page-handler="Update" type="submit" class="btn btn-primary">Publish product</button>
+                            <input type="hidden" asp-for="ProductDto.Id"/>
+                            <input type="hidden" asp-for="ProductDto.Image"/>
+                        }
+                        else
+                        {
+                            <button asp-page-handler="Create" type="submit" class="btn btn-primary">Publish product</button>
+                        }
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <!-- First column-->
+                    <div class="col-12 col-lg-8">
+                        <!-- Product Information -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-tile mb-0">Product information</h5>
+                            </div>
+                            @* <div asp-validation-summary="All" class="text-danger"></div> *@
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label" for="ecommerce-product-name">Name</label>
+                                    <input type="text" asp-for="ProductDto.Name" class="form-control" id="ecommerce-product-name" placeholder="Product title">
+                                    <span asp-validation-for="ProductDto.Name" class="text-danger"></span>
+                                </div>
+                                <!-- Description -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="ecommerce-category-description">Description</label>
+                                    <input type="text" asp-for="ProductDto.Description" class="form-control" id="ecommerce-category-description" placeholder="Product title">
+                                    <span asp-validation-for="ProductDto.Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Product Information -->
+                        <!-- Media -->
+                        <div class="card mb-4">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0 card-title">Picture</h5>
+                                <span asp-validation-for="ProductDto.ImageFile" class="text-danger"></span>
+                            </div>
+                            <div class="file-upload d-flex flex-column justify-content-center align-items-center">
+                                @if (isUpdate)
+                                {
+                                    <label class="form-label">Current Image</label>            
+                                    <img src="@Model.ProductDto.Image" alt="Current Image" style="display: block; max-width: 200px; max-height: 200px;"/>
+                                    
+                                    <label class="form-label" style="margin-top: 20px;">New Image</label>
+                                }
+                                
+                                <img id="preview" src="#" alt="Image preview" style="display: none; max-width: 200px; max-height: 200px;"/>
+                                
+                                <div class="dz-message needsclick my-5">
+                                    <span class="note needsclick btn bg-label-primary d-inline" id="btnBrowse" style="cursor: pointer;">Browse image</span>
+                                </div>
+
+                                <div class="fallback" style="display: none;">
+                                    <input asp-for="ProductDto.ImageFile" type="file" id="fileInput" class="file-input" accept="image/*">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Media -->
+
+                    </div>
+                    <!-- /Second column -->
+                    <!-- Second column -->
+                    <div class="col-12 col-lg-4">
+                        <!-- Pricing Card -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Pricing & Stock</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Base Price -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="ecommerce-product-price">Base Price</label>
+                                    <input asp-for="ProductDto.UnitPrice" type="number" class="form-control" id="ecommerce-product-price" placeholder="Price">
+                                    <span asp-validation-for="ProductDto.UnitPrice" class="text-danger"></span>
+                                </div>
+                                <!-- Sell Price -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="ecommerce-product-discount-price">Sell Price</label>
+                                    <input asp-for="ProductDto.PurchasePrice" type="number" class="form-control" id="ecommerce-product-discount-price" placeholder="Sell Price">
+                                    <span asp-validation-for="ProductDto.PurchasePrice" class="text-danger"></span>
+                                </div>
+                                <!-- In Stock -->
+                                <div class="mb-3">
+                                    <label class="form-label" for="ecommerce-product-stock">In Stock</label>
+                                    <input asp-for="ProductDto.Stock" type="number" class="form-control" id="ecommerce-product-stock" placeholder="In Stock">
+                                    <span asp-validation-for="ProductDto.Stock" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Pricing Card -->
+                        <!-- Organize Card -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0">Organize</h5>
+                            </div>
+                            <div class="card-body">
+                                <!-- Category -->
+                                <div class="mb-3 col ecommerce-select2-dropdown">
+                                    <select asp-for="ProductDto.CategoryId" id="category-org" class="select2 form-select" data-placeholder="Select Category">
+                                        <option value="-1">Select Category</option>
+                                        @foreach (var category in @Model.Categories)
+                                        {
+                                            <option value="@category.Id">@category.Name</option>
+                                        }
+
+                                        @* <option value="Household">Household</option> *@
+                                        @* <option value="Management">Management</option> *@
+                                        @* <option value="Electronics">Electronics</option> *@
+                                        @* <option value="Office">Office</option> *@
+                                        @* <option value="Automotive">Automotive</option> *@
+                                    </select>
+                                    <span asp-validation-for="ProductDto.CategoryId" class="text-danger"></span>
+
+                                </div>
+                                <!-- Collection -->
+                                <div class="mb-3 col ecommerce-select2-dropdown">
+                                    <label class="form-label mb-1" for="collection">
+                                        Brand
+                                    </label>
+                                    <input asp-for="ProductDto.Company" type="text" class="form-control" placeholder="Brand">
+                                    <span asp-validation-for="ProductDto.Company" class="text-danger"></span>
+                                </div>
+                                <!-- Status -->
+                                <div class="mb-3 col ecommerce-select2-dropdown">
+                                    <label class="form-label mb-1" for="status-org">
+                                        Country
+                                    </label>
+                                    <input asp-for="ProductDto.Original" type="text" class="form-control" placeholder="Country">
+                                    <span asp-validation-for="ProductDto.Original" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /Organize Card -->
+                    </div>
+                    <!-- /Second column -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('btnBrowse').addEventListener('click', function() {
+            document.getElementById('fileInput').click();
+        });
+
+        document.getElementById('fileInput').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var img = document.getElementById('preview');
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    });
+</script>

@@ -6,6 +6,7 @@ namespace MomAndBaby.Service
     public interface IProductService
     {
         Task<ProductDto> GetById(Guid productId);
+        Task<IEnumerable<ProductDto>> GetAllAdmin(string searchValue = "");
         Task<IEnumerable<Product>> GetAll();
         Task<IEnumerable<Product>> GetNewItems();
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);

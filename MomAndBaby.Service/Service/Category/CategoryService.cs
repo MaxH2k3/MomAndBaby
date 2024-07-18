@@ -15,9 +15,11 @@ namespace MomAndBaby.Service.Service
         public CategoryService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-           
         }
-
-       
+        
+        public async Task<IEnumerable<Category>> GetCategory()
+        {
+            return await _unitOfWork.CategoryRepository.GetAllCategory();
+        }
     }
 }
