@@ -178,7 +178,7 @@ public class CartDetailModel : PageModel
             OrderId = orderSave,
             ProductId = cartItem.Id,
             Quantity = 1,
-            Price = cartItem.UnitPrice.Value
+            Price = cartItem.UnitPrice.Value / 23000
         }).ToList();
 
         // Create the order tracking

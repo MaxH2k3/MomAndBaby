@@ -40,6 +40,8 @@ namespace MomAndBaby.BusinessObject.Entity
                 optionsBuilder.UseSqlServer("server=(local);database=MomAndBaby;uid=sa;pwd=12345;TrustServerCertificate=true;Encrypt=True;Connection Timeout=30;");
             }
         }
+        public virtual DbSet<Notification> Notifications { get; set; } = null!;
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -187,6 +189,33 @@ namespace MomAndBaby.BusinessObject.Entity
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.ProductId)
                     .HasConstraintName("FK__Order_Det__produ__407A839F");
+            });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("Notification");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.TypeMessage).HasColumnName("typeMessage");
+
+                entity.Property(e => e.Title).HasColumnName("title");
+
+                entity.Property(e => e.Message).HasColumnName("message");
+
+                entity.Property(e => e.IsRead).HasColumnName("is_read");
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnType("datetime")
+                    .HasColumnName("created_at");
+
+                entity.Property(e => e.UserId).HasColumnName("user_id");
+
+                entity.HasOne(d => d.User)
+                    .WithMany()
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Notificat__UserI__02C769E9");
+
             });
 
             modelBuilder.Entity<OrderTracking>(entity =>

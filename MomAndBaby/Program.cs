@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using MomAndBaby;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
-using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
+using MomAndBaby.Middleware;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
@@ -11,6 +12,7 @@ using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
 using MomAndBaby.Service.Service.Email;
 using MomAndBaby.Service.Service.PayPalService;
+using MomAndBaby.Subscribe;
 using MomAndBaby.Utilities.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,7 +48,10 @@ builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSingleton<SubscribeNotification>();
 
 builder.Services.AddSession();
 
@@ -139,6 +144,10 @@ app.MapRazorPages();
 
 app.MapControllers();
 
-app.MapHub<ChatHub>(SystemConstant.HubConnection);
+app.MapHub<ChatHub>(SystemConstant.ChatHubConnection);
+
+app.MapHub<NotificationHub>(SystemConstant.NotificationHubConnection);
+
+app.UseNotificationTableDependency();
 
 app.Run();
