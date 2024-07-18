@@ -41,7 +41,7 @@ namespace MomAndBaby.Service.Service.PayPalService
             },
                 redirect_urls = new RedirectUrls
                 {
-                    cancel_url = $"{baseUrl}/cart-detail?handler=PaymentCancelled",
+                    cancel_url = $"{baseUrl}/payment-canceled",
                     return_url = $"{baseUrl}/cart-detail?handler=PaymentSuccess"
                 }
             };

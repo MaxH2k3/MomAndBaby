@@ -91,6 +91,8 @@ namespace MomAndBaby.Pages.Main.Authorize
 
         public async Task<IActionResult> OnGetLogout()
         {
+            HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove("Total");
             await HttpContext.SignOutAsync();
 
             return Redirect("/login");
