@@ -39,6 +39,8 @@ namespace MomAndBaby.Service.Configuration
 
 			//CreateMap<IEnumerable< ProductCategoryDto>, IEnumerable<Category>>().ReverseMap();
             CreateMap<Category, ProductCategoryDto>().ReverseMap();
+
+			
         }
 	}
 }

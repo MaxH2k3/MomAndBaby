@@ -23,9 +23,9 @@ namespace MomAndBaby.Controller
         }
 
         [HttpGet("filter")]
-        public async Task<ProductShoppingDto> FilterProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria, int page, int pageSize = 9)
+        public async Task<ProductShoppingDto> FilterProducts(int? categoryId, string? companyName, string? original, decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria, int page, int pageSize = 9)
         {
-            var filteredProducts = await _productService.GetFilteredProducts(categoryId, startPrice, endPrice, numOfStars, sortCriteria);
+            var filteredProducts = await _productService.GetFilteredProducts(categoryId, companyName, original, startPrice, endPrice, numOfStars, sortCriteria);
             var allProduct = await _productService.GetAll();
 
 

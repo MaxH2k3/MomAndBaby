@@ -2,6 +2,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
@@ -20,12 +21,14 @@ namespace MomAndBaby.Pages.Main.Body
     {
         private readonly IProductService _productService;
         private readonly ICategoryService _categoryService;
+        private readonly IUserService _userService;
         private readonly IMapper _mapper;
 
-        public ProductShoppingModel(IProductService productService, ICategoryService categoryService, IMapper mapper)
+        public ProductShoppingModel(IProductService productService, ICategoryService categoryService, IUserService userService, IMapper mapper)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _userService = userService;
             _mapper = mapper;
         }
 
@@ -37,6 +40,9 @@ namespace MomAndBaby.Pages.Main.Body
         public IEnumerable<ProductOriginalDto> ProductOriginalDto { get; set; }
         public IEnumerable<ProductCompanyDto> ProductCompanyDto { get; set; }
 
+        //[BindProperty]
+        //public int RoleId { get; set; }
+
         public async Task OnGetAsync()
         {
             Products = await _productService.GetAll();
@@ -44,6 +50,11 @@ namespace MomAndBaby.Pages.Main.Body
             FilteredProductsCount = TotalProductsCount;
 
             ProductCategoryDto = await _productService.GetCategoryShopping();
+            ProductCompanyDto = await _productService.GetCompanyShopping();
+            ProductOriginalDto = await _productService.GetOriginalShopping();
+
+            
+            
 
         }
 

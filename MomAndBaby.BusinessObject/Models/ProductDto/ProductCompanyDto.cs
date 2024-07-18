@@ -8,7 +8,7 @@ namespace MomAndBaby.BusinessObject.Models.ProductDto
 {
     public class ProductCompanyDto
     {
-        public int Id { get; set; }
+        //public int Id { get; set; }
         public string? Name { get; set; }
         public int? NumberOfProduct { get; set; }
     }

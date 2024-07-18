@@ -25,8 +25,8 @@ builder.Services.AddSession(options =>
 });
 
 // Set up database context.
-//builder.Services.AddDbContext<MomAndBabyContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)!));
+builder.Services.AddDbContext<MomAndBabyContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString(SystemConstant.DefaultDatabase)!));
 
 // Set up fluentEmail.
 builder.Services.AddFluentEmail(builder.Configuration);

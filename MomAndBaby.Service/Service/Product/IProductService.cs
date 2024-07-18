@@ -21,7 +21,7 @@ namespace MomAndBaby.Service
         Task<IEnumerable<ProductDto>> GetRelatedProducts(int categoryId);
        
         Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
-        Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria);
+        Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, string? companyName, string? original, decimal? startPrice, decimal? endPrice, int? numOfStars, string? sortCriteria);
 
         Task<IEnumerable<ProductCategoryDto>> GetCategoryShopping();
         Task<IEnumerable<ProductOriginalDto>> GetOriginalShopping();
