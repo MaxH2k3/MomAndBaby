@@ -2,7 +2,9 @@
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.CartSessionModel;
+using MomAndBaby.BusinessObject.Models.MessageModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
+using MomAndBaby.Service.Helper;
 
 namespace MomAndBaby.Service.Configuration
 {
@@ -36,9 +38,13 @@ namespace MomAndBaby.Service.Configuration
 				.ForMember(x => x.ProductImage, opt => opt.MapFrom(src => src.Product.Image))
 				.ReverseMap();
 
-
-			//CreateMap<IEnumerable< ProductCategoryDto>, IEnumerable<Category>>().ReverseMap();
             CreateMap<Category, ProductCategoryDto>().ReverseMap();
+
+			CreateMap<Notification, NotificationDTO>()
+				.ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.TypeMessage, opt => opt.MapFrom(src => EnumHelper.GetNotificationType(src.TypeMessage)))
+				.ForMember(dest => dest.CreatedAt, opt => opt.MapFrom(src => TimeHelper.GetTimeSender(src.CreatedAt)))
+                .ReverseMap();
         }
 	}
 }
