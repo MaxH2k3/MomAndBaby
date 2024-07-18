@@ -20,7 +20,9 @@ const InvokeNotifications = async () => {
 }
 
 connection.on("ReceivedNotificaiton", (messages) => {
+    console.log(messages);
     $('#notification-list').empty();
+    $('#notification-count').empty().append(messages.length)
     messages.forEach(message => {
         renerNotification(message);
     })

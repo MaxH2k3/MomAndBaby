@@ -16,7 +16,7 @@ namespace MomAndBaby.Subscribe
 
         public void SubscribeTableDependency()
         {
-            _tableDependency = new SqlTableDependency<Notification>("server=(local);database=MomAndBaby;uid=sa;pwd=12345;TrustServerCertificate=true");
+            _tableDependency = new SqlTableDependency<Notification>("server=35.240.220.220,1433;database=MomAndBaby;uid=sa;pwd=Admin12345@;TrustServerCertificate=true;Encrypt=True;Connection Timeout=30;");
             _tableDependency.OnChanged += TableDependency_OnChanged;
             _tableDependency.OnError += TableDependency_OnError;
             _tableDependency.Start();
