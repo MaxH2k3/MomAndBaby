@@ -30,6 +30,16 @@ namespace MomAndBaby.BusinessObject.Entity
         public virtual DbSet<Status> Statuses { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
+        public virtual DbSet<UserValidation> UserValidation { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server=(local);database=MomAndBaby;uid=sa;pwd=12345;TrustServerCertificate=true;Encrypt=True;Connection Timeout=30;");
+            }
+        }
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
 
 
@@ -246,9 +256,6 @@ namespace MomAndBaby.BusinessObject.Entity
                     .ValueGeneratedNever()
                     .HasColumnName("id");
 
-                entity.Property(e => e.Category)
-                    .HasMaxLength(255)
-                    .HasColumnName("category");
 
                 entity.Property(e => e.CategoryId).HasColumnName("category_id");
 
@@ -417,6 +424,7 @@ namespace MomAndBaby.BusinessObject.Entity
                     .HasColumnName("phone_number");
 
                 entity.Property(e => e.RoleId).HasColumnName("role_id");
+               
 
                 entity.Property(e => e.Status)
                     .HasMaxLength(50)
@@ -431,11 +439,41 @@ namespace MomAndBaby.BusinessObject.Entity
                 entity.Property(e => e.Username)
                     .HasMaxLength(255)
                     .HasColumnName("username");
+                entity.HasOne(u => u.UserValidation)
+                    .WithOne()
+                    .HasForeignKey<UserValidation>(uv => uv.UserId);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK__User__role_id__33208881");
+
+            });
+
+            modelBuilder.Entity<UserValidation>(entity =>
+            {
+                entity.ToTable("UserValidation");
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.UserId)
+                    .HasColumnName("user_id")
+                    .IsRequired();
+
+                entity.Property(e => e.Otp)
+                    .HasColumnName("otp")
+                    .HasMaxLength(6)
+                    .IsRequired();
+
+                entity.Property(e => e.CreatedAt)
+                    .HasColumnName("created_at")
+                    .HasDefaultValueSql("GETDATE()");
+
+                entity.Property(e => e.ExpiredAt)
+                    .HasColumnName("expired_at")
+                    .HasDefaultValueSql("GETDATE()");
+
+              
             });
 
             modelBuilder.Entity<Voucher>(entity =>

@@ -7,6 +7,7 @@ using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Helper;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 
 namespace MomAndBaby.Pages.Main.Authorize
@@ -18,6 +19,15 @@ namespace MomAndBaby.Pages.Main.Authorize
         {
             _userService = userService;
         }
+        [BindProperty]
+        [Required(ErrorMessage = "User Name is required")]
+        public string UserName { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
+        public string Password { get; set; }
 
         public async Task OnPostLoginGoogle()
         {
@@ -44,14 +54,13 @@ namespace MomAndBaby.Pages.Main.Authorize
 
         public async Task<IActionResult> OnPostLogin()
         {
-            string usernameValue = Request.Form["user-name"]!;
-            string passwordValue = Request.Form["user-password"]!;
-            var user = await _userService.Login(usernameValue, passwordValue);
+            
+            var user = await _userService.Login(UserName, Password);
 
             if (user == null)
             {
                 return Page();
-            }
+            } 
 
             var claims = new List<Claim>
                 {
@@ -81,12 +90,13 @@ namespace MomAndBaby.Pages.Main.Authorize
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties);
 
-            if (user.RoleId == (int)RoleType.Admin)
-            {
-                return Redirect("/dashboard");
-            }
+            return Redirect("/verify");
+            // if (user.RoleId == (int)RoleType.Admin)
+            // {
+            //     return Redirect("/dashboard");
+            // }
 
-            return Redirect("/");
+            // return Redirect("/");
         }
 
         public async Task<IActionResult> OnGetLogout()
@@ -94,7 +104,6 @@ namespace MomAndBaby.Pages.Main.Authorize
             HttpContext.Session.Remove("Cart");
             HttpContext.Session.Remove("Total");
             await HttpContext.SignOutAsync();
-
             return Redirect("/login");
         }
     }

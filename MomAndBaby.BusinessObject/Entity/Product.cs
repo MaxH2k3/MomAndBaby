@@ -18,7 +18,6 @@ namespace MomAndBaby.BusinessObject.Entity
         public string? Description { get; set; }
         public decimal UnitPrice { get; set; }
         public decimal PurchasePrice { get; set; }
-        public string? Category { get; set; }
         public int Stock { get; set; }
         public string? Image { get; set; }
         public string? Original { get; set; }

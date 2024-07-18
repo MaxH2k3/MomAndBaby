@@ -1,10 +1,12 @@
 ﻿@page "/shopping"
+@using MomAndBaby.BusinessObject.Constants
+@using MomAndBaby.BusinessObject.Enums
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
-@{
-    var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
-}
 
+@{
+    var RoleId = @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!.Value;
+}
 <style>
     .sort-option.active {
         background-color: hotpink !important;
@@ -23,6 +25,41 @@
     }
 
     .category-link:hover {
+        color: hotpink;
+        /* Change color on hover for visual feedback */
+    }
+
+    .selected-company {
+        color: hotpink !important;
+    }
+
+    .company-link {
+        color: dimgray;
+        /* Make it look like a link */
+
+        cursor: pointer;
+        /* Show a hand cursor on hover */
+    }
+
+    .company-link:hover {
+        color: hotpink;
+        /* Change color on hover for visual feedback */
+    }
+
+
+    .selected-original {
+        color: hotpink !important;
+    }
+
+    .original-link {
+        color: dimgray;
+        /* Make it look like a link */
+
+        cursor: pointer;
+        /* Show a hand cursor on hover */
+    }
+
+    .original-link:hover {
         color: hotpink;
         /* Change color on hover for visual feedback */
     }
@@ -91,8 +128,16 @@
                                             <div class="product-thumb">
                                                 <img src="assets/img/shop/1.png" alt="Image">
                                                 <div class="product-action">
-                                                    <a href="?handler=AddToCart&productId=@product.Id"><i
-                                                            class="ion-ios-cart"></i></a>
+                                                    
+
+                                                    @if(!RoleId.Equals(3) || !RoleId.Equals(2))
+                                                    {
+                                                        Console.WriteLine(RoleId);
+                                                        <a href="?handler=AddToCart&productId=@product.Id">
+                                                            <i class="ion-ios-cart"></i>
+                                                        </a>
+                                                    }
+                                                    
                                                     <a class="action-quick-view" href="javascript:void(0)"><i
                                                             class="ion-arrow-expand"></i></a>
                                                     <a class="" href="javascript:void(0)"><i
@@ -108,21 +153,28 @@
                                                         bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
                                                         int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
                                                 }
-                                                    @for (int i = 0; i < fullStars; i++)
+                                                    @if(averageStar > 0)
                                                     {
-                                                        <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
-                                                    }
-                                                    @if (hasHalfStar)
+                                                        @for (int i = 0; i < fullStars; i++)
+                                                        {
+                                                            <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        @if (hasHalfStar)
+                                                        {
+                                                            <span class="fa fa-star-half-alt"
+                                                                  style="text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        @for (int i = 0; i < emptyStars; i++)
+                                                        {
+                                                            <span class="fa fa-star"
+                                                                  style="color: white; text-shadow: 0 0 1px black"></span>
+                                                        }
+                                                        <h4>@product.Statistic.AverageStar</h4>
+                                                    } else
                                                     {
-                                                        <span class="fa fa-star-half-alt"
-                                                            style="text-shadow: 0 0 1px black"></span>
+                                                        <h4>No Reviews</h4>
                                                     }
-                                                    @for (int i = 0; i < emptyStars; i++)
-                                                    {
-                                                        <span class="fa fa-star"
-                                                            style="color: white; text-shadow: 0 0 1px black"></span>
-                                                    }
-                                                    <h4>@product.Statistic.AverageStar</h4>
+
 
                                                 </div>
                                                 <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
@@ -196,6 +248,47 @@
                             </div>
                         </div>
                         <div class="widget-item">
+                            <div class="widget-title">
+                                <h3 class="title">Product Company</h3>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-categories">
+                                    <ul>
+                                        @foreach (var item in Model.ProductCompanyDto)
+                                        {
+                                            <li>
+                                                <span class="company-link" data-company-name="@item.Name">
+                                                    @item.Name
+                                                    <span>(@item.NumberOfProduct)</span>
+                                                </span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-item">
+                            <div class="widget-title">
+                                <h3 class="title">Product Original</h3>
+                            </div>
+                            <div class="widget-body">
+                                <div class="widget-categories">
+                                    <ul>
+                                        @foreach (var item in Model.ProductOriginalDto)
+                                        {
+                                            <li>
+                                                <span class="original-link" data-original-name="@item.Name">
+                                                    <img src="@item.Image" alt="@item.Name flag" style="width: 20px; height: auto;" /> @item.Name
+                                                   
+                                                </span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-item">
                             <div class="widget-filter">
                                 <div class="widget-title">
                                     <h3 class="title">Price Search (000 VND)</h3>
@@ -212,7 +305,7 @@
 
                                         <div class="price-input">
                                             <div class="field">
-                                                <input type="number" id="searchFrom" class="input-min" value="250">
+                                                <input type="number" id="searchFrom" class="input-min" value="0">
                                             </div>
                                             <div class="separator">-</div>
                                             <div class="field">
@@ -223,7 +316,7 @@
                                             <div class="progress"></div>
                                         </div>
                                         <div class="range-input">
-                                            <input type="range" class="range-min" min="0" max="1000" value="250" step="10">
+                                            <input type="range" class="range-min" min="0" max="1000" value="0" step="10">
                                             <input type="range" class="range-max" min="0" max="1000" value="750" step="10">
                                         </div>
 
