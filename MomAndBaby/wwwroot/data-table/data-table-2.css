@@ -338,11 +338,12 @@ html, body {
     }
 
     .table-row__td {
-        display: inline-block;
-        text-align: center;
+        display: flex;
+        justify-content: center; /* Center the content horizontally */
+        align-items: center; /* Center the content vertically */
         padding: 8px !important;
     }
-
+    
     .table-row--red {
         background-color: #fff2f2;
     }
@@ -379,7 +380,14 @@ html, body {
     margin-top: 1rem;
 }
 
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .search-data input {
+    height: 2rem;
     width: 100%;
     background-color: transparent;
     border: none;

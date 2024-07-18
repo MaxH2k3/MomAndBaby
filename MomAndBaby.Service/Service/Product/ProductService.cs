@@ -25,10 +25,20 @@ namespace MomAndBaby.Service
             var mapper = _mapper.Map<ProductDto>(product);
             return mapper;
         }
-        
+
+        public async Task<IEnumerable<ProductDto>> GetAllAdmin(string searchValue = "")
+        {
+            var products = string.IsNullOrWhiteSpace(searchValue)
+                ? await _unitOfWork.ProductRepository.GetAllAdmin()
+                : await _unitOfWork.ProductRepository.SearchAdmin(searchValue);
+            
+            var mappers = _mapper.Map<IEnumerable<ProductDto>>(products);
+            return mappers;
+        }
+
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _unitOfWork.ProductRepository.GetAll();
+            return await _unitOfWork.ProductRepository.GetAllShopping();
         }
 
         public async Task<IEnumerable<Product>> GetHighestRating()
@@ -47,10 +57,9 @@ namespace MomAndBaby.Service
         }
         public async Task<bool> CreateProduct(ProductDto dto)
         {
-
-            if (dto.ImageFile is null || dto.ImageFile.Length < 0)
+            if (dto.ImageFile is null || dto.ImageFile.Length <= 0)
             {
-                throw new ArgumentException("Image is required.");
+                throw new ArgumentException("Image is required!");
             }
             
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
@@ -62,7 +71,7 @@ namespace MomAndBaby.Service
                 await dto.ImageFile.CopyToAsync(fileStream);
             }
             
-            dto.Image = "/images/uploads/" + uniqueFileName;
+            dto.Image = "/images/product_images/" + uniqueFileName;
             
             var check = await _unitOfWork.ProductRepository.NameExistAsync(dto.Name);
             if (check)
@@ -72,6 +81,7 @@ namespace MomAndBaby.Service
             
             var mapper = _mapper.Map<Product>(dto);
             mapper.Id = Guid.NewGuid();
+            mapper.CreatedAt = DateTime.Now;
             await _unitOfWork.ProductRepository.CreateProduct(mapper);
             return await _unitOfWork.SaveChangesAsync();
         }
@@ -80,11 +90,6 @@ namespace MomAndBaby.Service
         {
             var productId = (Guid)dto.Id;
             var product = await _unitOfWork.ProductRepository.GetById(productId);
-
-            if (product is null)
-            {
-                throw new ArgumentException("Product not exists.");
-            }
             
             var check = await _unitOfWork.ProductRepository.NameUpdateExistAsync(productId, dto.Name);
             if (check)
@@ -103,7 +108,7 @@ namespace MomAndBaby.Service
                     }
                 }
                 
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/uploads");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             
@@ -111,15 +116,16 @@ namespace MomAndBaby.Service
                 {
                     await dto.ImageFile.CopyToAsync(fileStream);
                 }
-                dto.Image = "/images/uploads/" + uniqueFileName;
+                dto.Image = "/images/product_images/" + uniqueFileName;
             }
 
             product.Name = dto.Name;
             product.CategoryId = dto.CategoryId;
             product.Image = dto.Image;
             product.Description = dto.Description;
-            product.UnitPrice = (decimal)dto.UnitPrice;
-            product.Stock = (int)dto.Stock;
+            product.UnitPrice = dto.UnitPrice;
+            product.PurchasePrice = dto.PurchasePrice;
+            product.Stock = dto.Stock;
             product.Status = dto.Status;
             product.UpdatedAt = DateTime.Now;
 
@@ -143,7 +149,7 @@ namespace MomAndBaby.Service
 
         public async Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
-            var productsQuery =  await _unitOfWork.ProductRepository.GetAll();
+            var productsQuery =  await _unitOfWork.ProductRepository.GetAllShopping();
             if (categoryId.HasValue)
             {
                 productsQuery = productsQuery.Where(p => p.CategoryId == categoryId);

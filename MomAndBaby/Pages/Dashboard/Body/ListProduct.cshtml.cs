@@ -11,20 +11,21 @@ namespace MomAndBaby.Pages.Dashboard.Body
     public class ListProductModel : PageModel
     {
         private readonly IProductService _productService;
-        private readonly IMapper _mapper;
         public List<ProductDto> Products { get; set; }
         
-        public ListProductModel(IProductService productService, IMapper mapper)
+        public ListProductModel(IProductService productService)
         {
             _productService = productService;
-            _mapper = mapper;
         }
         
-        public async Task OnGet()
+        public async Task OnGet(string searchValue)
         {
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.ProductList;
-            var products = await _productService.GetAll();
-            Products = _mapper.Map<List<ProductDto>>(products);
+            
+            TempData["search"] = searchValue;
+
+            var products = await _productService.GetAllAdmin(searchValue);
+            Products = products.ToList();
         }
         
         public async Task<IActionResult> OnPostDelete(Guid productId)

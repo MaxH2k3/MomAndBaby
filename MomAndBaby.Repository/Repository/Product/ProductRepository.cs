@@ -18,7 +18,7 @@ namespace MomAndBaby.Repository
             return await _context.Products.Include(x => x.CategoryNavigation).FirstOrDefaultAsync(x => x.Id == productId);
         }
         
-        public async Task<IEnumerable<Product>> GetAll()
+        public async Task<IEnumerable<Product>> GetAllShopping()
         {
             return await _context.Products
                 .Where(x => x.Status.Equals(StatusConstraint.AVAILABLE))
@@ -27,10 +27,19 @@ namespace MomAndBaby.Repository
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Product>> GetAllShopping()
+        public async Task<IEnumerable<Product>> GetAllAdmin()
         {
             return await _context.Products
-                .Where(x => !x.Status.Equals(StatusConstraint.DELETE))
+                .Where(p => !p.Status.Equals(StatusConstraint.DELETE))
+                .Include(p => p.CategoryNavigation)
+                .Include(p=>p.Statistic)
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> SearchAdmin(string searchValue)
+        {
+            return await _context.Products
+                .Where(p => p.Name.ToLower().Contains(searchValue.ToLower()) && !p.Status.Equals(StatusConstraint.DELETE))
                 .Include(p => p.CategoryNavigation)
                 .Include(p=>p.Statistic)
                 .ToListAsync();
