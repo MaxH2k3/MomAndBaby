@@ -308,6 +308,5 @@
 
     <script>
         productCategoryData = @Html.Raw(JsonSerializer.Serialize(Model.DashboardDTO.StatisticCategory, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
-        console.log(productCategoryData);
     </script>
 }

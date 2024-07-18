@@ -1,7 +1,7 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 
-namespace MomAndBaby.Configuration.Hub
+namespace MomAndBaby
 {
     public interface IChatHub
     {
