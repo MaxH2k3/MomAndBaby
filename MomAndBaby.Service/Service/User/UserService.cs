@@ -179,10 +179,7 @@ namespace MomAndBaby.Service
 
         public async Task<bool> ProcessValidOTP(UserValidation userValidation)
         {
-  
-           
 
-           
             await _unitOfWork.UserValidationRepository.UpdateUserValidation(userValidation);
             return await _unitOfWork.SaveChangesAsync();
 
@@ -191,6 +188,11 @@ namespace MomAndBaby.Service
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _unitOfWork.UserRepository.GetAllUsers();
+        }
+
+        public async Task<User> UpdateStatus(User user)
+        {
+            return await _unitOfWork.UserRepository.UpdateStatus(user);
         }
     }
 }

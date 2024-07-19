@@ -4,9 +4,6 @@
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
 
-@{
-    var RoleId = @User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!.Value;
-}
 <style>
     .sort-option.active {
         background-color: hotpink !important;
@@ -120,72 +117,7 @@
                         <div class="tab-pane fade show active" id="column-three" role="tabpanel"
                             aria-labelledby="column-three-tab">
                             <div class="row" id="product-list">
-                                @foreach (var product in Model.Products)
-                                {
-                                    <div class="col-sm-6 col-md-4">
-                                        <!-- Start Product Item -->
-                                        <div class="product-item">
-                                            <div class="product-thumb">
-                                                <img src="assets/img/shop/1.png" alt="Image">
-                                                <div class="product-action">
-                                                    
-
-                                                    @if(!RoleId.Equals(3) || !RoleId.Equals(2))
-                                                    {
-                                                        Console.WriteLine(RoleId);
-                                                        <a href="?handler=AddToCart&productId=@product.Id">
-                                                            <i class="ion-ios-cart"></i>
-                                                        </a>
-                                                    }
-                                                    
-                                                    <a class="action-quick-view" href="javascript:void(0)"><i
-                                                            class="ion-arrow-expand"></i></a>
-                                                    <a class="" href="javascript:void(0)"><i
-                                                            class="fa-solid fa-info"></i></a>
-                                                    <a class="" href="javascript:void(0)"><i class="ion-shuffle"></i></a>
-                                                </div>
-                                            </div>
-                                            <div class="product-info">
-                                                <div class="rating">
-                                                    @{
-                                                        double averageStar = product.Statistic.AverageStar;
-                                                        int fullStars = (int)averageStar; // Number of full stars
-                                                        bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
-                                                        int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
-                                                }
-                                                    @if(averageStar > 0)
-                                                    {
-                                                        @for (int i = 0; i < fullStars; i++)
-                                                        {
-                                                            <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
-                                                        }
-                                                        @if (hasHalfStar)
-                                                        {
-                                                            <span class="fa fa-star-half-alt"
-                                                                  style="text-shadow: 0 0 1px black"></span>
-                                                        }
-                                                        @for (int i = 0; i < emptyStars; i++)
-                                                        {
-                                                            <span class="fa fa-star"
-                                                                  style="color: white; text-shadow: 0 0 1px black"></span>
-                                                        }
-                                                        <h4>@product.Statistic.AverageStar</h4>
-                                                    } else
-                                                    {
-                                                        <h4>No Reviews</h4>
-                                                    }
-
-
-                                                </div>
-                                                <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
-                                                <div class="prices">
-                                                    <span class="price">@product.UnitPrice</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Product Item -->
-                                    </div>
-                                }
+                                
 
                             </div>
                         </div>
@@ -398,6 +330,11 @@
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="~/js/product-shopping.js"></script>
+    <script asp-append-version="true">
+        RoleId = "@(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)) == null ? 0 : User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value)";
+        
+    </script>
+    <script src="~/js/product-shopping.js" asp-append-version="true"></script>
+
     <script src="~/main/assets/js/price-slider.js" asp-append-version="true"></script>
 }

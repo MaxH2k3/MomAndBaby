@@ -21,7 +21,7 @@ namespace MomAndBaby.Repository
 
         public async Task<User> AddUser(User userRegitser)
         {
-            userRegitser.Status = "Active";
+            userRegitser.Status = "InActive";
             userRegitser.RoleId = (int)RoleType.Customer;
             await _context.Users.AddAsync(userRegitser);
             return userRegitser;
@@ -47,6 +47,19 @@ namespace MomAndBaby.Repository
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
+        }
+
+        public async Task<User> UpdateStatus(User user)
+        {
+            if (user.Status.Equals(UserStatus.Active.ToString()))
+            {
+                user.Status = UserStatus.Banned.ToString();
+            } else if (user.Status.Equals(UserStatus.Banned.ToString()))
+            {
+                user.Status=UserStatus.Active.ToString();
+            }
+            await _context.SaveChangesAsync();
+            return user;
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿$(document).ready(function () {
+﻿let RoleId 
+
+$(document).ready(function () {
+    
     var currentCategoryId = null;
     var currentCompanyName = null;
     var currentOriginal = null;
@@ -52,7 +55,7 @@
                 const productsArray = JSON.parse(data.products);
                 const filter = JSON.parse(data.filteredProductsCount);
                 const total = JSON.parse(data.totalProductsCount);
-
+                console.log('AAAAA')
                 productsArray.forEach(function (product) {
                     
                     var fullStars = Math.floor(product.Statistic.AverageStar);
@@ -69,7 +72,7 @@
                     for (var i = 0; i < emptyStars; i++) {
                         starsHtml += '<span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>';
                     }
-
+                    console.log('aaaaa', RoleId)
                     var productHtml = `
                                         <div class="col-sm-6 col-md-4">
                                             <!-- Start Product Item -->
@@ -77,7 +80,8 @@
                                                 <div class="product-thumb">
                                                     <img src="assets/img/shop/1.png" alt="Image">
                                                     <div class="product-action">
-                                                        <a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>
+                                                    ${RoleId == 0 || RoleId == 3 || RoleId == undefined ? `<a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>` : ""}
+                                                        
                                                         <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
                                                         <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
                                                         <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>

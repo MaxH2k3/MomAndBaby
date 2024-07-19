@@ -10,6 +10,7 @@ using MomAndBaby.Service.MessageConstant;
 using MomAndBaby.Utilities.Helper;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace MomAndBaby.Pages.Main.Authorize
 {
@@ -67,33 +68,9 @@ namespace MomAndBaby.Pages.Main.Authorize
                 TempData["MessageRegister"] = MessageAuthen.ExistedEmail;
                 return Page();
             }
-            var claims = new List<Claim>
-            {
-                    new(UserClaimType.UserId, result.Id.ToString()),
-                    new(UserClaimType.UserName, result.Username!),
-                    new(UserClaimType.FullName, result.FullName!),
-                    new(UserClaimType.Email, result.Email),
-                    new(UserClaimType.Role, result.RoleId.ToString()!)
-             };
+            TempData["Email"] = result.Email;
+            TempData["Authen"] = JsonConvert.SerializeObject(result);
 
-            var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties
-            {
-                AllowRefresh = true,
-
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
-
-                IsPersistent = true,
-
-                IssuedUtc = DateTimeOffset.UtcNow.AddMinutes(60)
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties);
             return Redirect("/verify");
         }
     }

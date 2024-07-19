@@ -17,12 +17,33 @@ namespace MomAndBaby.Pages.Dashboard.Body
         }
 
 
-        [BindProperty]
-        public IEnumerable<User> Users { get; set; }
-        public async Task OnGetAsycn()
+       
+        public IEnumerable<User?> Users { get; set; }
+       
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+        public async Task OnGet(int? pageIndex)
         {
+            int pageSize = 4;
+            CurrentPage = pageIndex ?? 1;
+
+            var list  = await _userService.GetAllUsers();
+            int count = list.Count();
+            TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            Users = list.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToList();
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.AccountList;
-            Users = await _userService.GetAllUsers();
+           
+        }
+
+        public async Task<IActionResult> OnPostUpdateStatus(string userEmail)
+        {
+            var user = await _userService.GetUserByEmail(userEmail);
+            if (user != null)
+            {
+                await _userService.UpdateStatus(user);
+            }
+            await OnGet(CurrentPage);
+            return Page();
         }
 
         

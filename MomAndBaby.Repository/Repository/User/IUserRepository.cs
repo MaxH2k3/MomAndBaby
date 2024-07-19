@@ -11,5 +11,6 @@ namespace MomAndBaby.Repository
         Task<User> AddUser(User userRegitser);
         Task<User> UpdateUser(User user);
         Task<IEnumerable<User>> GetAllUsers();
+        Task<User> UpdateStatus(User user);
     }
 }
