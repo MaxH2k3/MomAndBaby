@@ -104,6 +104,7 @@ namespace MomAndBaby.Pages.Main.Authorize
             HttpContext.Session.Remove("Cart");
             HttpContext.Session.Remove("Total");
             await HttpContext.SignOutAsync();
+            HttpContext.Session.SignOut();
             return Redirect("/login");
         }
     }

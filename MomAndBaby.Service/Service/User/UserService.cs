@@ -187,5 +187,10 @@ namespace MomAndBaby.Service
             return await _unitOfWork.SaveChangesAsync();
 
         }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _unitOfWork.UserRepository.GetAllUsers();
+        }
     }
 }

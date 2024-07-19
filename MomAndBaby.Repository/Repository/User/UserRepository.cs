@@ -43,5 +43,10 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             return user;
         }
+
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _context.Users.ToListAsync();
+        }
     }
 }
