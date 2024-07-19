@@ -5,10 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MomAndBaby.Service.Service
+namespace MomAndBaby.Service.Service;
+
+public interface ICategoryService
 {
-    public interface ICategoryService
-    {
-       
-    }
+    Task<IEnumerable<Category>> GetCategory();
 }
