@@ -67,5 +67,11 @@ namespace MomAndBaby.Service.OrderService
         {
             return await _unitOfWork.OrderTrackingRepository.GetOrderTrackingAsync(orderId);
         }
+
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrderAdmin()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllOrderAdmin();
+            return _mapper.Map<IEnumerable<OrderResponseModel>>(orders);
+        }
     }
 }

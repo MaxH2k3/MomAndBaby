@@ -45,5 +45,10 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
+
+        public async Task<IEnumerable<Order>> GetAllOrderAdmin()
+        {
+            return await _context.Orders.Include(x=>x.Status).Include(z=>z.OrderTrackings).ToListAsync();
+        }
     }
 }
