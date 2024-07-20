@@ -17,7 +17,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
         }
         public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
 
-        public async void OnGet()
+        public async Task OnGet()
         {
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.OrderList;
             Orders = await _orderService.GetAllOrderAdmin();

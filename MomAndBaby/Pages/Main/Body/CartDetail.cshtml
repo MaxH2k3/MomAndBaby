@@ -57,7 +57,7 @@
                                                 <h5>@cart.Name</h5>
                                             </td>
                                             <td class="product-price">
-                                                <span class="amount">@cart.UnitPrice?.ToString("C")</span>
+                                                <span class="amount">$@cart.UnitPrice</span>
                                             </td>
                                             <td class="product-remove">
                                                 <form method="post" asp-page-handler="RemoveFromCart"
@@ -76,7 +76,7 @@
 
                         <div class="cart-total">
                             <span>Total</span>
-                            <span class="amount">@Model.Total.ToString("C")</span>
+                            <span class="amount">$@Model.Total</span>
                         </div>
                     </div>
 
@@ -141,14 +141,14 @@
                                             {
                                                 <div class="your-order-product">
                                                     <ul>
-                                                        <li>@cart.Name<span>@cart.UnitPrice?.ToString("C")</span></li>
+                                                        <li>@cart.Name<span>$@cart.UnitPrice</span></li>
 
                                                     </ul>
                                                 </div>
 
                                             }
                                             <div class="your-order-total">
-                                                <h3>Total <span>@Model.Total.ToString("C")</span></h3>
+                                                <h3>Total <span>$@Model.Total</span></h3>
                                             </div>
                                         </div>
                                         <div class="payment-method">
