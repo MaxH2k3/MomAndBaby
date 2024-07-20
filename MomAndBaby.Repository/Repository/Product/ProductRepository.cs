@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 
 namespace MomAndBaby.Repository
 {
@@ -16,13 +17,46 @@ namespace MomAndBaby.Repository
         {
             return await _context.Products.Include(x => x.CategoryNavigation).FirstOrDefaultAsync(x => x.Id == productId);
         }
-        
-        public async Task<IEnumerable<Product>> GetAll()
+
+        public async Task<IEnumerable<Product>> GetAllShopping()
         {
             return await _context.Products
+                .Where(x => x.Status.Equals(StatusConstraint.AVAILABLE))
                 .Include(p => p.CategoryNavigation)
                 .Include(p=>p.Statistic)
                 .ToListAsync();
+        }
+
+        // public async Task<IEnumerable<Product>> GetAllAdmin()
+        // {
+        //     var products = _context.Products.AsQueryable();
+        //     products = products.Where()
+        //     
+        //     return await _context.Products
+        //         .Where(p => !p.Status.Equals(StatusConstraint.DELETE))
+        //         .Include(p => p.CategoryNavigation)
+        //         .Include(p=>p.Statistic)
+        //         .ToListAsync();
+        // }
+
+        public async Task<Tuple<int, List<Product>>> SearchAdmin(int currentPage, string searchValue)
+        {
+            var products = _context.Products
+                .Include(p => p.CategoryNavigation)
+                .Include(p=>p.Statistic)
+                .AsQueryable();
+
+            products = products.Where(x => !x.Status.Equals(StatusConstraint.DELETE));
+            
+            if (!string.IsNullOrWhiteSpace(searchValue))
+            {
+                products = products.Where(x => x.Name.ToLower().Contains(searchValue.ToLower()));
+            }
+
+            var count = await products.CountAsync();
+            var result = await products.Skip((currentPage - 1) * 8).Take(8).ToListAsync();
+            
+            return Tuple.Create(count, result);
         }
 
         public async Task<IEnumerable<Product>> GetHighestRating()
@@ -83,7 +117,46 @@ namespace MomAndBaby.Repository
             return _context.Products.Include(p => p.Statistic).ToList();
         }
 
-        
+        public async Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory()
+        {
+            var result = await _context.Products
+                .Include(p => p.CategoryNavigation)
+                .GroupBy(p => p.CategoryNavigation!.Name)
+                .Select(g => new { CategoryName = g.Key, Count = g.Count() })
+                .ToListAsync();
+
+            var categoryNames = result.Select(x => x.CategoryName!.ToString()).ToList();
+            var counts = result.Select(x => x.Count).ToList();
+
+            return Tuple.Create(categoryNames, counts);
+        }
+
+        public async Task<IEnumerable<string?>> GetAllCompany()
+        {
+            return await _context.Products
+                             .Select(p => p.Company)
+                             .Distinct()
+                             .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetListProductByCompany(string companyName)
+        {
+            return await _context.Products.Where(p => p.Company.Equals(companyName)).ToListAsync();
+        }
+
+        public async Task<IEnumerable<string?>> GetOriginals()
+        {
+            return await _context.Products
+                              .Select(p => p.Original)
+                              .Distinct()
+                              .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
+        {
+            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId).ToListAsync();
+        }
+
 
         //public async Task<IEnumerable<Product>> GetTrendingItems()
         //{

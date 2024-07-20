@@ -12,9 +12,9 @@ namespace MomAndBaby.Repository
             _context = context;
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrder()
+        public async Task<IEnumerable<Order>> GetAllOrder(Guid userId)
         {
-            return await _context.Orders.Include(x=>x.Status).Include(z=>z.OrderTrackings).ToListAsync();
+            return await _context.Orders.Where(u=>u.UserId.Equals(userId)).Include(x=>x.Status).Include(z=>z.OrderTrackings).ToListAsync();
         }
 
         public async Task<Order> GetOrderById(int id)
@@ -44,6 +44,11 @@ namespace MomAndBaby.Repository
             var result = await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             return result.Entity.Id;
+        }
+
+        public async Task<IEnumerable<Order>> GetAllOrderAdmin()
+        {
+            return await _context.Orders.Include(x=>x.Status).Include(z=>z.OrderTrackings).ToListAsync();
         }
     }
 }

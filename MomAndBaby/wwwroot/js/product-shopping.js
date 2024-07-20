@@ -1,14 +1,23 @@
-﻿$(document).ready(function () {
+﻿let RoleId 
+
+$(document).ready(function () {
+    
     var currentCategoryId = null;
+    var currentCompanyName = null;
+    var currentOriginal = null;
     //var currentPage = 1;
     var pageSize = 9;
-    function filterProducts(categoryId, currentPage) {
+    function filterProducts(categoryId, companyName, original, currentPage) {
         if (categoryId !== undefined) {
             currentCategoryId = categoryId;
         }
-       
+        if (companyName !== undefined) {
+            currentCompanyName = companyName;
+        }
+        if (original !== undefined) {
+            currentOriginal = original;
+        }
 
-        
 
         var sortCriteria = $('.sort-option.active').data('sort');
         var numOfStar = $('.form-check-input:checked').siblings('label').find('.fa-star').length || null;
@@ -20,8 +29,6 @@
 
         $("#searchFrom").val(searchFrom);
         $("#searchTo").val(searchTo);
-
-
         $('#current-sort').text(sortCriteria);
 
         $.ajax({
@@ -30,7 +37,7 @@
             contentType: "application/json",
             dataType: "json",
             data: {
-                categoryId: currentCategoryId, startPrice: searchFrom, endPrice: searchTo, numOfStars: numOfStar, sortCriteria: sortCriteria,
+                categoryId: currentCategoryId, companyName: currentCompanyName, original: currentOriginal, startPrice: searchFrom, endPrice: searchTo, numOfStars: numOfStar, sortCriteria: sortCriteria,
                 page: currentPage,
                 pageSize: pageSize
             },
@@ -48,7 +55,7 @@
                 const productsArray = JSON.parse(data.products);
                 const filter = JSON.parse(data.filteredProductsCount);
                 const total = JSON.parse(data.totalProductsCount);
-
+                console.log('AAAAA')
                 productsArray.forEach(function (product) {
                     
                     var fullStars = Math.floor(product.Statistic.AverageStar);
@@ -65,7 +72,7 @@
                     for (var i = 0; i < emptyStars; i++) {
                         starsHtml += '<span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>';
                     }
-
+                    console.log('aaaaa', RoleId)
                     var productHtml = `
                                         <div class="col-sm-6 col-md-4">
                                             <!-- Start Product Item -->
@@ -73,7 +80,8 @@
                                                 <div class="product-thumb">
                                                     <img src="assets/img/shop/1.png" alt="Image">
                                                     <div class="product-action">
-                                                        <a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>
+                                                    ${RoleId == 0 || RoleId == 3 || RoleId == undefined ? `<a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>` : ""}
+                                                        
                                                         <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
                                                         <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
                                                         <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
@@ -128,7 +136,7 @@
     // Event handler for pagination click
     $(document).on('click', '.page-number', function () {
         var page = $(this).data('page');
-        filterProducts(currentCategoryId, page);
+        filterProducts(currentCategoryId, currentCompanyName, currentOriginal, page);
     });
 
     //Sort
@@ -136,13 +144,12 @@
         $('.sort-option').removeClass('active');
         $(this).addClass('active');
         $('#current-sort').text($(this).data('sort'));
-        filterProducts(currentCategoryId, 1);
+        filterProducts(currentCategoryId, currentCompanyName, currentOriginal, 1);
     });
 
 
     //Star
     var lastSelected = null;
-
 
     $('.form-check-input').on('click', function () {
 
@@ -153,7 +160,7 @@
             lastSelected = $(this);
         }
 
-        filterProducts(currentCategoryId, 1);
+        filterProducts(currentCategoryId, currentCompanyName, currentOriginal, 1);
     });
 
 
@@ -162,7 +169,7 @@
     //Search Price
     $(".btn-src").click(function (e) {
         e.preventDefault();
-        filterProducts(currentCategoryId, 1);
+        filterProducts(currentCategoryId, currentCompanyName, currentOriginal, 1);
     });
 
     //Category
@@ -176,10 +183,41 @@
             $('.widget-categories ul li .category-link').removeClass('selected-category');
             $(this).addClass('selected-category');
         }
-        filterProducts(categoryId, 1);
+        filterProducts(categoryId, currentCompanyName, currentOriginal, 1);
     });
 
-    filterProducts(null, 1);
+    //Company
+    $('.widget-categories ul li .company-link').on('click', function () {
+
+        var companyname = $(this).data('company-name');
+        if ($(this).hasClass('selected-company')) {
+            $(this).removeClass('selected-company');
+            companyname = null;
+        } else {
+            $('.widget-categories ul li .company-link').removeClass('selected-company');
+            $(this).addClass('selected-company');
+        }
+        filterProducts(currentCompanyName, companyname, currentOriginal, 1);
+    });
+
+
+    //Original
+    $('.widget-categories ul li .original-link').on('click', function () {
+
+        var original = $(this).data('original-name');
+        if ($(this).hasClass('selected-original')) {
+            $(this).removeClass('selected-original');
+            original = null;
+        } else {
+            $('.widget-categories ul li .original-link').removeClass('selected-original');
+            $(this).addClass('selected-original');
+        }
+        filterProducts(currentCompanyName, currentCompanyName, original, 1);
+    });
+
+   
+
+    filterProducts(currentCompanyName, currentCompanyName, currentOriginal, 1);
 
     
 });

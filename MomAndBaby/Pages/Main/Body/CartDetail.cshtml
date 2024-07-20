@@ -106,24 +106,27 @@
                                                 <div class="billing-info mb-20">
                                                     <label>First name <abbr class="required"
                                                             title="required">*</abbr></label>
-                                                    <input asp-for="FirstName" class="form-control">
+                                                    <input asp-for="FirstName" class="form-control" required>
                                                 </div>
                                             </div>
-                                            <div class="col-12">
-                                                <div class="billing-info mb-20">
-                                                    <label>Last name <abbr class="required"
-                                                            title="required">*</abbr></label>
-                                                    <input asp-for="LastName" class="form-control">
-                                                </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="billing-info mb-20">
-                                                    <label>Address <abbr class="required"
-                                                            title="required">*</abbr></label>
-                                                    <input asp-for="Address" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
+                                            
+                                    <div class="col-12">
+                                    <div class="billing-info mb-20">
+                                        <label>Address <abbr class="required" title="required">*</abbr></label>
+                                        <input asp-for="Address" class="form-control" id="address-input" required>
+                                    </div>
+                                     <div class="css_select_div">
+                                        <select class="css_select" asp-for="Tinh" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
+                                            <option value="0">Tỉnh Thành</option>
+                                        </select>
+                                        <select class="css_select" asp-for="Quan" id="quan" name="quan" title="Chọn Quận Huyện" required>
+                                            <option value="0">Quận Huyện</option>
+                                        </select>
+                                        <select class="css_select" asp-for="Phuong" id="phuong" name="phuong" title="Chọn Phường Xã" required>
+                                            <option value="0">Phường Xã</option>
+                                        </select>
+                                    </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -192,3 +195,79 @@
     </section>
     <!-- End Cart Area Wrapper -->
 </main>
+
+@section Scripts {
+    <script src="https://esgoo.net/scripts/jquery.js"></script>
+    <style type="text/css">
+        .css_select_div { text-align: center; }
+        .css_select { display: inline-table; width: 25%; padding: 5px; margin: 5px 2%; border: solid 1px #686868; border-radius: 5px; }
+    </style>
+    <script>
+        $(document).ready(function() {
+            // Fetch provinces
+            $.getJSON('https://esgoo.net/api-tinhthanh/1/0.htm', function(data_tinh) {
+                if (data_tinh.error == 0) {
+                    $.each(data_tinh.data, function(key_tinh, val_tinh) {
+                        $("#tinh").append('<option value="' + val_tinh.id + '">' + val_tinh.name + '</option>');
+                    });
+                    $("#tinh").change(function(e) {
+                        var idtinh = $(this).val();
+                        // Fetch districts
+                        $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(data_quan) {
+                            if (data_quan.error == 0) {
+                                $("#quan").html('<option value="0">Quận Huyện</option>');
+                                $("#phuong").html('<option value="0">Phường Xã</option>');
+                                $.each(data_quan.data, function(key_quan, val_quan) {
+                                    $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.name + '</option>');
+                                });
+                                // Fetch wards
+                                $("#quan").change(function(e) {
+                                    var idquan = $(this).val();
+                                    $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
+                                        if (data_phuong.error == 0) {
+                                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                                            $.each(data_phuong.data, function(key_phuong, val_phuong) {
+                                                $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.name + '</option>');
+                                            });
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    });
+                }
+            });
+
+            // Combine address parts on form submission and validate
+            $('form').submit(function(e) {
+                var address = $('#address-input').val();
+                var tinh = $('#tinh option:selected').text();
+                var quan = $('#quan option:selected').text();
+                var phuong = $('#phuong option:selected').text();
+                var fullAddress = `${address}, ${phuong}, ${quan}, ${tinh}`;
+
+                // Validate select fields
+                if (!validateSelects()) {
+                    alert('Please select all required fields.');
+                    return false;
+                }
+
+                $('#address-input').val(fullAddress);
+            });
+
+            // Function to validate select fields
+            function validateSelects() {
+                var valid = true;
+                $('.css_select').each(function() {
+                    if ($(this).val() === "0") {
+                        valid = false;
+                        $(this).css('border', '1px solid red');
+                    } else {
+                        $(this).css('border', '1px solid #686868');
+                    }
+                });
+                return valid;
+            }
+        });
+    </script>
+}

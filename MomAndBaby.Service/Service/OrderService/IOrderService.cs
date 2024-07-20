@@ -4,7 +4,7 @@ using MomAndBaby.BusinessObject.Models;
 namespace MomAndBaby.Service.OrderService
 {
     public interface IOrderService{
-        Task<IEnumerable<OrderResponseModel>> GetAllOrder();
+        Task<IEnumerable<OrderResponseModel>> GetAllOrder(Guid userId);
         Task<Order> GetOrderById(int orderId);
         Task<bool> UpdateOrderAddress(string newAddress, int orderId);
         Task<IEnumerable<OrderDetailResponseModel>> GetAllOrderDetailOrder(int orderId);
@@ -12,6 +12,7 @@ namespace MomAndBaby.Service.OrderService
         Task CreateOrderDetail(List<OrderDetail> orderDetail);
         Task<bool> CompleteOrder(OrderTracking orderTracking);
         Task<OrderTracking> GetOrderTracking(int orderId);
+        Task<IEnumerable<OrderResponseModel>> GetAllOrderAdmin();
 
     }
 }

@@ -1,15 +1,18 @@
 using Microsoft.EntityFrameworkCore;
+using MomAndBaby;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
-using MomAndBaby.Configuration.Hub;
 using MomAndBaby.Configuration.SystemConfig;
+using MomAndBaby.Middleware;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
+using MomAndBaby.Service.Service.Email;
 using MomAndBaby.Service.Service.PayPalService;
+using MomAndBaby.Subscribe;
 using MomAndBaby.Utilities.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,7 +47,12 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
+builder.Services.AddScoped<IVoucherService, VoucherService>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
+builder.Services.AddSingleton<NotificationHub>();
+builder.Services.AddSingleton<SubscribeNotification>();
 
 builder.Services.AddSession();
 
@@ -53,7 +61,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 // Set up policies authorization.
 builder.Services.AddAuthorization(opt =>
 {
-    opt.AddPolicy("User", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Customer).ToString()));
+    opt.AddPolicy("Customer", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Customer).ToString()));
     opt.AddPolicy("Staff", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString()));
     opt.AddPolicy("Admin", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Admin).ToString()));
     opt.AddPolicy("SA", policy => policy.RequireClaim(UserClaimType.Role, ((int)RoleType.Staff).ToString(), ((int)RoleType.Admin).ToString()));
@@ -71,6 +79,18 @@ builder.Services.AddAuthorization(opt =>
             return true;
         });
     });
+    opt.AddPolicy("User", policy =>
+    {
+        policy.RequireAssertion(context =>
+        {
+            if(context.User.Identity!.IsAuthenticated)
+            {
+                return true;
+            }
+
+            return false;
+        });
+    });
 });
 
 // Set up http context accessor.
@@ -86,6 +106,7 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Dashboard/Body", "SA");
     options.Conventions.AuthorizeFolder("/Main/Body", "NonAdmin");
+    options.Conventions.AuthorizePage("/Main/Body/CartDetail", "User");
 });
 
 var app = builder.Build();
@@ -124,6 +145,10 @@ app.MapRazorPages();
 
 app.MapControllers();
 
-app.MapHub<ChatHub>(SystemConstant.HubConnection);
+app.MapHub<ChatHub>(SystemConstant.ChatHubConnection);
+
+app.MapHub<NotificationHub>(SystemConstant.NotificationHubConnection);
+
+app.UseNotificationTableDependency();
 
 app.Run();

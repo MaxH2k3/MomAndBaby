@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
@@ -16,8 +17,10 @@ public class CartDetailModel : PageModel
 
     private readonly IPayPalService _payPalService;
     private readonly IOrderService _orderService;
+    // private readonly string _baseUrl = "https://localhost:7076";
 
-    private readonly string _baseUrl = "https://localhost:7076";
+
+    private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
     public CartDetailModel(IPayPalService payPalService, IConfiguration configuration, IOrderService orderService)
     {
         _payPalService = payPalService;
@@ -33,18 +36,24 @@ public class CartDetailModel : PageModel
     public string FirstName { get; set; }
 
     [BindProperty]
-    public string LastName { get; set; }
+    public string Address { get; set; }
 
     [BindProperty]
-    public string Address { get; set; }
+    public string Tinh { get; set; }
+
+    [BindProperty]
+    public string Quan { get; set; }
+
+    [BindProperty]
+    public string Phuong { get; set; }
 
     public void OnGet()
     {
-        if(!User.Identity!.IsAuthenticated)
-            {
-                Redirect("/login");
-            }
-        
+        if (!User.Identity!.IsAuthenticated)
+        {
+            Redirect("/login");
+        }
+
         var cart = HttpContext.Session.GetString("Cart");
         if (!string.IsNullOrEmpty(cart))
         {
@@ -99,18 +108,23 @@ public class CartDetailModel : PageModel
     public async Task<IActionResult> OnPostPay()
     {
         if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-        HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(Address));
-        var sessionData = HttpContext.Session.GetString("Total");
-        if (JsonConvert.DeserializeObject<Decimal>(sessionData) == 0)
         {
-            return RedirectToPage();
+            return Page();
+        }
+        
+        var address = Address;
+        HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(address));
+        var sessionData = HttpContext.Session.GetString("Total");
+        if(sessionData == null){
+            return Redirect("shopping");
+        }
+        if (JsonConvert.DeserializeObject<Decimal>(sessionData) <= 0)
+        {
+            return Redirect("shopping");
         }
         var total = JsonConvert.DeserializeObject<Decimal>(sessionData);
-        Console.WriteLine($"Total Amount: {total.ToString("F2")}");
-        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("F2"), "Sample Payment");
+        Console.WriteLine($"Total Amount: {total.ToString("N0")}");
+        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("N0"), "Sample Payment");
         var approvalUrl = payment.GetApprovalUrl();
         return Redirect(approvalUrl);
     }
@@ -124,20 +138,20 @@ public class CartDetailModel : PageModel
             // Save the order details to the database
             await SaveOrderDetails();
             // Clear the cart after successful payment
-             HttpContext.Session.Remove("Cart");
+            HttpContext.Session.Remove("Cart");
             HttpContext.Session.Remove("Total");
 
-            return RedirectToPage("/cart-detail");
+            return Redirect("/cart-detail");
         }
 
         // Handle payment failure
-        return RedirectToPage("PaymentFailed");
+        return Redirect("/payment-canceled");
     }
 
     private async Task SaveOrderDetails()
     {
         var cart = HttpContext.Session.GetString("Cart");
-         var cartData = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
+        var cartData = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
         var sessionData = HttpContext.Session.GetString("Total");
         // var firstNameData = HttpContext.Session.GetString("FirstName");
         // var lastNameData = HttpContext.Session.GetString("LastName");
@@ -163,8 +177,8 @@ public class CartDetailModel : PageModel
         {
             OrderId = orderSave,
             ProductId = cartItem.Id,
-            Quantity = 1, 
-            Price = cartItem.UnitPrice.Value
+            Quantity = 1,
+            Price = cartItem.UnitPrice.Value / 23000
         }).ToList();
 
         // Create the order tracking

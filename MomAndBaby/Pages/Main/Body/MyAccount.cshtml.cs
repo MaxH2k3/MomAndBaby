@@ -12,6 +12,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using PayPal.Api;
 using MomAndBaby.Service.OrderService;
+using MomAndBaby.Service.Extension;
 
 namespace MomAndBaby.Pages.Main.Body
 {
@@ -48,7 +49,7 @@ namespace MomAndBaby.Pages.Main.Body
         [PasswordMatch("NewPassword", ErrorMessage = "The passwords do not match.")]
         public string? ConfirmPassword { get; set; }
 
-          public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
+        public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
 
         public async Task OnGet()
         {
@@ -57,11 +58,11 @@ namespace MomAndBaby.Pages.Main.Body
                 Redirect("/login");
             }
             
-            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email))!.Value;
+            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email));
 
             if (email != null)
             {
-                var user = await _userService.GetUserByEmail(email);
+                var user = await _userService.GetUserByEmail(email.Value);
                 if (user != null)
                 {
                     Email = user.Email;
@@ -69,7 +70,7 @@ namespace MomAndBaby.Pages.Main.Body
                     FullName = user.FullName;
                     Address = user.Address;
                     PhoneNumber = user.PhoneNumber;
-                    Orders = await _orderService.GetAllOrder();
+                    Orders = await _orderService.GetAllOrder(Guid.Parse(User.GetUserIdFromToken()));
                 }
             }
         }

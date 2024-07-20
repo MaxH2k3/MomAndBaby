@@ -13,6 +13,7 @@ namespace MomAndBaby.BusinessObject.Models.UserDto
         public string? Password { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
+        
 
         public UpdateUserDto(string? userName, string? fullName, string? password, string? phoneNumber, string? address)
         {
@@ -21,6 +22,7 @@ namespace MomAndBaby.BusinessObject.Models.UserDto
             Password = password;
             PhoneNumber = phoneNumber;
             Address = address;
+           
         }
     }
 }

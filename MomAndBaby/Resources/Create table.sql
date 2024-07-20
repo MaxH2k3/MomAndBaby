@@ -1,11 +1,11 @@
-﻿CREATE TABLE [role] (
-[id] int PRIMARY KEY IDENTITY(1, 1),
-[name] varchar(50)
+﻿CREATE TABLE [Role] (
+	[id] int PRIMARY KEY IDENTITY(1, 1),
+	[name] varchar(50)
 )
 
 CREATE TABLE [Status] (
-[id] int primary key identity(1, 1),
-[name] varchar(50)
+	[id] int primary key identity(1, 1),
+	[name] varchar(50)
 )
 
 CREATE TABLE [Category] (
@@ -29,6 +29,15 @@ CREATE TABLE [User] (
 FOREIGN KEY ([role_id]) REFERENCES role
 )
 
+ CREATE TABLE [UserValidation] (
+	[id] int primary key identity(1, 1),
+	[user_id] uniqueidentifier,
+	[otp] VARCHAR(6),
+	[created_at] DATETIME DEFAULT (GETDATE()),
+	[expired_at] DATETIME DEFAULT (GETDATE()),
+	FOREIGN KEY ([user_id]) REFERENCES [User] ([id])
+ )
+
 CREATE TABLE [Product] (
 [id] uniqueidentifier PRIMARY KEY,
 [category_id] int references Category([id]),
@@ -36,7 +45,6 @@ CREATE TABLE [Product] (
 [description] NVARCHAR(MAX),
 [unit_price] DECIMAL(10,2) NOT NULL,
 [purchase_price] DECIMAL(10, 2) NOT NULL,
-[category] NVARCHAR(255),
 [stock] INT NOT NULL,
 [image] VARCHAR(max),
 [original] VARCHAR(255),
