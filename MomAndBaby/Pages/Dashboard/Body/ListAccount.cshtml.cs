@@ -35,14 +35,14 @@ namespace MomAndBaby.Pages.Dashboard.Body
            
         }
 
-        public async Task<IActionResult> OnPostUpdateStatus(string userEmail)
+        public async Task<IActionResult> OnPostUpdateStatus(string userEmail, int i)
         {
             var user = await _userService.GetUserByEmail(userEmail);
             if (user != null)
             {
                 await _userService.UpdateStatus(user);
             }
-            await OnGet(CurrentPage);
+            await OnGet(i);
             return Page();
         }
 
