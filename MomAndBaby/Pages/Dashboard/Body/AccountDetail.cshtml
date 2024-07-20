@@ -1,4 +1,5 @@
 ﻿@page "/dashboard/account-detail"
+@using MomAndBaby.Service.Helper
 @model MomAndBaby.Pages.Dashboard.Body.AccountDetailModel
 
 @section Styles {
@@ -11,10 +12,10 @@
     <div class="d-flex flex-column flex-sm-row align-items-center justify-content-sm-between mb-4 text-center text-sm-start gap-2">
         <div class="mb-2 mb-sm-0">
             <h4 class="mb-1">
-                Customer ID #634759
+                Customer ID:  @Model.User.Id
             </h4>
             <p class="mb-0">
-                Aug 17, 2020, 5:48 (ET)
+                @Model.User.CreatedAt
             </p>
         </div>
         <button type="button" class="btn btn-label-danger delete-customer">Delete Customer</button>
@@ -22,6 +23,7 @@
 
 
     <div class="row">
+    <p style="color:darkgoldenrod; font-weight: 500; font-size: x-large;">@ViewData["Message"]</p>
         <!-- Customer-detail Sidebar -->
         <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
             <!-- Customer-detail Card -->
@@ -29,10 +31,10 @@
                 <div class="card-body">
                     <div class="customer-avatar-section">
                         <div class="d-flex align-items-center flex-column">
-                            <img class="img-fluid rounded my-3" src="../../assets/img/avatars/12.png" height="110" width="110" alt="User avatar" />
+                            
                             <div class="customer-info text-center">
-                                <h4 class="mb-1">Lorine Hischke</h4>
-                                <small>Customer ID #634759</small>
+                                <h4 class="mb-1">@Model.User.FullName</h4>
+                                <small>@Model.User.Id</small>
                             </div>
                         </div>
                     </div>
@@ -44,7 +46,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h5 class="mb-0">184</h5>
+                                <h5 class="mb-0">@Model.NumOfOrders</h5>
                                 <span>Orders</span>
                             </div>
                         </div>
@@ -55,7 +57,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h5 class="mb-0">$12,378</h5>
+                                <h5 class="mb-0">@Model.TotalAmount</h5>
                                 <span>Spent</span>
                             </div>
                         </div>
@@ -66,11 +68,11 @@
                         <ul class="list-unstyled">
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Username:</span>
-                                <span>lorine.hischke</span>
+                                <span>@Model.User.Username</span>
                             </li>
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Email:</span>
-                                <span>vafgot@vultukir.org</span>
+                                <span>@Model.User.Email</span>
                             </li>
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Status:</span>
@@ -78,18 +80,15 @@
                             </li>
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Contact:</span>
-                                <span>(123) 456-7890</span>
+                                <span>@Model.User.PhoneNumber</span>
                             </li>
 
                             <li class="mb-3">
-                                <span class="fw-medium me-2">Country:</span>
-                                <span>USA</span>
+                                <span class="fw-medium me-2">Address:</span>
+                                <span>@Model.User.Address</span>
                             </li>
                         </ul>
-                        <div class="d-flex justify-content-center">
-                            <a href="javascript:;" class="btn btn-primary me-3" data-bs-target="#editUser" data-bs-toggle="modal">Edit Details</a>
-
-                        </div>
+                       
                     </div>
                 </div>
             </div>
@@ -110,93 +109,37 @@
                 </div>
                 <div class="card-body">
                     <div class="accordion accordion-flush accordion-arrow-left" id="ecommerceBillingAccordionAddress">
+                    @{
+                        var count = 0;
+                    }
 
-                        <div class="accordion-item">
+                    @foreach(var item in Model.ShippingAddress)
+                    {
+                         <div class="accordion-item">
                             <div class="accordion-header d-flex justify-content-between align-items-center flex-wrap flex-sm-nowrap" id="headingHome">
                                 <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#ecommerceBillingAddressHome" aria-expanded="false" aria-controls="headingHome" role="button">
                                     <span>
                                         <span class="d-flex gap-2 align-items-baseline">
-                                            <span class="h6 mb-0">Home</span>
-                                            <span class="badge bg-label-success">Default Address</span>
+                                            <span class="h6 mb-0">@(++count)</span>
+                                            @* <span class="badge bg-label-success">Default Address</span> *@
                                         </span>
-                                        <span class="mb-0 text-muted">23 Shatinon Mekalan</span>
+                                        <span class="mb-0 text-muted">@UserHelper.GetProvince(item)</span>
                                     </span>
                                 </a>
-                                <div class="d-flex gap-3 p-4 p-sm-0 pt-0 ms-1 ms-sm-0">
-                                    <a href="javascript:void(0);"><i class="bx bx-pencil text-secondary fs-4"></i></a>
-                                    <a href="javascript:void(0);"><i class="bx bx-trash text-secondary fs-4"></i></a>
-                                    <button class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bx bx-dots-vertical-rounded text-secondary fs-4"></i></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Set as default address</a></li>
-                                    </ul>
-                                </div>
+                                
                             </div>
                             <div id="ecommerceBillingAddressHome" class="accordion-collapse collapse" data-bs-parent="#ecommerceBillingAccordionAddress">
                                 <div class="accordion-body ps-4 ms-1">
-                                    <h6 class="mb-1">Violet Mendoza</h6>
-                                    <p class="mb-1">23 Shatinon Mekalan,</p>
-                                    <p class="mb-1">Melbourne, VIC 3000,</p>
-                                    <p class="mb-1">LondonUK</p>
+                                   @*  <h6 class="mb-1">Violet Mendoza</h6> *@
+                                    <p class="mb-1">@item</p>
+                                  
                                 </div>
                             </div>
                         </div>
 
-                        <div class="accordion-item">
-                            <div class="accordion-header d-flex justify-content-between align-items-center flex-wrap flex-sm-nowrap" id="headingOffice">
-                                <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#ecommerceBillingAddressOffice" aria-expanded="false" aria-controls="headingOffice" role="button">
-                                    <span class="d-flex flex-column">
-                                        <span class="h6 mb-0">Office</span>
-                                        <span class="mb-0 text-muted">45 Roker Terrace</span>
-                                    </span>
-                                </a>
-                                <div class="d-flex gap-3 p-4 p-sm-0 pt-0 ms-1 ms-sm-0">
-                                    <a href="javascript:void(0);"><i class="bx bx-pencil text-secondary fs-4"></i></a>
-                                    <a href="javascript:void(0);"><i class="bx bx-trash text-secondary fs-4"></i></a>
-                                    <button class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bx bx-dots-vertical-rounded text-secondary fs-4"></i></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Set as default address</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div id="ecommerceBillingAddressOffice" class="accordion-collapse collapse" aria-labelledby="headingOffice" data-bs-parent="#ecommerceBillingAccordionAddress">
-                                <div class="accordion-body ps-4 ms-1">
-                                    <h6 class="mb-1">Violet Mendoza</h6>
-                                    <p class="mb-1">45 Roker Terrace,</p>
-                                    <p class="mb-1">Latheronwheel,</p>
-                                    <p class="mb-1">KW5 8NW</p>
-                                    <p class="mb-1">LondonUK</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item">
-                            <div class="accordion-header d-flex justify-content-between align-items-center flex-wrap flex-sm-nowrap" id="headingFamily">
-                                <a class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#ecommerceBillingAddressFamily" aria-expanded="false" aria-controls="headingFamily" role="button">
-                                    <span class="d-flex flex-column">
-                                        <span class="h6 mb-0">Family</span>
-                                        <span class="mb-0 text-muted">512 Water Plant</span>
-                                    </span>
-                                </a>
-                                <div class="d-flex gap-3 p-4 p-sm-0 pt-0 ms-1 ms-sm-0">
-                                    <a href="javascript:void(0);"><i class="bx bx-pencil text-secondary fs-4"></i></a>
-                                    <a href="javascript:void(0);"><i class="bx bx-trash text-secondary fs-4"></i></a>
-                                    <button class="btn p-0" data-bs-toggle="dropdown" aria-expanded="false" role="button"><i class="bx bx-dots-vertical-rounded text-secondary fs-4"></i></button>
-                                    <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="javascript:void(0);">Set as default address</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div id="ecommerceBillingAddressFamily" class="accordion-collapse collapse" aria-labelledby="headingFamily" data-bs-parent="#ecommerceBillingAccordionAddress">
-                                <div class="accordion-body ps-4 ms-1">
-                                    <h6 class="mb-1">Violet Mendoza</h6>
-                                    <p class="mb-1">512 Water Plant,</p>
-                                    <p class="mb-1">Melbourne, NY 10036,</p>
-                                    <p class="mb-1">New York,</p>
-                                    <p class="mb-1">United States</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    
+                    }
+                   
                 </div>
             </div>
             <!-- Address accordion -->

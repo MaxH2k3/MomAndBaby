@@ -9,21 +9,26 @@
 <main class="table" id="customers_table">
     <section class="table__header">
         <div class="input-group">
+
             <span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
             <input type="search" placeholder="Search Data...">
         </div>
         <div class="export__file">
-            <label for="export-file" class="export__file-btn" title="Export File">
-                <span class="export__file-btn-content"><i class="bx bx-export me-1"></i>Export</span>
-            </label>
-            <input type="checkbox" id="export-file">
+            <form method="post">
+               
+                <button type="submit" for="export-file" class="btn btn-primary" title="Export File">
+                    <span class="export__file-btn-content"><i class="bx bx-export me-1"></i>Export</span>
+                </button>
+            </form>
+            
+            @* <input type="checkbox" id="export-file">
             <div class="export__file-options">
                 <label>Export As &nbsp; &#10140;</label>
                 <label for="export-file" id="toPDF">PDF <img src="~/data-table/pdf.png" alt=""></label>
                 <label for="export-file" id="toJSON">JSON <img src="~/data-table/json.png" alt=""></label>
                 <label for="export-file" id="toCSV">CSV <img src="~/data-table/csv.png" alt=""></label>
                 <label for="export-file" id="toEXCEL">EXCEL <img src="~/data-table/excel.png" alt=""></label>
-            </div>
+            </div> *@
         </div>
     </section>
     <section class="table__body">
@@ -36,6 +41,7 @@
                     
                     <th> Created At <span class="icon-arrow">&UpArrow;</span></th>
                     <th> Status <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> <span class="icon-arrow"></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -53,12 +59,13 @@
                             <form method="post" asp-page-handler="UpdateStatus">
                                 <input type="hidden" name="userEmail" value="@item.Email" />
                                 <input type="hidden" name="i" value="@Model.CurrentPage" />
-                                <button type="submit" class="status delivered" style="width: 80px; @(item.Status == UserStatus.InActive.ToString() ? "background-color: yellow" : "")
+                                <button type="submit" class="status delivered" style="width: 80px; border: none; @(item.Status == UserStatus.InActive.ToString() ? "background-color: yellow" : "")
                                 ; @(item.Status == UserStatus.Banned.ToString() ? "background-color: red; color: white" : "")">
                                     @item.Status
                                 </button>
                             </form>
                             </td>
+                        <td><a asp-page="./AccountDetail" asp-route-id="@item.Id"><i class="fas fa-info-circle"></i></a> </td>
                             
                         </tr>
                 }

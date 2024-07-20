@@ -4,6 +4,7 @@ using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Utilities.Constants;
+using System.Text;
 
 namespace MomAndBaby.Pages.Dashboard.Body
 {
@@ -44,6 +45,23 @@ namespace MomAndBaby.Pages.Dashboard.Body
             }
             await OnGet(i);
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            var users = await _userService.GetAllUsers();
+            var csv = new StringBuilder();
+            csv.AppendLine("Id,UserName,FullName,Email, PhoneNumber,Address,RoleId,CreatedAt,UpdatedAt,Status");
+            foreach (var user in users)
+            {
+                csv.AppendLine($"{user.Id},{user.Username},{user.FullName},{user.Email},{user.PhoneNumber},{user.Address},{user.RoleId},{user.CreatedAt},{user.UpdatedAt},{user.Status}");
+            }
+
+            // Return the CSV file
+            var byteArray = Encoding.ASCII.GetBytes(csv.ToString());
+            var stream = new MemoryStream(byteArray);
+
+            return File(stream, "text/csv", "UserList.csv");
         }
 
         
