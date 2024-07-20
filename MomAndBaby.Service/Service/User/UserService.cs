@@ -82,6 +82,10 @@ namespace MomAndBaby.Service
             if (user == null)
             {
                 return null;
+
+
+
+
             }
 
             if (!AuthenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
