@@ -25,7 +25,7 @@ namespace MomAndBaby.Service
         public async Task<User?> AddNewUser(LoginUserDto loginUser)
         {
             var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(loginUser.Email);
-            
+
             if (userCheck == null)
             {
 
@@ -37,7 +37,7 @@ namespace MomAndBaby.Service
                 userCheck.Id = Guid.NewGuid();
                 userCheck.Password = passwordHash;
                 userCheck.PasswordSalt = passwordSalt;
-               
+
                 await _unitOfWork.UserRepository.AddUser(userCheck);
                 await _unitOfWork.SaveChangesAsync();
             }
@@ -50,16 +50,6 @@ namespace MomAndBaby.Service
 
             return userCheck;
         }
-
-				await _unitOfWork.UserRepository.AddUser(userEntity);
-			}
-			else
-			{
-				return false;
-			}
-
-			return await _unitOfWork.SaveChangesAsync();
-		}
 
 		public async Task<bool> SigninGoogle(User user)
 		{
@@ -92,9 +82,6 @@ namespace MomAndBaby.Service
             await GenerateAndSendOTP(user.Email!, user.FullName!, user.Id);
             return user;
         }
-
-			return user;
-		}
 
 		public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
 		{
