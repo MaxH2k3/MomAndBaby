@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.UserDto;
@@ -51,29 +50,28 @@ namespace MomAndBaby.Service
             return userCheck;
         }
 
-		public async Task<bool> SigninGoogle(User user)
-		{
-			var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
-			if (userCheck == null)
-			{
-				await _unitOfWork.UserRepository.AddUser(user);
-				return await _unitOfWork.SaveChangesAsync();
-			}
-			else
-			{
-				return true;
-			}
-		}
+        public async Task<bool> SigninGoogle(User user)
+        {
+            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
+            if (userCheck == null)
+            {
+                await _unitOfWork.UserRepository.AddUser(user);
+                return await _unitOfWork.SaveChangesAsync();
+            }
+            else
+            {
+                return true;
+            }
+        }
 
-		public async Task<User?> GetUserByEmail(string email)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
-			return user;
-		}
-
-            
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByEmail(email);
             return user;
         }
+
+
+
 
         public async Task<User?> Login(string userSelection, string password)
         {
@@ -96,32 +94,32 @@ namespace MomAndBaby.Service
             return user;
         }
 
-		public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
-		{
-			var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
-			if (existUser != null)
-			{
-				existUser.Username = updateUserDto.UserName;
-				existUser.FullName = updateUserDto.FullName;
-				existUser.Address = updateUserDto.Address;
-				existUser.PhoneNumber = updateUserDto.PhoneNumber;
-				if (updateUserDto.Password != null)
-				{
-					AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
+        public async Task<User> UpdateUser(string email, UpdateUserDto updateUserDto)
+        {
+            var existUser = await _unitOfWork.UserRepository.GetUserByEmail(email);
+            if (existUser != null)
+            {
+                existUser.Username = updateUserDto.UserName;
+                existUser.FullName = updateUserDto.FullName;
+                existUser.Address = updateUserDto.Address;
+                existUser.PhoneNumber = updateUserDto.PhoneNumber;
+                if (updateUserDto.Password != null)
+                {
+                    AuthenHelper.CreatePasswordHash(updateUserDto.Password, out byte[] passwordHash, out byte[] passwordSalt);
 
-					existUser.Password = passwordHash;
-					existUser.PasswordSalt = passwordSalt;
-				}
-			}
-			await _unitOfWork.UserRepository.UpdateUser(existUser);
-			return existUser;
-		}
+                    existUser.Password = passwordHash;
+                    existUser.PasswordSalt = passwordSalt;
+                }
+            }
+            await _unitOfWork.UserRepository.UpdateUser(existUser);
+            return existUser;
+        }
 
-		public async Task<User> getUserById(Guid? id)
-		{
-			return await _unitOfWork.UserRepository.getUserById(id);
-		}
-        
+        public async Task<User> getUserById(Guid? id)
+        {
+            return await _unitOfWork.UserRepository.getUserById(id);
+        }
+
 
         public async Task<bool> GenerateAndSendOTP(string email, string userName, Guid userId)
         {
@@ -164,16 +162,17 @@ namespace MomAndBaby.Service
         public async Task<bool> ValidateOTP(ValidateOtpDTO validateOtp)
         {
             var user = await _unitOfWork.UserRepository.GetUserByEmail(validateOtp.Email!);
-            if(user  == null)
+            if (user == null)
             {
                 return false;
             }
 
             var existOTP = await _unitOfWork.UserValidationRepository.GetUser(user.Id);
-            if(existOTP!.Otp == null)
+            if (existOTP!.Otp == null)
             {
                 return false;
-            } else if(existOTP.ExpiredAt < DateTime.UtcNow)
+            }
+            else if (existOTP.ExpiredAt < DateTime.UtcNow)
             {
                 return false;
             }
