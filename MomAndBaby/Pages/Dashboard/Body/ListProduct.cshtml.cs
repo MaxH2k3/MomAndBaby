@@ -13,6 +13,17 @@ namespace MomAndBaby.Pages.Dashboard.Body
         private readonly IProductService _productService;
         public List<ProductDto> Products { get; set; }
         
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
+        public int Count { get; set; }
+        public int PageSize { get; set; } = 8;
+        public int TotalPages => (int)Math.Ceiling(decimal.Divide(Count, PageSize));
+
+        public List<ProductDto> Data { get; set; }
+
+        public bool ShowPrevious => CurrentPage > 1;
+        public bool ShowNext => CurrentPage < TotalPages;
+        
         public ListProductModel(IProductService productService)
         {
             _productService = productService;
@@ -24,8 +35,10 @@ namespace MomAndBaby.Pages.Dashboard.Body
             
             TempData["search"] = searchValue;
 
-            var products = await _productService.GetAllAdmin(searchValue);
-            Products = products.ToList();
+            var products = await _productService.GetAllAdmin(CurrentPage, searchValue);
+            Count = products.Item1;
+            Data = products.Item2;
+            // Products = products.ToList();
         }
         
         public async Task<IActionResult> OnPostDelete(Guid productId)

@@ -27,14 +27,13 @@ namespace MomAndBaby.Service
             return mapper;
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAllAdmin(string searchValue = "")
+        public async Task<Tuple<int, List<ProductDto>>> GetAllAdmin(int currentPage, string searchValue = "")
         {
-            var products = string.IsNullOrWhiteSpace(searchValue)
-                ? await _unitOfWork.ProductRepository.GetAllAdmin()
-                : await _unitOfWork.ProductRepository.SearchAdmin(searchValue);
+            var products = await _unitOfWork.ProductRepository.SearchAdmin(currentPage, searchValue);
+
+            var mapperList = _mapper.Map<List<ProductDto>>(products.Item2);
             
-            var mappers = _mapper.Map<IEnumerable<ProductDto>>(products);
-            return mappers;
+            return Tuple.Create(products.Item1, mapperList);
         }
 
         public async Task<IEnumerable<Product>> GetAll()
@@ -56,6 +55,7 @@ namespace MomAndBaby.Service
         {
             return await _unitOfWork.ProductRepository.GetTrendingItems();
         }
+
         public async Task<bool> CreateProduct(ProductDto dto)
         {
             if (dto.ImageFile is null || dto.ImageFile.Length <= 0)
