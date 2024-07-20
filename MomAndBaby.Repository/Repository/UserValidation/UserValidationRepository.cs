@@ -45,6 +45,8 @@ namespace MomAndBaby.Repository.Repository
                 existUser.CreatedAt = userValidation.CreatedAt;
                 existUser.ExpiredAt = userValidation.ExpiredAt;
             }
+            var user = _context.Users.Where(u => u.Id.Equals(userValidation.UserId)).FirstOrDefault();
+            user!.Status = "Active"; 
             await _context.SaveChangesAsync();
             
         }

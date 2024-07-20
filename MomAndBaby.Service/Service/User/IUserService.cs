@@ -13,8 +13,9 @@ namespace MomAndBaby.Service
         Task<bool> SigninGoogle(User user);
         Task<User> UpdateUser(string email, UpdateUserDto updateUserDto);
         Task<bool> GenerateAndSendOTP(string email, string userName, Guid userId);
+        Task<IEnumerable<User>> GetAllUsers();
+        Task<User> UpdateStatus(User user);
 
-        
         Task<bool> ValidateOTP(ValidateOtpDTO validateOtp);
         Task<bool> ProcessValidOTP(UserValidation userValidation);
     }  

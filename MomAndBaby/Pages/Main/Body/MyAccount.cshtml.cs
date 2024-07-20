@@ -58,11 +58,11 @@ namespace MomAndBaby.Pages.Main.Body
                 Redirect("/login");
             }
             
-            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email))!.Value;
+            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email));
 
             if (email != null)
             {
-                var user = await _userService.GetUserByEmail(email);
+                var user = await _userService.GetUserByEmail(email.Value);
                 if (user != null)
                 {
                     Email = user.Email;
