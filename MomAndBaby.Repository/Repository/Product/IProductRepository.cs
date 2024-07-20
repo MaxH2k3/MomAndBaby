@@ -6,8 +6,8 @@ namespace MomAndBaby.Repository
     {
         Task<Product?> GetById(Guid productId);
         Task<IEnumerable<Product>> GetAllShopping();
-        Task<IEnumerable<Product>> GetAllAdmin();
-        Task<IEnumerable<Product>> SearchAdmin(string searchValue);
+        // Task<IEnumerable<Product>> GetAllAdmin();
+        Task<Tuple<int, List<Product>>> SearchAdmin(int currentPage, string searchValue);
         IEnumerable<Product> GetAllProduct();
         Task<IEnumerable<Product>> GetNewItems();
         //Task<Product> UpdateTotalStar(Guid ProductId, int newRating);
