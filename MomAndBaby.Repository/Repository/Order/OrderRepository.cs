@@ -45,5 +45,43 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
+
+        public async Task<IEnumerable<decimal>> GetTotalMoneyByYear(int year)
+        {
+            var orders = _context.Orders.Where(o => o.OrderDate!.Value.Year == year).AsQueryable();
+            var totalYear = new List<decimal>();
+            for (int month = 1; month <= 12; month++)
+            {
+                totalYear.Add(await orders.Where(o => o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
+            }
+
+            return totalYear;
+        }
+
+        public async Task<IEnumerable<IEnumerable<decimal>>> GetTotalMoney()
+        {
+            var orders = _context.Orders.AsQueryable();
+            var thisYear = new List<decimal>();
+            var lastYear = new List<decimal>();
+            var totalYear = new List<decimal>();
+
+            for(int month = 1; month <= 12; month++)
+            {
+                thisYear.Add(await orders.Where(o => o.OrderDate!.Value.Year == DateTime.Now.Year && o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
+                lastYear.Add(await orders.Where(o => o.OrderDate!.Value.Year == DateTime.Now.Year - 1 && o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
+                totalYear.Add(await orders.Where(o => o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
+            }
+
+            return new List<IEnumerable<decimal>> { totalYear, thisYear, lastYear };
+
+        }
+
+        public async Task<int> GetMinYear()
+        {
+            return await _context.Orders.MinAsync(o => o.OrderDate!.Value.Year);
+        }
+
+
+
     }
 }

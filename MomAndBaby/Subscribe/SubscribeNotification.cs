@@ -8,15 +8,17 @@ namespace MomAndBaby.Subscribe
     {
         SqlTableDependency<Notification> _tableDependency;
         NotificationHub _hubContext;
+        private readonly IConfiguration _configuration;
 
-        public SubscribeNotification(NotificationHub hubContext)
+        public SubscribeNotification(NotificationHub hubContext, IConfiguration configuration)
         {
             _hubContext = hubContext;
+            _configuration = configuration;
         }
 
         public void SubscribeTableDependency()
         {
-            _tableDependency = new SqlTableDependency<Notification>("server=35.240.220.220,1433;database=MomAndBaby;uid=sa;pwd=Admin12345@;TrustServerCertificate=true;Encrypt=True;");
+            _tableDependency = new SqlTableDependency<Notification>(_configuration.GetConnectionString("SQL"));
             _tableDependency.OnChanged += TableDependency_OnChanged;
             _tableDependency.OnError += TableDependency_OnError;
             _tableDependency.Start();

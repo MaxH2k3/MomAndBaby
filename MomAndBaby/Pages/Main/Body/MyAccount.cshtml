@@ -1,8 +1,8 @@
 ﻿@page "/myaccount"
 @model MomAndBaby.Pages.Main.Body.MyAccountModel
 @using MomAndBaby.Utilities.Constants
-@{
-}
+@using MomAndBaby.BusinessObject.Constants
+@using MomAndBaby.BusinessObject.Enums
 
 <main class="main-content">
     <!--== Start Page Title Area ==-->
@@ -38,6 +38,13 @@
                             <div class="col-lg-3 col-md-4">
                                 <nav>
                                     <div class="myaccount-tab-menu nav nav-tabs" id="nav-tab" role="tablist">
+                                        @{
+                                            if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!.Value.Equals(((int)RoleType.Staff).ToString()))
+                                            {
+                                                <a href="/dashboard" style="color: black;"><button class="nav-link" style="width: 100%;">Dashboard</button></a>
+                                            }
+                                        }
+                                        
                                         <button class="nav-link" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false">Orders</button>
                                         <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab" aria-controls="payment-method" aria-selected="false">Payment Method</button>
                                         <button class="nav-link" id="account-info-tab" data-bs-toggle="tab" data-bs-target="#account-info" type="button" role="tab" aria-controls="account-info" aria-selected="false">Account Details</button>

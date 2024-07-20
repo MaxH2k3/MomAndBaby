@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="~/ok/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
     <link rel="stylesheet" href="~/ok/assets/vendor/libs/typeahead-js/typeahead.css" />
     <link rel="stylesheet" href="~/ok/assets/vendor/libs/apex-charts/apex-charts.css" />
-
+    
     <!-- Page CSS -->
     <link rel="stylesheet" href="~/ok/assets/vendor/css/pages/card-analytics.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css" integrity="sha512-34s5cpvaNG3BknEWSuOncX28vz97bRI59UnVtEEpFX536A7BtZSJHsDyFoCl8S7Dt2TPzcrCEoHBGeM4SUBDBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 }
 
 
@@ -91,12 +92,26 @@
     <div class="card">
         <div class="row row-bordered g-0">
             <div class="col-md-8">
-                <div class="card-header">
-                    <h5 class="card-title mb-0">Total Income</h5>
-                    <small class="card-subtitle">Yearly report overview</small>
+                <div class="card-header d-flex justify-content-between">
+                    <div>
+                        <h5 class="card-title mb-0">Total Income</h5>
+                        <small class="card-subtitle title-chart">Total Year</small>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn p-0" type="button" id="totalIncome" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="totalIncome">
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('totalyear')">Total year</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('thisyear')">This year</a>
+                            <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('lastyear')">Last Year</a>
+                            <a><input onchange="getTotalOrderByYear(this.value)" class="date-own form-control dropdown-item" style="width: 300px;" type="text" data-date-start-date="2020y" data-date-end-date="@(DateTime.Now.Year)y" placeholder="chosen year" readonly></a>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="card-body">
-                    <div id="totalIncomeChart"></div>
+                    <div id="totalIncomeCharts"></div>
                 </div>
             </div>
             <div class="col-md-4">
@@ -174,37 +189,44 @@
             <div class="title">
                 <h4 style="padding-left: 1rem; padding-top: 1rem;">Gifts</h4>
             </div>
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive text-nowrap" id="table-exchange-point">
                 <table class="table text-nowrap">
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Stock</th>
                             <th>Exchange Point</th>
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
+                    <tbody class="table-body table-border-bottom-0">
                         @foreach (var gift in Model.DashboardDTO.Gifts)
                         {
-                            <input type="hidden" name="Id" value="@gift.Id" />
                             <tr>
-                                <td><span class="badge bg-label-primary rounded-pill badge-center p-3 me-2"></span> @gift.Name</td>
+                                <input type="hidden" name="Id" value="@gift.Id" />
+                                <td data-bs-toggle="tooltip" data-bs-placement="top" title="@gift.Name"><span class="d-inline-block text-truncate" style="max-width: 180px;">@gift.Name</span></td>
+
                                 <td>
-                                    <div class="text-muted lh-1"><span class="text-primary fw-medium">@(gift.Stock)</span> Unit</div>
+                                    <div class="text-muted lh-1"><span class="text-primary fw-medium">@(gift.ExchangePoint)</span>Point</div>
+                                    <small class="text-muted">@(gift.Stock) unit</small>
                                 </td>
                                 <td>
-                                    <div class="text-muted lh-1"><span class="text-primary fw-medium">@(gift.ExchangePoint)</span> Point</div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="fa-solid fa-trash"></i></button>
-                                    </div>
+                                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="fa-solid fa-trash"></i></button>
                                 </td>
                             </tr>
                         }
 
                     </tbody>
+                    <tfoot class="table__tfoot">
+                        <tr>
+                            <td colspan="8" class="tfooter">
+                                <nav aria-label="..." style="float: right">
+                                    <ul class="pagination pagination-sm">
+                                    </ul>
+                                </nav>
+                            </td>
+                        </tr>
+
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -243,12 +265,12 @@
     <!--/ Total Balance -->
 </div>
 <div class="row mt-4">
-    <div class="col-md-8 mb-4 mb-md-0">
+    <div class="col-md-12 mb-4 mb-md-0">
         <div class="card">
             <div class="title">
                 <h4 style="padding-left: 1rem; padding-top: 1rem;">Vouchers</h4>
             </div>
-            <div class="table-responsive text-nowrap">
+            <div class="table-responsive text-nowrap" id="table-voucher">
                 <table class="table text-nowrap">
                     <thead>
                         <tr>
@@ -260,7 +282,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0">
+                    <tbody class="table-body table-border-bottom-0">
                         @foreach (var voucher in Model.DashboardDTO.Vouchers)
                         {
                             <input type="hidden" name="Id" value="@voucher.Id" />
@@ -289,6 +311,17 @@
                         }
 
                     </tbody>
+                    <tfoot class="table__tfoot">
+                        <tr>
+                            <td colspan="8" class="tfooter">
+                                <nav aria-label="..." style="float: right">
+                                    <ul class="pagination pagination-sm">
+                                    </ul>
+                                </nav>
+                            </td>
+                        </tr>
+
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -305,8 +338,28 @@
     <script src="~/ok/assets/js/app-ecommerce-dashboard.js"></script>
 
     <script src="~/js/data-chart.js" asp-append-version="true"></script>
-
+    <script src="~/js/custom-table.js" asp-append-version="true"></script>
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script>
         productCategoryData = @Html.Raw(JsonSerializer.Serialize(Model.DashboardDTO.StatisticCategory, new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
+
+        document.addEventListener("DOMContentLoaded", () => {
+            paginationTable(5, 'table-exchange-point');
+            paginationTable(8, 'table-voucher');
+
+            $('.date-own').datepicker({
+                minViewMode: 2,
+                format: 'yyyy'
+            });
+
+            totalYearData = @Html.Raw(JsonSerializer.Serialize(Model.DashboardDTO.TotalMoneys.ElementAt(0), new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
+            thisYearData = @Html.Raw(JsonSerializer.Serialize(Model.DashboardDTO.TotalMoneys.ElementAt(1), new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
+            lastYearData = @Html.Raw(JsonSerializer.Serialize(Model.DashboardDTO.TotalMoneys.ElementAt(2), new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }));
+
+        })
+
+        
+
     </script>
 }

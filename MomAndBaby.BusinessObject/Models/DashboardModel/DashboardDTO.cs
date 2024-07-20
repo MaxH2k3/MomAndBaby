@@ -12,5 +12,6 @@ namespace MomAndBaby.BusinessObject.Models
         public IEnumerable<Voucher> Vouchers { get; set; } = new List<Voucher>();
         public IEnumerable<Gift> Gifts { get; set; } = new List<Gift>();
         public Tuple<List<string>, List<int>> StatisticCategory { get; set; } = new Tuple<List<string>, List<int>>(new List<string>(), new List<int>());
+        public IEnumerable<IEnumerable<decimal>> TotalMoneys { get; set; } = new List<IEnumerable<decimal>>();
     }
 }

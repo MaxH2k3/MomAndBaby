@@ -1,9 +1,14 @@
 ﻿let productCategoryData;
+var totalYearData = [300, 2350, 4800, 6800, 2950, 1950, 1800, 2800, 3750, 3750, 9700, 4700];
+var thisYearData = [3350, 3350, 4800, 4800, 2950, 2950, 1800, 1800, 3750, 3750, 5700, 5700];
+var lastYearData = [3200, 3100, 4500, 4600, 2800, 3000, 1900, 1700, 3600, 3700, 5500, 5300];
+
+let apexChartInstance = null;
 
 document.addEventListener("DOMContentLoaded", () => {
     const donutChart = document.querySelector("#donutChart");
 
-    const chartOptions = {
+    const donutChartOpts = {
         chart: { height: 390, type: "donut" },
         labels: productCategoryData.item1,
         series: productCategoryData.item2,
@@ -94,6 +99,130 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (donutChart !== null) {
-        new ApexCharts(donutChart, chartOptions).render();
+        new ApexCharts(donutChart, donutChartOpts).render();
     }
+
+    const totalIncomeChart = document.querySelector("#totalIncomeCharts");
+
+    const totalIncomeChartOpts = {
+        chart: {
+            height: 300,
+            type: "area",
+            toolbar: !1,
+            dropShadow: {
+                enabled: !0,
+                top: 14,
+                left: 2,
+                blur: 3,
+                color: '#7367F0',
+                opacity: 0.15,
+            },
+        },
+        series: [
+            {
+                data: totalYearData,
+            },
+        ],
+        dataLabels: { enabled: false },
+        stroke: { width: 3, curve: "straight" },
+        colors: ['#7367F0'],
+        fill: {
+            type: "gradient",
+            gradient: {
+                shade: true,
+                shadeIntensity: 0.8,
+                opacityFrom: 0.7,
+                opacityTo: 0.25,
+                stops: [0, 95, 100],
+            },
+        },
+        grid: {
+            show: !0,
+            borderColor: '#f0f0f0',
+            padding: { top: -15, bottom: -10, left: 0, right: 0 },
+        },
+        xaxis: {
+            categories: [
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "Jun",
+                "Jul",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec",
+            ],
+            labels: { offsetX: 0, style: { colors: "#82868b", fontSize: "13px" } },
+            axisBorder: { show: !1 },
+            axisTicks: { show: !1 },
+            lines: { show: !1 },
+        },
+        yaxis: {
+            labels: {
+                offsetX: -15,
+                formatter: function (o) {
+                    return "$" + parseInt(o / 1e3) + "k";
+                },
+                style: { fontSize: "13px", colors: "#82868b" },
+            },
+            min: Math.min(...totalYearData),
+            max: Math.max(...totalYearData),
+            tickAmount: 7,
+        },
+    };
+
+    if (totalIncomeChart !== null) {
+        apexChartInstance = new ApexCharts(totalIncomeChart, totalIncomeChartOpts);
+        apexChartInstance.render();
+    }
+
+    
 });
+
+// Update chart function
+window.updateChart = function (period) {
+    if (period === 'thisyear') {
+        newData = thisYearData;
+        document.getElementsByClassName('title-chart')[0].innerHTML = 'This Year';
+    } else if (period === 'lastyear') {
+        newData = lastYearData;
+        document.getElementsByClassName('title-chart')[0].innerHTML = 'Last Year';
+    } else {
+        newData = totalYearData;
+        document.getElementsByClassName('title-chart')[0].innerHTML = 'Total Year';
+    }
+
+    const min = Math.min(...newData);
+    const max = Math.max(...newData);
+
+    apexChartInstance.updateOptions({
+        yaxis: {
+            min: min,
+            max: max,
+            tickAmount: 7,
+        }
+    });
+
+    apexChartInstance.updateSeries([{ data: newData }]);
+
+}
+
+const updateChartIncome = (listData, year) => {
+    document.getElementsByClassName('title-chart')[0].innerHTML = `Year: ${year}`;
+    const min = Math.min(...listData);
+    const max = Math.max(...listData);
+    apexChartInstance.updateOptions({
+        yaxis: {
+            min: min,
+            max: max,
+            tickAmount: 7,
+        }
+    });
+
+    apexChartInstance.updateSeries([{ data: listData }]);
+}
+

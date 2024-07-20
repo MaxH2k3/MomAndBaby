@@ -11,6 +11,9 @@ namespace MomAndBaby.Repository
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId);
 
         Task<int> CreateOrder(Order order);
+        Task<IEnumerable<decimal>> GetTotalMoneyByYear(int year);
+        Task<IEnumerable<IEnumerable<decimal>>> GetTotalMoney();
+        Task<int> GetMinYear();
         // Task<>
     }
 }
