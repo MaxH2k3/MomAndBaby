@@ -177,26 +177,29 @@
 										@{
 											foreach (var review in Model.productReview)
 											{
-												<div class="review-content" style="margin-top: 10px">
-													<div class="review-item">
-														<ul class="review-rating">
-															@for (int r = 1; r <= review.Rating; r++)
+												if (review.Status == true)
+												{
+													<div class="review-content" style="margin-top: 10px">
+														<div class="review-item">
+															<ul class="review-rating">
+																@for (int r = 1; r <= review.Rating; r++)
+																{
+																	<li class="fa fa-star"></li>
+																}
+																@for (int r = review.Rating; r < 5; r++)
+																{
+																	<li class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></li>
+																}
+															</ul>
+															<h4 class="title">@review.Comment</h4>
+															<h5 class="review-date"><span>@review.User!.FullName</span> on <span>@review.CreatedAt</span></h5>
+															@if (review.UserId.ToString() == User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString())
 															{
-																<li class="fa fa-star"></li>
+																<a href="/edit-review?reviewId=@review.Id&productId=@review.ProductId" style="margin-left: 10px" class="btn btn-dark">View</a>
 															}
-															@for (int r = review.Rating; r < 5; r++)
-															{
-																<li class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></li>
-															}
-														</ul>
-														<h4 class="title">@review.Comment</h4>
-														<h5 class="review-date"><span>@review.User!.FullName</span> on <span>@review.CreatedAt</span></h5>
-														@if (review.UserId.ToString() == User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString())
-														{
-															<a href="/edit-review?reviewId=@review.Id&productId=@review.ProductId" style="margin-left: 10px" class="btn btn-dark">View</a>
-														}	
+														</div>
 													</div>
-												</div>
+												}			
 											}
 										}
 									</div>

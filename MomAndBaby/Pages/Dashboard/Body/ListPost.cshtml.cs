@@ -22,7 +22,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
         {
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostList;
             int pageSize = 5;
-            Articles = await _articleService.GetListArticle(pageIndex, pageSize, "adva");
+            Articles = await _articleService.GetListArticle(pageIndex, pageSize, "");
         }
 
 		public async Task<IActionResult> OnPostSoftDelete(int articleId)

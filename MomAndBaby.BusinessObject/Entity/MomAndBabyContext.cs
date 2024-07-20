@@ -349,7 +349,9 @@ namespace MomAndBaby.BusinessObject.Entity
 
                 entity.Property(e => e.Rating).HasColumnName("rating");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+				entity.Property(e => e.Status).HasColumnName("status");
+
+				entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Reviews)
