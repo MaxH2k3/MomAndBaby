@@ -71,9 +71,22 @@ namespace MomAndBaby.Service
 			return user;
 		}
 
-		public async Task<User?> Login(string userSelection, string password)
-		{
-			var user = await _unitOfWork.UserRepository.GetUserByUsernameOrEmail(userSelection);
+            
+            return user;
+        }
+
+        public async Task<User?> Login(string userSelection, string password)
+        {
+            var user = await _unitOfWork.UserRepository.GetUserByUsernameOrEmail(userSelection);
+
+            if (user == null)
+            {
+                return null;
+
+
+
+
+            }
 
             if (!AuthenHelper.VerifyPasswordHash(password, user.Password, user.PasswordSalt))
             {
