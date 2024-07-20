@@ -78,23 +78,20 @@ $(document).ready(function () {
                                             <!-- Start Product Item -->
                                             <div class="product-item">
                                                 <div class="product-thumb">
-                                                    <img src="assets/img/shop/1.png" alt="Image">
+                                                    <img src="${product.Image}" alt="Image">
                                                     <div class="product-action">
                                                     ${RoleId == 0 || RoleId == 3 || RoleId == undefined ? `<a href="?handler=AddToCart&productId=${product.Id}"><i class="ion-ios-cart"></i></a>` : ""}
-                                                        
-                                                        <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                                                        <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                                                        <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                                                        <a href="/product_detail?productId=${product.Id}"><i class="ion-arrow-expand"></i></a>
                                                     </div>
                                                 </div>
                                                 <div class="product-info">
                                                     <div class="rating">
                                                         ${starsHtml}
-                                                        <h4>${product.Statistic.AverageStar}</h4>
+                                                        <h4>${Math.round(product.Statistic.AverageStar, 1)}</h4>
                                                     </div>
-                                                    <h4 class="title"><a href="shop-single-product.html">${product.Name}</a></h4>
+                                                    <h4 class="title"><a href="/product_detail?productId=${product.Id}">${product.Name}</a></h4>
                                                     <div class="prices">
-                                                        <span class="price">${product.UnitPrice}</span>
+                                                        <span class="price">$${product.UnitPrice}</span>
                                                     </div>
                                                 </div>
                                             </div>
