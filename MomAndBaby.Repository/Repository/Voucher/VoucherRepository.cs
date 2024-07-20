@@ -21,5 +21,11 @@ namespace MomAndBaby.Repository
         {
             return await _context.Gifts.ToListAsync();
         }
+
+        public async Task DeleteVoucher(int id)
+        {
+            var voucher = await _context.Vouchers.FirstOrDefaultAsync(v => v.Id == id);
+            _context.Vouchers.Remove(voucher!);
+        }
     }
 }

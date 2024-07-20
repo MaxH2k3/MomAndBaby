@@ -28,5 +28,11 @@ namespace MomAndBaby.Service.Service
             return await _unitOfWork.VoucherRepository.GetGifts();
         }
 
+        public async Task<bool> DeleteVoucher(int id)
+        {
+            await _unitOfWork.VoucherRepository.DeleteVoucher(id);
+            return await _unitOfWork.SaveChangesAsync();
+        }
+
     }
 }

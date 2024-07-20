@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.MessageModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,11 @@ namespace MomAndBaby.Repository.Repository
             return await _context.Notifications
                 .Include(n => n.User)
                 .ToListAsync();
+        }
+
+        public async Task AddNotification(Notification notification)
+        {
+            await _context.Notifications.AddAsync(notification);
         }
     }
 }

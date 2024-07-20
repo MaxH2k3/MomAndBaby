@@ -7,5 +7,6 @@ namespace MomAndBaby.Repository
     {
         Task<IEnumerable<Voucher>> GetVouchers();
         Task<IEnumerable<Gift>> GetGifts();
+        Task DeleteVoucher(int id);
     }
 }

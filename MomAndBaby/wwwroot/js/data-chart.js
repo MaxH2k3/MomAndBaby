@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
             labels: {
                 offsetX: -15,
                 formatter: function (o) {
-                    return "$" + parseInt(o / 1e3) + "k";
+                    return "$" + parseInt(o / Math.min(...totalYearData)) + "k";
                 },
                 style: { fontSize: "13px", colors: "#82868b" },
             },

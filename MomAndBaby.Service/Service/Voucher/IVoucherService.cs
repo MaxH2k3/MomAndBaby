@@ -11,5 +11,6 @@ namespace MomAndBaby.Service.Service
     {
         Task<IEnumerable<Voucher>> GetVouchers();
         Task<IEnumerable<Gift>> GetGifts();
+        Task<bool> DeleteVoucher(int id);
     }
 }

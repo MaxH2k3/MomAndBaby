@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
+using MomAndBaby.Middleware;
 using MomAndBaby.Service;
 using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
@@ -34,6 +35,14 @@ namespace MomAndBaby.Pages.Dashboard.Body
             DashboardDTO.Gifts = await _voucherService.GetGifts();
             DashboardDTO.StatisticCategory = await _productService.GetStatisticsProductCategory();
             DashboardDTO.TotalMoneys = await _orderService.GetTotalAmount();
+        }
+
+        public async Task<IActionResult> OnPostDeleteVoucher(int id)
+        {
+            var result = await _voucherService.DeleteVoucher(id);
+
+            return Redirect("/dashboard");
+
         }
     }
 }

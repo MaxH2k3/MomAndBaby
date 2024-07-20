@@ -64,7 +64,7 @@ namespace MomAndBaby.Pages.Main.Authorize
             }
            
             TempData["Authen"] = JsonConvert.SerializeObject(user);
-
+            TempData["Email"] = JsonConvert.SerializeObject(user.Email);
 
 
             return Redirect("/verify");

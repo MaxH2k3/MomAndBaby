@@ -7,11 +7,13 @@ using MomAndBaby.Configuration.SystemConfig;
 using MomAndBaby.Middleware;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service;
+using MomAndBaby.Service.BackgroundTask;
 using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
 using MomAndBaby.Service.Service.Email;
 using MomAndBaby.Service.Service.PayPalService;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Subscribe;
 using MomAndBaby.Utilities.Constants;
 
@@ -50,9 +52,14 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<NotificationWorker>();
 
 builder.Services.AddSingleton<NotificationHub>();
 builder.Services.AddSingleton<SubscribeNotification>();
+
+// Set up background task
+builder.Services.AddHostedService<QueuedHostedService>();
+builder.Services.AddSingleton<IBackgroundTaskQueue, BackgroundTaskQueue>();
 
 builder.Services.AddSession();
 

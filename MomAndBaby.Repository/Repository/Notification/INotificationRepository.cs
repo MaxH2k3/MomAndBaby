@@ -10,5 +10,6 @@ namespace MomAndBaby.Repository.Repository
     public interface INotificationRepository
     {
         Task<IEnumerable<Notification>> GetAll();
+        Task AddNotification(Notification notification);
     }
 }

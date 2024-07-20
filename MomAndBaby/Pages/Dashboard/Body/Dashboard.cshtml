@@ -105,7 +105,7 @@
                             <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('totalyear')">Total year</a>
                             <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('thisyear')">This year</a>
                             <a class="dropdown-item" href="javascript:void(0);" onclick="updateChart('lastyear')">Last Year</a>
-                            <a><input onchange="getTotalOrderByYear(this.value)" class="date-own form-control dropdown-item" style="width: 300px;" type="text" data-date-start-date="2020y" data-date-end-date="@(DateTime.Now.Year)y" placeholder="chosen year" readonly></a>
+                            <a><input onchange="getTotalOrderByYear(this.value)" class="date-own form-control dropdown-item" style="width: 300px; cursor: pointer;" type="text" data-date-start-date="2020y" data-date-end-date="@(DateTime.Now.Year)y" placeholder="chosen year" readonly></a>
                         </div>
                     </div>
                 </div>
@@ -285,7 +285,6 @@
                     <tbody class="table-body table-border-bottom-0">
                         @foreach (var voucher in Model.DashboardDTO.Vouchers)
                         {
-                            <input type="hidden" name="Id" value="@voucher.Id" />
                             <tr>
                                 <td>
                                     <div class="d-flex align-items-center">
@@ -303,9 +302,10 @@
                                 <td>@voucher.StartDate.ToString("dd/MM/yyyy")</td>
                                 <td>@voucher.EndDate.ToString("dd/MM/yyyy")</td>
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="fa-solid fa-trash"></i></button>
-                                    </div>
+                                    <form method="post">
+                                        <input type="hidden" name="id" value="@voucher.Id" />
+                                        <button type="submit" asp-page-handler="DeleteVoucher" class="btn p-0 "><i class="fa-solid fa-trash"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                         }
