@@ -8,12 +8,11 @@
                 <!-- Start Product Item -->
                 <div class="product-item">
                     <div class="product-thumb">
-                        <img src="assets/img/shop/1.png" alt="Image">
+                        <img src="@product.Image" alt="Image">
                         <div class="product-action">
-                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">
+                                <i class="ion-arrow-expand"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="product-info">
@@ -36,10 +35,11 @@
                             {
                                 <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
                             }
-                            <h4>@product.Statistic.AverageStar</h4>
+                            <h4>@Math.Round((double)product.Statistic.AverageStar, 1)</h4>
                         </div>
-                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
-                        <div class="prices">
+                        <h4 class="title">
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">@product.Name</a>
+                        </h4>                        <div class="prices">
                             <span class="price">@product.UnitPrice</span>
                         </div>
                     </div>
@@ -59,12 +59,11 @@
                 <!-- Start Product Item -->
                 <div class="product-item">
                     <div class="product-thumb">
-                        <img src="assets/img/shop/1.png" alt="Image">
+                        <img src="@product.Image" alt="Image">
                         <div class="product-action">
-                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">
+                                <i class="ion-arrow-expand"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="product-info">
@@ -87,9 +86,11 @@
                             {
                                 <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
                             }
-                            <h4>@product.Statistic.AverageStar</h4>
+                            <h4>@Math.Round((double)product.Statistic.AverageStar, 1)</h4>
                         </div>
-                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                        <h4 class="title">
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">@product.Name</a>
+                        </h4>             
                         <div class="prices">
                             <span class="price">@product.UnitPrice</span>
                         </div>
@@ -109,12 +110,11 @@
                 <!-- Start Product Item -->
                 <div class="product-item">
                     <div class="product-thumb">
-                        <img src="assets/img/shop/1.png" alt="Image">
+                        <img src="@product.Image" alt="Image">
                         <div class="product-action">
-                            <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                            <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">
+                                <i class="ion-arrow-expand"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="product-info">
@@ -137,9 +137,11 @@
                             {
                                 <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
                             }
-                            <h4>@product.Statistic.AverageStar</h4>
+                            <h4>@Math.Round((double)product.Statistic.AverageStar, 1)</h4>
                         </div>
-                        <h4 class="title"><a href="shop-single-product.html">@product.Name</a></h4>
+                        <h4 class="title">
+                            <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">@product.Name</a>
+                        </h4>
                         <div class="prices">
                             <span class="price">@product.UnitPrice</span>
                         </div>
