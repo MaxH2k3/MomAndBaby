@@ -24,6 +24,7 @@ namespace MomAndBaby.Pages.Main.Authorize
 
         [BindProperty]
         [Required(ErrorMessage = "User Name is required")]
+        [RegularExpression(@"^\S*$", ErrorMessage = "User Name cannot contain spaces")]
         public string UserName { get; set; }
 
         [BindProperty]

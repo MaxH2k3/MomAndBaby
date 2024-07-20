@@ -61,5 +61,12 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             return user;
         }
+
+        public async Task<User?> GetUserById(Guid? id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(p => p.Id.Equals(id));
+        }
+
+       
     }
 }

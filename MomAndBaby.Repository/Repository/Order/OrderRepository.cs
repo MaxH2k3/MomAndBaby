@@ -45,5 +45,15 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             return result.Entity.Id;
         }
+
+        public async Task<IEnumerable<string?>> GetShippingAddress(Guid userId)
+        {
+            return await _context.Orders.Where(p => p.UserId.Equals(userId)).Select(p => p.ShippingAddress).Distinct().ToListAsync();
+        }
+
+        public async Task<decimal> GetTotalAmount(Guid userId)
+        {
+            return await _context.Orders.Where(o => o.UserId.Equals(userId)).SumAsync(p => p.TotalAmount);
+        }
     }
 }

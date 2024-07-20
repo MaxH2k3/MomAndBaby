@@ -6,7 +6,8 @@ using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service.OrderService
 {
-    public class OrderService : IOrderService{
+    public class OrderService : IOrderService
+    {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
@@ -66,6 +67,16 @@ namespace MomAndBaby.Service.OrderService
         public async Task<OrderTracking> GetOrderTracking(int orderId)
         {
             return await _unitOfWork.OrderTrackingRepository.GetOrderTrackingAsync(orderId);
+        }
+
+        public async Task<IEnumerable<string?>> GetShippingAddress(Guid userId)
+        {
+            return await _unitOfWork.OrderRepository.GetShippingAddress(userId);
+        }
+
+        public async Task<decimal> GetTotalAmount(Guid userId)
+        {
+            return await _unitOfWork.OrderRepository.GetTotalAmount(userId);
         }
     }
 }
