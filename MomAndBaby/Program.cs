@@ -39,6 +39,7 @@ builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IPayPalService, PayPalService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();

@@ -44,6 +44,11 @@ namespace MomAndBaby.Repository
             return user;
         }
 
+		public async Task<User> getUserById(Guid? id)
+		{
+			return await _context.Users.FirstOrDefaultAsync(u => u.Id.Equals(id));
+		}
+        
         public async Task<IEnumerable<User>> GetAllUsers()
         {
             return await _context.Users.ToListAsync();
