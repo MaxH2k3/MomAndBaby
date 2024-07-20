@@ -1,0 +1,92 @@
+﻿@page "/edit-review"
+@model MomAndBaby.Pages.Main.Body.ReviewPage.EditReviewModel
+@{
+}
+
+
+<form method="post" style="padding-left: 40px; padding-right: 40px">
+
+	<input type="hidden" asp-for="Review.Id" name="reviewId" />
+	<input type="hidden" name="productId" value="@Model.Review.ProductId" />
+
+	<div class="review-form-content">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="rating">
+					<span class="rating-title">Rating</span>
+					<span id="rating-stars">
+						<a class="fa fa-star" data-rating="1" style="color: white; text-shadow: 0 0 1px black"></a>
+						<a class="fa fa-star" data-rating="2" style="color: white; text-shadow: 0 0 1px black"></a>
+						<a class="fa fa-star" data-rating="3" style="color: white; text-shadow: 0 0 1px black"></a>
+						<a class="fa fa-star" data-rating="4" style="color: white; text-shadow: 0 0 1px black"></a>
+						<a class="fa fa-star" data-rating="5" style="color: white; text-shadow: 0 0 1px black"></a>
+					</span>
+					<input type="hidden" id="rating" asp-for="Review.Rating" name="Review.Rating" required>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="form-group">
+					<label asp-for="Review.Comment">What do you think of this product <span>(1500)</span></label>
+					<textarea asp-for="Review.Comment" class="form-control textarea" rows="7" placeholder="Write your comments here" required></textarea>
+					<span asp-validation-for="Review.Comment" class="text-danger"></span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="form-group pull-right">
+					<button type="submit" asp-page-handler="Update" class="btn btn-theme">Update</button>
+					<button type="submit" asp-page-handler="Delete" class="btn btn-theme" style="margin-left: 10px; background-color: red">Delete</button>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</form>
+
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const stars = document.querySelectorAll('#rating-stars a');
+		const ratingInput = document.getElementById('rating');
+		const initialRating = parseInt(ratingInput.value) || 0;
+
+		updateStars(initialRating);
+
+		stars.forEach(star => {
+			star.addEventListener('click', function (e) {
+				e.preventDefault();
+				const rating = this.getAttribute('data-rating');
+				ratingInput.value = rating;
+				updateStars(rating);
+			});
+		});
+
+		function updateStars(rating) {
+			stars.forEach(star => {
+				if (parseInt(star.getAttribute('data-rating')) <= rating) {
+					star.classList.add('selected');
+					star.style.color = 'gold';
+					star.style.textShadow = 'none';
+				} else {
+					star.classList.remove('selected');
+					star.style.color = 'white';
+					star.style.textShadow = '0 0 1px black';
+				}
+			});
+		}
+	});
+</script>
+
+
+<style>
+	.fa-star {
+		color: white;
+		text-shadow: 0 0 1px black;
+	}
+
+		.fa-star.selected {
+			color: gold;
+			text-shadow: none;
+		}
+</style>

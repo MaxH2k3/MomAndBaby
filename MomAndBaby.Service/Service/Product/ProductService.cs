@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Repository.Uow;
+using Newtonsoft.Json.Linq;
 
 namespace MomAndBaby.Service
 {
@@ -25,10 +26,19 @@ namespace MomAndBaby.Service
             var mapper = _mapper.Map<ProductDto>(product);
             return mapper;
         }
-        
+
+        public async Task<Tuple<int, List<ProductDto>>> GetAllAdmin(int currentPage, string searchValue = "")
+        {
+            var products = await _unitOfWork.ProductRepository.SearchAdmin(currentPage, searchValue);
+
+            var mapperList = _mapper.Map<List<ProductDto>>(products.Item2);
+            
+            return Tuple.Create(products.Item1, mapperList);
+        }
+
         public async Task<IEnumerable<Product>> GetAll()
         {
-            return await _unitOfWork.ProductRepository.GetAll();
+            return await _unitOfWork.ProductRepository.GetAllShopping();
         }
 
         public async Task<IEnumerable<Product>> GetHighestRating()
@@ -45,15 +55,15 @@ namespace MomAndBaby.Service
         {
             return await _unitOfWork.ProductRepository.GetTrendingItems();
         }
+
         public async Task<bool> CreateProduct(ProductDto dto)
         {
-
-            if (dto.ImageFile is null || dto.ImageFile.Length < 0)
+            if (dto.ImageFile is null || dto.ImageFile.Length <= 0)
             {
-                throw new ArgumentException("Image is required.");
+                throw new ArgumentException("Image is required!");
             }
             
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/uploads");
+            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
             var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
             var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             
@@ -62,7 +72,7 @@ namespace MomAndBaby.Service
                 await dto.ImageFile.CopyToAsync(fileStream);
             }
             
-            dto.Image = "/images/uploads/" + uniqueFileName;
+            dto.Image = "/images/product_images/" + uniqueFileName;
             
             var check = await _unitOfWork.ProductRepository.NameExistAsync(dto.Name);
             if (check)
@@ -72,6 +82,7 @@ namespace MomAndBaby.Service
             
             var mapper = _mapper.Map<Product>(dto);
             mapper.Id = Guid.NewGuid();
+            mapper.CreatedAt = DateTime.Now;
             await _unitOfWork.ProductRepository.CreateProduct(mapper);
             return await _unitOfWork.SaveChangesAsync();
         }
@@ -80,11 +91,6 @@ namespace MomAndBaby.Service
         {
             var productId = (Guid)dto.Id;
             var product = await _unitOfWork.ProductRepository.GetById(productId);
-
-            if (product is null)
-            {
-                throw new ArgumentException("Product not exists.");
-            }
             
             var check = await _unitOfWork.ProductRepository.NameUpdateExistAsync(productId, dto.Name);
             if (check)
@@ -103,7 +109,7 @@ namespace MomAndBaby.Service
                     }
                 }
                 
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/uploads");
+                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
                 var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
                 var filePath = Path.Combine(uploadsFolder, uniqueFileName);
             
@@ -111,15 +117,16 @@ namespace MomAndBaby.Service
                 {
                     await dto.ImageFile.CopyToAsync(fileStream);
                 }
-                dto.Image = "/images/uploads/" + uniqueFileName;
+                dto.Image = "/images/product_images/" + uniqueFileName;
             }
 
             product.Name = dto.Name;
             product.CategoryId = dto.CategoryId;
             product.Image = dto.Image;
             product.Description = dto.Description;
-            product.UnitPrice = (decimal)dto.UnitPrice;
-            product.Stock = (int)dto.Stock;
+            product.UnitPrice = dto.UnitPrice;
+            product.PurchasePrice = dto.PurchasePrice;
+            product.Stock = dto.Stock;
             product.Status = dto.Status;
             product.UpdatedAt = DateTime.Now;
 
@@ -141,12 +148,20 @@ namespace MomAndBaby.Service
             return mapper;
         }
 
-        public async Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
+        public async Task<IEnumerable<Product>> GetFilteredProducts(int? categoryId, string? companyName, string? original, decimal? startPrice, decimal? endPrice, int? numOfStars, string sortCriteria)
         {
-            var productsQuery =  await _unitOfWork.ProductRepository.GetAll();
+            var productsQuery =  await _unitOfWork.ProductRepository.GetAllShopping();
             if (categoryId.HasValue)
             {
                 productsQuery = productsQuery.Where(p => p.CategoryId == categoryId);
+            }
+            if (companyName != null)
+            {
+                productsQuery = productsQuery.Where(p => p.Company.Equals(companyName));
+            }
+            if (original != null)
+            {
+                productsQuery = productsQuery.Where(p => p.Original.Equals(original));
             }
             if (startPrice.HasValue)
             {
@@ -165,7 +180,7 @@ namespace MomAndBaby.Service
                 }
                 else
                 {
-                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars && p.Statistic.AverageStar < (numOfStars + 1));
+                    productsQuery = productsQuery.Where(p => p.Statistic.AverageStar >= numOfStars);
                 }
                 
             }
@@ -211,7 +226,7 @@ namespace MomAndBaby.Service
             var productCategory = _mapper.Map<IEnumerable< ProductCategoryDto>>(categories);
             foreach (var category in productCategory)
             {
-                var listProductByCategory = await _unitOfWork.ProductRepository.GetRelatedProducts(category.Id);
+                var listProductByCategory = await _unitOfWork.ProductRepository.GetProductsByCategoryId(category.Id);
                 category.NumberOfProduct = listProductByCategory.Count();
             }
 
@@ -225,9 +240,63 @@ namespace MomAndBaby.Service
             return await _unitOfWork.ProductRepository.GetStatisticsProductCategory();
         }
 
+        public async Task<IEnumerable<ProductOriginalDto>> GetOriginalShopping()
+        {
+            
+            var listCompanyName = await _unitOfWork.ProductRepository.GetOriginals();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetStringAsync("https://countriesnow.space/api/v0.1/countries/flag/images");
+                var data = JObject.Parse(response)["data"];
 
+                // Tạo từ điển để dễ dàng tra cứu hình ảnh cờ
+                var imageFlags = new Dictionary<string, string>();
+                foreach (var country in data)
+                {
+                    var name = country["name"].ToString();
+                    var imageFlag = country["flag"].ToString();
+                    imageFlags[name] = imageFlag;
+                }
 
+                // Tạo danh sách kết quả ProductOriginalDto
+                var result = new List<ProductOriginalDto>();
+                foreach (var companyName in listCompanyName)
+                {
+                    if (imageFlags.TryGetValue(companyName, out var imageFlag))
+                    {
+                        result.Add(new ProductOriginalDto
+                        {
+                            Name = companyName,
+                            Image = imageFlag
+                        });
+                    }
+                    else
+                    {
+                        result.Add(new ProductOriginalDto
+                        {
+                            Name = companyName,
+                            Image = null // Hoặc gán giá trị mặc định nếu không tìm thấy cờ
+                        });
+                    }
+                }
 
+                return result;
+            }
+
+        }
+
+        public async Task<IEnumerable<ProductCompanyDto>> GetCompanyShopping()
+        {
+            var companies = await _unitOfWork.ProductRepository.GetAllCompany();
+            // Initialize a list of ProductCompanyDto
+            var productCompanies = companies.Select(c => new ProductCompanyDto { Name = c }).ToList();
+            foreach ( var company in productCompanies)
+            {
+                var listProductByCompany = await _unitOfWork.ProductRepository.GetListProductByCompany(company.Name);
+                company.NumberOfProduct = listProductByCompany.Count();
+            }
+            return productCompanies;
+        }
     }
     
 }

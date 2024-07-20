@@ -49,7 +49,7 @@ namespace MomAndBaby.Pages.Main.Body
         [PasswordMatch("NewPassword", ErrorMessage = "The passwords do not match.")]
         public string? ConfirmPassword { get; set; }
 
-          public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
+        public IEnumerable<MomAndBaby.BusinessObject.Models.OrderResponseModel> Orders { get; set; } = new List<MomAndBaby.BusinessObject.Models.OrderResponseModel>();
 
         public async Task OnGet()
         {
@@ -58,11 +58,11 @@ namespace MomAndBaby.Pages.Main.Body
                 Redirect("/login");
             }
             
-            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email))!.Value;
+            var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email));
 
             if (email != null)
             {
-                var user = await _userService.GetUserByEmail(email);
+                var user = await _userService.GetUserByEmail(email.Value);
                 if (user != null)
                 {
                     Email = user.Email;

@@ -10,6 +10,7 @@ using MomAndBaby.Service;
 using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
+using MomAndBaby.Service.Service.Email;
 using MomAndBaby.Service.Service.PayPalService;
 using MomAndBaby.Subscribe;
 using MomAndBaby.Utilities.Constants;
@@ -38,6 +39,7 @@ builder.Services.AddGoogle(builder.Configuration);
 
 // Add services to the container.
 builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IPayPalService, PayPalService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -45,6 +47,7 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 

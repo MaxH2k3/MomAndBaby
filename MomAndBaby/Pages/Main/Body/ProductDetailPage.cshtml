@@ -1,324 +1,254 @@
 @page "/product_detail"
+@using MomAndBaby.BusinessObject.Constants
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductDetailPage
 @{
     var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
 }
 
- <main class="main-content">
-    <!--== Start Page Title Area ==-->
-    <section class="page-title-area">
-      <div class="container">
-        <div class="row align-items-center">
-          <div class="col-lg-12 m-auto">
-            <div class="page-title-content text-center">
-              <h2 class="title">Product</h2>
-              <div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> Product</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--== End Page Title Area ==-->
+<main class="main-content">
+	<!--== Start Page Title Area ==-->
+	<section class="page-title-area">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-12 m-auto">
+					<div class="page-title-content text-center">
+						<h2 class="title">Product</h2>
+						<div class="bread-crumbs"><a href="index.html"> Home </a><span class="breadcrumb-sep"> // </span><span class="active"> Product</span></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--== End Page Title Area ==-->
+	<!--== Start Shop Area ==-->
+	<section class="product-single-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-0">
+					<div class="single-product-slider">
+						<div class="single-product-thumb">
+							<div class="thumb-item">
+								<a class="lightbox-image" data-fancybox="gallery" href="main/assets/img/shop/details/1.jpg">
+									<img src="main/assets/img/shop/details/1.jpg" alt="Image-HasTech">
+								</a>
+							</div>
+						</div>
 
-    <!--== Start Shop Area ==-->
-    <section class="product-single-area">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-12 col-md-8 offset-md-2 col-lg-6 offset-lg-0">
-            <div class="single-product-slider">
-              <div class="single-product-thumb">
-                      <div class="thumb-item">
-                        <a class="lightbox-image" data-fancybox="gallery" href="main/assets/img/shop/details/1.jpg">
-                          <img src="main/assets/img/shop/details/1.jpg" alt="Image-HasTech">
-                        </a>
-                      </div>
-              </div>
-              
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="single-product-info">
-              @* <input type="hidden" asp-for="ProductDto.Id"/> *@
-              <h4 class="title">@Model.Product.Name</h4>
-              <div class="prices">
-                <span class="price">$@Model.Product.UnitPrice</span>
-              </div>
-              <div class="product-rating">
-                <div class="rating">
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                </div>
-                <div class="review">
-                  <a href="#">( 5 Customer Review )</a>
-                </div>
-              </div>
-              <div class="single-product-featured">
-                <ul>
-                  <li><i class="fa fa-check"></i> Free Shipping</li>
-                  <li><i class="fa fa-check"></i> Support 24/7</li>
-                  <li><i class="fa fa-check"></i> Money Return</li>
-                </ul>
-              </div>
-              <p class="product-desc">@Model.Product.Description</p>
-              <div class="quick-product-action">
-                <div class="action-top">
-                  <div class="pro-qty">
-                    <input type="text" id="quantity" title="Quantity" value="01"/>
-                  </div>
-                  <button class="btn btn-theme">Add to Cart</button>
-                  <a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">Stock:</h3>
-                <div class="widget-tags">
-                  <span>@Model.Product.Stock</span>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">Categories:</h3>
-                <div class="widget-tags">
-                  <a href="#">@Model.Product.CategoryNavigation?.Name</a>
-                  @* <a href="blog.html">Dresss</a> *@
-                </div>
-              </div>
-              @* <div class="widget"> *@
-              @*   <h3 class="title">Tag:</h3> *@
-              @*   <div class="widget-tags"> *@
-              @*     <a href="blog.html">Toys,</a> *@
-              @*     <a href="blog.html">Dress</a> *@
-              @*   </div> *@
-              @* </div> *@
-              @* <div class="widget"> *@
-              @*   <h3 class="title">Share:</h3> *@
-              @*   <div class="widget-tags widget-share"> *@
-              @*     <span class="fa fa-facebook"></span> *@
-              @*     <span class="fa fa-dribbble"></span> *@
-              @*     <span class="fa fa-pinterest-p"></span> *@
-              @*     <span class="fa fa-twitter"></span> *@
-              @*     <span class="fa fa-linkedin"></span> *@
-              @*   </div> *@
-              @* </div> *@
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-lg-12">
-              <div class="product-description-review">
-                <ul class="nav nav-tabs product-description-tab-menu" id="myTab" role="tablist">
-                  @* <li class="nav-item" role="presentation"> *@
-                  @*   <button class="nav-link" id="product-aditional-tab" data-bs-toggle="tab" data-bs-target="#commentProduct" type="button" role="tab" aria-selected="false">Information</button> *@
-                  @* </li> *@
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="product-desc-tab" data-bs-toggle="tab" data-bs-target="#productDesc" type="button" role="tab" aria-controls="productDesc" aria-selected="true">Description</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="product-review-tab" data-bs-toggle="tab" data-bs-target="#productReview" type="button" role="tab" aria-controls="productReview" aria-selected="false">Reviews (03)</button>
-                  </li>
-                </ul>
-                <div class="tab-content product-description-tab-content" id="myTabContent">
-                  @* <div class="tab-pane fade" id="commentProduct" role="tabpanel" aria-labelledby="product-aditional-tab"> *@
-                  @*   <div class="product-desc"> *@
-                  @*     <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p> *@
-                  @*   </div> *@
-                  @* </div> *@
-                  <div class="tab-pane fade show active" id="productDesc" role="tabpanel" aria-labelledby="product-desc-tab">
-                    <div class="product-desc">
-                      <p>@Model.Product.Description</p>
-                    </div>
-                  </div>
-                  <div class="tab-pane fade" id="productReview" role="tabpanel" aria-labelledby="product-review-tab">
-                    <div class="product-review">
-                      <div class="review-header">
-                        <h4 class="title">Customer Reviews</h4>
-                        <div class="review-info">
-                          <ul class="review-rating">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                          </ul>
-                          <span class="review-caption">Based on 1 review</span>
-                          <span class="review-write-btn">Write a review</span>
-                        </div>
-                      </div>
-                      <div class="product-review-form">
-                        <h4 class="title">Write a review</h4>
-                        <form action="#" method="post">
-                          <div class="review-form-content">
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="reviewFormName">Name</label>
-                                  <input class="form-control" id="reviewFormName" type="text" placeholder="Enter your name" required="">
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="reviewFormEmail">Email</label>
-                                  <input class="form-control" id="reviewFormEmail" type="email" placeholder="john.smith@example.com" required="">
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="rating">
-                                  <span class="rating-title">Rating</span>
-                                  <span>
-                                    <a class="fa fa-star-o" href="#/"></a>
-                                    <a class="fa fa-star-o" href="#/"></a>
-                                    <a class="fa fa-star-o" href="#/"></a>
-                                    <a class="fa fa-star-o" href="#/"></a>
-                                    <a class="fa fa-star-o" href="#/"></a>
-                                  </span>
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="reviewReviewTitle">Review Title</label>
-                                  <input class="form-control" id="reviewReviewTitle" type="text" placeholder="Give your review a title" required="">
-                                </div>
-                              </div>
-                              <div class="col-md-12">
-                                <div class="form-group">
-                                  <label for="reviewFormTextarea">Body of Review <span>(1500)</span></label>
-                                  <textarea class="form-control textarea" id="reviewFormTextarea" name="comment" rows="7" placeholder="Write your comments here" required=""></textarea>
-                                </div>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-12">
-                                <div class="form-group pull-right">
-                                  <button class="btn btn-theme" type="submit">Submit Review</button>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                      <div class="review-content">
-                        <div class="review-item">
-                          <ul class="review-rating">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                          </ul>
-                          <h4 class="title">Cobus Bester</h4>
-                          <h5 class="review-date"><span>Cobus Bester</span> on <span>Mar 03, 2021</span></h5>
-                          <p>Can’t wait to start mixin’ with this one! Irba-irr-Up-up-up-up-date your theme!</p>
-                          <a class="review-report" href="#/">Report as Inappropriate</a>
-                        </div>
-                      </div>
-                      <div class="review-content">
-                        <div class="review-item">
-                          <ul class="review-rating">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                          </ul>
-                          <h4 class="title">Cobus Bester</h4>
-                          <h5 class="review-date"><span>Cobus Bester</span> on <span>Mar 05, 2021</span></h5>
-                          <p>Can’t wait to start mixin’ with this one! Irba-irr-Up-up-up-up-date your theme!</p>
-                          <a class="review-report" href="#/">Report as Inappropriate</a>
-                        </div>
-                      </div>
-                      <div class="review-content">
-                        <div class="review-item">
-                          <ul class="review-rating">
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star"></i></li>
-                            <li><i class="fa fa-star-o"></i></li>
-                          </ul>
-                          <h4 class="title">Cobus Bester</h4>
-                          <h5 class="review-date"><span>Cobus Bester</span> on <span>Mar 07, 2021</span></h5>
-                          <p>Can’t wait to start mixin’ with this one! Irba-irr-Up-up-up-up-date your theme!</p>
-                          <a class="review-report" href="#">Report as Inappropriate</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--== End Shop Area ==-->
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="single-product-info">
+						@* <input type="hidden" asp-for="ProductDto.Id"/> *@
+						<h4 class="title">@Model.ProductDto.Name</h4>
+						<div class="prices">
+							<span class="price">$@Model.ProductDto.UnitPrice</span>
+						</div>
+						<div class="product-rating">
+							<div class="rating">
+								@{
+									double averageStar = Model.ProductAverageRating;
+									int fullStars = (int)averageStar; // Number of full stars
+									bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
+									int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
+								}
+								@for (int i = 0; i < fullStars; i++)
+								{
+									<span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
+								}
+								@if (hasHalfStar)
+								{
+									<span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
+								}
+								@for (int i = 0; i < emptyStars; i++)
+								{
+									<span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
+								}
+							</div>
+							<div class="review">
+								<a href="#">( @Model.productReview.Count() Customer Review )</a>
+							</div>
+						</div>
+						<div class="single-product-featured">
+							<ul>
+								<li><i class="fa fa-check"></i> Free Shipping</li>
+								<li><i class="fa fa-check"></i> Support 24/7</li>
+								<li><i class="fa fa-check"></i> Money Return</li>
+							</ul>
+						</div>
+						<p class="product-desc">@Model.ProductDto.Description</p>
+						<div class="quick-product-action">
+							<div class="action-top">
+								<div class="pro-qty">
+									<input type="text" id="quantity" title="Quantity" value="01" />
+								</div>
+								<button class="btn btn-theme">Add to Cart</button>
+								<a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a>
+							</div>
+						</div>
+						<div class="widget">
+							<h3 class="title">Stock:</h3>
+							<div class="widget-tags">
+								<span>@Model.ProductDto.Stock</span>
+							</div>
+						</div>
+						<div class="widget">
+							<h3 class="title">Categories:</h3>
+							<div class="widget-tags">
+								<a href="#">@Model.ProductDto.CategoryId</a>
+								@* <a href="blog.html">Dresss</a> *@
+							</div>
+						</div>
+						@* <div class="widget"> *@
+						@*   <h3 class="title">Tag:</h3> *@
+						@*   <div class="widget-tags"> *@
+						@*     <a href="blog.html">Toys,</a> *@
+						@*     <a href="blog.html">Dress</a> *@
+						@*   </div> *@
+						@* </div> *@
+						@* <div class="widget"> *@
+						@*   <h3 class="title">Share:</h3> *@
+						@*   <div class="widget-tags widget-share"> *@
+						@*     <span class="fa fa-facebook"></span> *@
+						@*     <span class="fa fa-dribbble"></span> *@
+						@*     <span class="fa fa-pinterest-p"></span> *@
+						@*     <span class="fa fa-twitter"></span> *@
+						@*     <span class="fa fa-linkedin"></span> *@
+						@*   </div> *@
+						@* </div> *@
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="product-description-review">
+							<ul class="nav nav-tabs product-description-tab-menu" id="myTab" role="tablist">
+								@* <li class="nav-item" role="presentation"> *@
+								@*   <button class="nav-link" id="product-aditional-tab" data-bs-toggle="tab" data-bs-target="#commentProduct" type="button" role="tab" aria-selected="false">Information</button> *@
+								@* </li> *@
+								<li class="nav-item" role="presentation">
+									<button class="nav-link active" id="product-desc-tab" data-bs-toggle="tab" data-bs-target="#productDesc" type="button" role="tab" aria-controls="productDesc" aria-selected="true">Description</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="product-review-tab" data-bs-toggle="tab" data-bs-target="#productReview" type="button" role="tab" aria-controls="productReview" aria-selected="false">Reviews (@Model.productReview.Count())</button>
+								</li>
+							</ul>
+							<div class="tab-content product-description-tab-content" id="myTabContent">
+								@* <div class="tab-pane fade" id="commentProduct" role="tabpanel" aria-labelledby="product-aditional-tab"> *@
+								@*   <div class="product-desc"> *@
+								@*     <p>Lorem ipsum dolor sit amet, consectetur adipisici elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed utlo perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p> *@
+								@*   </div> *@
+								@* </div> *@
+								<div class="tab-pane fade show active" id="productDesc" role="tabpanel" aria-labelledby="product-desc-tab">
+									<div class="product-desc">
+										<p>@Model.ProductDto.Description</p>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="productReview" role="tabpanel" aria-labelledby="product-review-tab">
+									<div class="product-review">
+										<div class="review-header">
+											<h4 class="title">Customer Reviews</h4>
+											<div class="review-info">
+												<ul class="review-rating">
+													@for (int i = 0; i < fullStars; i++)
+													{
+														<li class="fa fa-star" style="text-shadow: 0 0 1px black"></li>
+													}
+													@if (hasHalfStar)
+													{
+														<li class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></li>
+													}
+													@for (int i = 0; i < emptyStars; i++)
+													{
+														<li class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></li>
+													}
+												</ul>
+												<span class="review-caption">Based on @Model.productReview.Count() review</span>
+												@if (User.Identity.IsAuthenticated)
+												{
+													<a style="color: black" href="/create-review?productId=@Model.ProductDto.Id" class="review-write-btn">Write a review</a>
+												}
+												else
+												{
+													<a style="color: black" href="/login">Login to review</a>
+												}
+											</div>
+										</div>
 
-    <!--== Start Shop Area ==-->
-   <section class="product-slider-area related-product-area">
-     <div class="container">
-       <div class="row">
-         <div class="col-lg-6 m-auto">
-           <div class="section-title text-center">
-             <h2 class="title">Related Product</h2>
-             @* <div class="desc"> *@
-             @*   <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod incididunt ut labore et dolore magna aliqua.</p> *@
-             @* </div> *@
-           </div>
-         </div>
-       </div>
-       <div class="row">
-         <div class="col-12">
-           <div class="product-tab1-slider">
-             @foreach (var product in Model.Products)
-             {
-               <div class="slide-item">
-                 <!-- Start Product Item -->
-                 <div class="product-item">
-                   <div class="product-thumb">
-                     <img src="assets/img/shop/12.png" alt="Image">
-                     <div class="product-action">
-                       <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                       <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
-                       <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                       <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
-                     </div>
-                   </div>
-                   <div class="product-info">
-                     <div class="rating">
-                       @{
-                         double? averageStar = product.Statistic?.AverageStar;
-                         int fullStars = (int)averageStar; // Number of full stars
-                         bool hasHalfStar = (averageStar - fullStars) >= 0.5; // Check if there is a half star
-                         int emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0); // Calculate the number of empty stars
-                       }
-                       @for (int i = 0; i < fullStars; i++)
-                       {
-                         <span class="fa fa-star" style="text-shadow: 0 0 1px black"></span>
-                       }
-                       @if (hasHalfStar)
-                       {
-                         <span class="fa fa-star-half-alt" style="text-shadow: 0 0 1px black"></span>
-                       }
-                       @for (int i = 0; i < emptyStars; i++)
-                       {
-                         <span class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></span>
-                       }
-                     </div>
-                     <h4 class="title"><a href="/product_detail?productId=@product.Id">@product.Name</a></h4>
-                     <div class="prices">
-                       <span class="price">@(product.UnitPrice) VND</span>
-                     </div>
-                   </div>
-                 </div>
-                 <!-- End Product Item -->
-               </div>
-             }
-           </div>
-         </div>
-       </div>
-     </div>
-   </section>
-    
-    <!--== End Shop Area ==-->
-  </main>
+										@{
+											foreach (var review in Model.productReview)
+											{
+												<div class="review-content" style="margin-top: 10px">
+													<div class="review-item">
+														<ul class="review-rating">
+															@for (int r = 1; r <= review.Rating; r++)
+															{
+																<li class="fa fa-star"></li>
+															}
+															@for (int r = review.Rating; r < 5; r++)
+															{
+																<li class="fa fa-star" style="color: white; text-shadow: 0 0 1px black"></li>
+															}
+														</ul>
+														<h4 class="title">@review.Comment</h4>
+														<h5 class="review-date"><span>@review.User!.FullName</span> on <span>@review.CreatedAt</span></h5>
+														@if (review.UserId.ToString() == User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString())
+														{
+															<a href="/edit-review?reviewId=@review.Id&productId=@review.ProductId" style="margin-left: 10px" class="btn btn-dark">View</a>
+														}	
+													</div>
+												</div>
+											}
+										}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--== End Shop Area ==-->
+</main>
+
+@section Scripts {
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const stars = document.querySelectorAll('#rating-stars a');
+			stars.forEach(star => {
+				star.addEventListener('click', function (e) {
+					e.preventDefault();
+					const rating = this.getAttribute('data-rating');
+					document.getElementById('rating').value = rating;
+					updateStars(rating);
+				});
+			});
+
+			function updateStars(rating) {
+				stars.forEach(star => {
+					if (parseInt(star.getAttribute('data-rating')) <= rating) {
+						star.classList.add('selected');
+						star.style.color = 'gold';
+						star.style.textShadow = 'none';
+					} else {
+						star.classList.remove('selected');
+						star.style.color = 'white';
+						star.style.textShadow = '0 0 1px black';
+					}
+				});
+			}
+		});
+	</script>
+
+	<style>
+		.fa-star {
+			color: white;
+			text-shadow: 0 0 1px black;
+		}
+
+			.fa-star.selected {
+				color: gold;
+				text-shadow: none;
+			}
+	</style>
+}

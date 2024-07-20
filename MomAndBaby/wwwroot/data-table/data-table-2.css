@@ -139,7 +139,11 @@ html, body {
     font-size: 14px;
     font-weight: 400;
     line-height: 18px;
+    max-width: 100px;
     margin-bottom: 0px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .table-row__small {
@@ -231,6 +235,14 @@ html, body {
     .status--grey:before {
         background-color: #9eabb4;
     }
+
+.status--orange {
+    color: #ff7d46;
+}
+
+.status--orange:before {
+    background-color: #ff7d46;
+}
 
 .table__select-row {
     appearence: none;
@@ -326,11 +338,12 @@ html, body {
     }
 
     .table-row__td {
-        display: block;
-        text-align: center;
+        display: flex;
+        justify-content: center; /* Center the content horizontally */
+        align-items: center; /* Center the content vertically */
         padding: 8px !important;
     }
-
+    
     .table-row--red {
         background-color: #fff2f2;
     }
@@ -367,7 +380,14 @@ html, body {
     margin-top: 1rem;
 }
 
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
 .search-data input {
+    height: 2rem;
     width: 100%;
     background-color: transparent;
     border: none;

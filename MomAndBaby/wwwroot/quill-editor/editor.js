@@ -5,7 +5,7 @@
         let content = quill.root.innerHTML;
         document.getElementById("editor-input").value = content;
     });
-    
+
 });
 
 let toolbarOptions = [

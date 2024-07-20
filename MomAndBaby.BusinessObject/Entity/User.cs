@@ -19,7 +19,7 @@ namespace MomAndBaby.BusinessObject.Entity
         public byte[]? Password { get; set; } = null!;
         public byte[]? PasswordSalt { get; set; } = null!;
         public string Email { get; set; } = null!;
-        public string? FullName { get; set; }
+        public string FullName { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public int RoleId { get; set; }
@@ -28,6 +28,7 @@ namespace MomAndBaby.BusinessObject.Entity
         public string? Status { get; set; }
 
         public virtual Role? Role { get; set; }
+        public virtual UserValidation UserValidation {get; set;}
         public virtual ICollection<Article> Articles { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
         public virtual ICollection<Order> Orders { get; set; }

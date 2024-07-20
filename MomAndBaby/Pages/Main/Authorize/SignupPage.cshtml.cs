@@ -1,8 +1,16 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
+using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Service;
+using MomAndBaby.Service.MessageConstant;
 using MomAndBaby.Utilities.Helper;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using Newtonsoft.Json;
 
 namespace MomAndBaby.Pages.Main.Authorize
 {
@@ -13,6 +21,27 @@ namespace MomAndBaby.Pages.Main.Authorize
         {
             _userService = userService;
         }
+
+        [BindProperty]
+        [Required(ErrorMessage = "User Name is required")]
+        public string UserName { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string Email { get; set; }
+
+        [BindProperty]
+        [Required(ErrorMessage = "Password is required")]
+        [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
+        public string Password { get; set; }
+
+
+        
+
+
+
 
         public IActionResult OnGet()
         {
@@ -25,19 +54,24 @@ namespace MomAndBaby.Pages.Main.Authorize
 
         public async Task<IActionResult> OnPostRegisterAccount()
         {
+            if (!ModelState.IsValid)
+            {
+                // If the model state is not valid, return the page to display validation errors
+                return Page();
+            }
 
-            string usernameValue = Request.Form["username"];
-            string emailValue = Request.Form["email"];
-            string passwordValue = Request.Form["password"];
-            var loginUserDto = new LoginUserDto(usernameValue, emailValue, passwordValue);
+            var loginUserDto = new LoginUserDto(UserName, Email, Password);
 
             var result = await _userService.AddNewUser(loginUserDto);
-            if (!result)
+            if (result == null)
             {
-                TempData["MessageRegister"] = "Email has been already used for signing up";
-                return Redirect("/register");
+                TempData["MessageRegister"] = MessageAuthen.ExistedEmail;
+                return Page();
             }
-            return Redirect("/");
+            TempData["Email"] = result.Email;
+            TempData["Authen"] = JsonConvert.SerializeObject(result);
+
+            return Redirect("/verify");
         }
     }
 }

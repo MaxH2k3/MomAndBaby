@@ -14,27 +14,27 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Order>> GetAllOrder(Guid userId)
         {
-            return await _context.Orders.Where(u=>u.UserId.Equals(userId)).Include(x=>x.Status).Include(z=>z.OrderTrackings).ToListAsync();
+            return await _context.Orders.Where(u => u.UserId.Equals(userId)).Include(x => x.Status).Include(z => z.OrderTrackings).ToListAsync();
         }
 
         public async Task<Order> GetOrderById(int id)
         {
-            return _context.Orders.Where(o => o.Id == id).Include(z=>z.OrderTrackings).FirstOrDefault();
+            return _context.Orders.Where(o => o.Id == id).Include(z => z.OrderTrackings).FirstOrDefault();
         }
 
         public async Task UpdateAddress(string newAddress, int orderId)
         {
             Order order = await _context.Orders.Where(x => x.Id == orderId).FirstOrDefaultAsync();
             order.ShippingAddress = newAddress;
-             _context.Orders.Update(order);
-            
+            _context.Orders.Update(order);
+
         }
 
         public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId)
         {
             var orderDetail = await _context.OrderDetails.Where(x => x.OrderId == orderId)
-                .Include(y=>y.Product)
-                .Include(z=>z.Order)
+                .Include(y => y.Product)
+                .Include(z => z.Order)
                 .ToListAsync();
             return orderDetail;
         }
@@ -65,7 +65,7 @@ namespace MomAndBaby.Repository
             var lastYear = new List<decimal>();
             var totalYear = new List<decimal>();
 
-            for(int month = 1; month <= 12; month++)
+            for (int month = 1; month <= 12; month++)
             {
                 thisYear.Add(await orders.Where(o => o.OrderDate!.Value.Year == DateTime.Now.Year && o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
                 lastYear.Add(await orders.Where(o => o.OrderDate!.Value.Year == DateTime.Now.Year - 1 && o.OrderDate!.Value.Month == month).SumAsync(o => o.TotalAmount));
@@ -83,5 +83,9 @@ namespace MomAndBaby.Repository
 
 
 
+        public async Task<IEnumerable<Order>> GetAllOrderAdmin()
+        {
+            return await _context.Orders.Include(x => x.Status).Include(z => z.OrderTrackings).ToListAsync();
+        }
     }
 }

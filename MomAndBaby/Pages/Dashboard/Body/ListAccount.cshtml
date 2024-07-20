@@ -1,4 +1,5 @@
 ﻿@page "/dashboard/list-account"
+@using MomAndBaby.BusinessObject.Enums
 @model MomAndBaby.Pages.Dashboard.Body.ListAccountModel
 
 @section Styles {
@@ -30,116 +31,77 @@
             <thead>
                 <tr>
                     <th> Id <span class="icon-arrow">&UpArrow;</span></th>
-                    <th> Customer <span class="icon-arrow">&UpArrow;</span></th>
-                    <th> Location <span class="icon-arrow">&UpArrow;</span></th>
-                    <th> Order Date <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> User Name <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Email <span class="icon-arrow">&UpArrow;</span></th>
+                    
+                    <th> Created At <span class="icon-arrow">&UpArrow;</span></th>
                     <th> Status <span class="icon-arrow">&UpArrow;</span></th>
-                    <th> Amount <span class="icon-arrow">&UpArrow;</span></th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td> 1 </td>
-                    <td> <img src="~/data-table/Zinzu Chan Lee.jpg" alt="">Zinzu Chan Lee</td>
-                    <td> Seoul </td>
-                    <td> 17 Dec, 2022 </td>
-                    <td>
-                        <p class="status delivered">Delivered</p>
-                    </td>
-                    <td> <strong> $128.90 </strong></td>
-                </tr>
-                <tr>
-                    <td> 2 </td>
-                    <td><img src="~/data-table/Jeet Saru.png" alt=""> Jeet Saru </td>
-                    <td> Kathmandu </td>
-                    <td> 27 Aug, 2023 </td>
-                    <td>
-                        <p class="status cancelled">Cancelled</p>
-                    </td>
-                    <td> <strong>$5350.50</strong> </td>
-                </tr>
-                <tr>
-                    <td> 3</td>
-                    <td><img src="~/data-table/Sonal Gharti.jpg" alt=""> Sonal Gharti </td>
-                    <td> Tokyo </td>
-                    <td> 14 Mar, 2023 </td>
-                    <td>
-                        <p class="status shipped">Shipped</p>
-                    </td>
-                    <td> <strong>$210.40</strong> </td>
-                </tr>
-                <tr>
-                    <td> 4</td>
-                    <td><img src="~/data-table/Alson GC.jpg" alt=""> Alson GC </td>
-                    <td> New Delhi </td>
-                    <td> 25 May, 2023 </td>
-                    <td>
-                        <p class="status delivered">Delivered</p>
-                    </td>
-                    <td> <strong>$149.70</strong> </td>
-                </tr>
-                <tr>
-                    <td> 5</td>
-                    <td><img src="~/data-table/Sarita Limbu.jpg" alt=""> Sarita Limbu </td>
-                    <td> Paris </td>
-                    <td> 23 Apr, 2023 </td>
-                    <td>
-                        <p class="status pending">Pending</p>
-                    </td>
-                    <td> <strong>$399.99</strong> </td>
-                </tr>
-                <tr>
-                    <td> 6</td>
-                    <td><img src="~/data-table/Alex Gonley.jpg" alt=""> Alex Gonley </td>
-                    <td> London </td>
-                    <td> 23 Apr, 2023 </td>
-                    <td>
-                        <p class="status cancelled">Cancelled</p>
-                    </td>
-                    <td> <strong>$399.99</strong> </td>
-                </tr>
-                <tr>
-                    <td> 7</td>
-                    <td><img src="~/data-table/Alson GC.jpg" alt=""> Jeet Saru </td>
-                    <td> New York </td>
-                    <td> 20 May, 2023 </td>
-                    <td>
-                        <p class="status delivered">Delivered</p>
-                    </td>
-                    <td> <strong>$399.99</strong> </td>
-                </tr>
-                <tr>
-                    <td> 8</td>
-                    <td><img src="~/data-table/Sarita Limbu.jpg" alt=""> Aayat Ali Khan </td>
-                    <td> Islamabad </td>
-                    <td> 30 Feb, 2023 </td>
-                    <td>
-                        <p class="status pending">Pending</p>
-                    </td>
-                    <td> <strong>$149.70</strong> </td>
-                </tr>
-                <tr>
-                    <td> 9</td>
-                    <td><img src="~/data-table/Alex Gonley.jpg" alt=""> Alson GC </td>
-                    <td> Dhaka </td>
-                    <td> 22 Dec, 2023 </td>
-                    <td>
-                        <p class="status cancelled">Cancelled</p>
-                    </td>
-                    <td> <strong>$249.99</strong> </td>
-                </tr>
+               
+                @foreach (var item in Model.Users)
+                {
+                        <tr> 
+                            <td> @item.Id </td>
+                            <td> @item.Username </td>
+                            <td> @item.Email </td>
+                            
+                            <td> @item.CreatedAt </td>
+                        
+                            <td>
+                            <form method="post" asp-page-handler="UpdateStatus">
+                                <input type="hidden" name="userEmail" value="@item.Email" />
+                                <button type="submit" class="status delivered" style="width: 80px; @(item.Status == UserStatus.InActive.ToString() ? "background-color: yellow" : "")
+                                ; @(item.Status == UserStatus.Banned.ToString() ? "background-color: red; color: white" : "")">
+                                    @item.Status
+                                </button>
+                            </form>
+                            </td>
+                            
+                        </tr>
+                }
+
             </tbody>
             <tfoot class="table__tfoot">
                 <tr>
                     <td colspan="8" class="tfooter">
                         <nav aria-label="Page navigation example" style="float: right">
                             <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                @if (Model.CurrentPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-page="./ListAccount" asp-route-pageIndex="@(Model.CurrentPage - 1)">Previous</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Previous</a>
+                                    </li>
+                                }
+
+                                @for (var i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                                        <a asp-page="./ListAccount" asp-route-pageIndex="@i" class="page-link">@i</a>
+                                    </li>
+                                }
+
+                                @if (Model.CurrentPage < Model.TotalPages)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-page="./ListAccount" asp-route-pageIndex="@(Model.CurrentPage + 1)">Next</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                }
                             </ul>
+
                         </nav>
                     </td>
                 </tr>

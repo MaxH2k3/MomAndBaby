@@ -6,6 +6,8 @@ namespace MomAndBaby.Repository
     public interface IOrderRepository
     {
         Task<IEnumerable<Order>> GetAllOrder(Guid userId);
+        Task<IEnumerable<Order>> GetAllOrderAdmin();
+
         Task<Order> GetOrderById(int id);
         Task UpdateAddress(string newAddress, int orderId);
         Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId);

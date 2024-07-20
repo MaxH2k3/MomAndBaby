@@ -6,13 +6,13 @@ using MomAndBaby.Repository.Uow;
 
 namespace MomAndBaby.Service.OrderService
 {
-    public class OrderService : IOrderService 
+    public class OrderService : IOrderService
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         public OrderService(IUnitOfWork unitOfWork, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;     
+            _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
 
@@ -41,7 +41,7 @@ namespace MomAndBaby.Service.OrderService
 
         public async Task<IEnumerable<OrderDetailResponseModel>> GetAllOrderDetailOrder(int orderId)
         {
-            var orderDetails= await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
+            var orderDetails = await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
             return _mapper.Map<IEnumerable<OrderDetailResponseModel>>(orderDetails);
         }
 
@@ -58,7 +58,8 @@ namespace MomAndBaby.Service.OrderService
         public async Task<bool> CompleteOrder(OrderTracking orderTracking)
         {
             var result = _unitOfWork.OrderTrackingRepository.CreateOrderTracking(orderTracking);
-            if(result.IsFaulted){
+            if (result.IsFaulted)
+            {
                 return false;
             }
             return true;
@@ -79,5 +80,10 @@ namespace MomAndBaby.Service.OrderService
             return await _unitOfWork.OrderRepository.GetTotalMoneyByYear(year);
         }
 
+        public async Task<IEnumerable<OrderResponseModel>> GetAllOrderAdmin()
+        {
+            var orders = await _unitOfWork.OrderRepository.GetAllOrderAdmin();
+            return _mapper.Map<IEnumerable<OrderResponseModel>>(orders);
+        }
     }
 }
