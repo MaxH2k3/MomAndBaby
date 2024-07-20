@@ -13,8 +13,9 @@ namespace MomAndBaby.Repository
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> UpdateStatus(User user);
 		Task<User> getUserById(Guid? id);
-	}
         Task<User?> GetUserById(Guid? id);
-        
     }
+        
+        
+    
 }

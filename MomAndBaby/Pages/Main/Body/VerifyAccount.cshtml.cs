@@ -35,8 +35,9 @@ namespace MomAndBaby.Pages.Main.Body
 
         public async Task<IActionResult> OnPostRegisterAccount()
         {
-            var newValidation = new ValidateOtpDTO(Email, Otp);
             Email = TempData["Email"].ToString();
+            var newValidation = new ValidateOtpDTO(Email, Otp);
+            
             var result = await _userService.ValidateOTP(newValidation);
             if (!result)
             {

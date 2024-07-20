@@ -86,6 +86,7 @@ namespace MomAndBaby.Repository
         public async Task<IEnumerable<Order>> GetAllOrderAdmin()
         {
             return await _context.Orders.Include(x => x.Status).Include(z => z.OrderTrackings).ToListAsync();
+        }
         public async Task<IEnumerable<string?>> GetShippingAddress(Guid userId)
         {
             return await _context.Orders.Where(p => p.UserId.Equals(userId)).Select(p => p.ShippingAddress).Distinct().ToListAsync();

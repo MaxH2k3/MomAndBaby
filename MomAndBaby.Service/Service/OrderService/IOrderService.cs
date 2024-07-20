@@ -12,9 +12,12 @@ namespace MomAndBaby.Service.OrderService
                 Task CreateOrderDetail(List<OrderDetail> orderDetail);
                 Task<bool> CompleteOrder(OrderTracking orderTracking);
                 Task<OrderTracking> GetOrderTracking(int orderId);
+                Task<IEnumerable<OrderResponseModel>> GetAllOrderAdmin();
                 Task<IEnumerable<IEnumerable<decimal>>> GetTotalAmount();
+                Task<IEnumerable<decimal>> GetTotalAmount(int year);
                 Task<IEnumerable<string?>> GetShippingAddress(Guid userId);
                 Task<decimal> GetTotalAmount(Guid userId);
+        
 
         }
 }
