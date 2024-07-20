@@ -15,6 +15,7 @@ namespace MomAndBaby.Service
         Task<bool> GenerateAndSendOTP(string email, string userName, Guid userId);
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> UpdateStatus(User user);
+        Task<User?> GetUserById(Guid? id);
 
         Task<bool> ValidateOTP(ValidateOtpDTO validateOtp);
         Task<bool> ProcessValidOTP(UserValidation userValidation);

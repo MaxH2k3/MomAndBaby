@@ -62,7 +62,7 @@ namespace MomAndBaby.Pages.Main.Authorize
             {
                 return Page();
             }
-           
+            TempData["Email"] = user.Email;
             TempData["Authen"] = JsonConvert.SerializeObject(user);
             TempData["Email"] = JsonConvert.SerializeObject(user.Email);
 
