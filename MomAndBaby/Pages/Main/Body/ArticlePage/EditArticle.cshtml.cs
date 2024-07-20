@@ -21,10 +21,10 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         {
 			Article = await _articleService.GetArticleById(articleId);
 
-			if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value != Article.AuthorId.ToString())
-            {
-                return Redirect("/article");
-            }
+			//if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value != Article.AuthorId.ToString())
+   //         {
+   //             return Redirect("/article");
+   //         }
             if (Article == null)
             {
                 return RedirectToPage("/article");

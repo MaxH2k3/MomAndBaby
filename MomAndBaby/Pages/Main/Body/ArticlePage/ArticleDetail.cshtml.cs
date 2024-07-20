@@ -26,7 +26,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 
 		public async Task<IActionResult> OnPostDelete(int articleId)
 		{
-			await _articleService.DeleteArticle(articleId);
+			await _articleService.SoftDeleteArticle(articleId);
 			return Redirect("/article");
 		}
 	}

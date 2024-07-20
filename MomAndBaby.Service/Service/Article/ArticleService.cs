@@ -38,9 +38,9 @@ namespace MomAndBaby.Service
 		}
 
 
-        public async Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize)
+        public async Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize, string searchTerm = "")
         {
-            var articles = await _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize);
+            var articles = await _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize, searchTerm);
             var totalArticles = await _unitOfWork.ArticleRepository.GetTotalArticlesCount();
 
             return new PaginatedList<Article>(articles, totalArticles, pageNumber, pageSize);
@@ -52,7 +52,7 @@ namespace MomAndBaby.Service
 
 			var articleDTO = new ArticleDTO
 			{
-                Id = article.Id,
+                Id = article!.Id,
                 Title = article.Title,
 				Content = article.Content,
 				AuthorId = article.AuthorId,
@@ -76,15 +76,27 @@ namespace MomAndBaby.Service
             await _unitOfWork.SaveChangesAsync();
         }
 
-		public async Task DeleteArticle(int id)
+		public async Task SoftDeleteArticle(int id)
 		{
-			await _unitOfWork.ArticleRepository.DeleteArticle(id);
+			await _unitOfWork.ArticleRepository.SoftDeleteArticle(id);
             await _unitOfWork.SaveChangesAsync();
         }
 
-        public async Task<Article?> GetArticleById(int id)
+		public async Task HardDeleteArticle(int id)
+		{
+			await _unitOfWork.ArticleRepository.HardDeleteArticle(id);
+			await _unitOfWork.SaveChangesAsync();
+		}
+
+		public async Task<Article?> GetArticleById(int id)
         {
 			return await _unitOfWork.ArticleRepository.GetArticleById(id);
 		}
-    }
+
+		public async Task RestoreArticle(int id)
+		{
+			await _unitOfWork.ArticleRepository.RestoreArticle(id);
+			await _unitOfWork.SaveChangesAsync();
+		}
+	}
 }
