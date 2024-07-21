@@ -70,6 +70,7 @@ namespace MomAndBaby.Pages.Main.Authorize
                 return Page();
             }
             TempData["Email"] = result.Email;
+            HttpContext.Session.SetString("Email", Email);
             TempData["Authen"] = JsonConvert.SerializeObject(result);
 
             return Redirect("/verify");

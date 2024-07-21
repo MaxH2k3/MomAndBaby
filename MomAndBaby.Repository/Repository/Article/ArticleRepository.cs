@@ -59,6 +59,10 @@ namespace MomAndBaby.Repository
 			}
 		}
 
+		public async Task<Article> GetNewestArticle()
+		{
+			return await _context.Articles.OrderByDescending(a => a.Id).FirstOrDefaultAsync();
+		}
 		public async Task SoftDeleteArticle(int id)
 		{
 			var articleToDelete = await GetArticleById(id);

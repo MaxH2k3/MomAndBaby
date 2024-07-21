@@ -12,45 +12,60 @@ using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body
 {
-    public class AddArticleModel : PageModel
-    {
-        private readonly IArticleService _articleService;
-        private readonly NotificationWorker _notificationWorker;
+	public class AddArticleModel : PageModel
+	{
+		private readonly IArticleService _articleService;
+		private readonly NotificationWorker _notificationWorker;
 
-        public AddArticleModel(IArticleService articleService, NotificationWorker notificationWorker)
-        {
-            _articleService = articleService;
-            _notificationWorker = notificationWorker;
-        }
+		public AddArticleModel(IArticleService articleService, NotificationWorker notificationWorker)
+		{
+			_articleService = articleService;
+			_notificationWorker = notificationWorker;
+		}
 
-        [BindProperty]
-        public ArticleDTO ArticleDTO { get; set; }
-        public void OnGet()
-        {
-            ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
-        }
+		[BindProperty]
+		public ArticleDTO ArticleDTO { get; set; }
+		public IActionResult OnGet()
+		{
+			ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
+			if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower() == "admin")
+			{
+				return Redirect("/article");
+			}
+			return Page();
+		}
 
-        public IActionResult OnPost()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+		public async Task<IActionResult> OnPostAsync(IFormFile ImageUpload)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Page();
+			}
 
-            Article articleToCreate = new Article
-            {
-                AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
-                Title = ArticleDTO.Title,
-                Content = ArticleDTO.Content,
-                CreatedAt = DateTime.Now,
-                Status = true
-            };
+			Article articleToCreate = new Article
+			{
+				AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
+				Title = ArticleDTO.Title,
+				Content = ArticleDTO.Content,
+				CreatedAt = DateTime.Now,
+				Status = true
+			};
 
-            _articleService.AddArticle(articleToCreate);
+			await _articleService.AddArticle(articleToCreate);
+			var articleJustCreated = await _articleService.GetNewestArticle();
+			int newArticleId = articleJustCreated.Id;
 
-            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Article, NotificationType.Added);
+			if (ImageUpload != null && ImageUpload.Length > 0)
+			{
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/article-image", $"{newArticleId}.jpg");
 
-            return Redirect("/article");
-        }
-    }
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await ImageUpload.CopyToAsync(stream);
+				}
+			}
+
+			return Redirect("/article");
+		}
+	}
 }

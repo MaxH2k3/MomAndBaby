@@ -2,6 +2,7 @@
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.CartSessionModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MomAndBaby.Repository
 {
@@ -24,7 +25,7 @@ namespace MomAndBaby.Repository
             return await _context.Products
                 .Where(x => x.Status.Equals(StatusConstraint.AVAILABLE))
                 .Include(p => p.CategoryNavigation)
-                .Include(p=>p.Statistic)
+                .Include(p => p.Statistic)
                 .ToListAsync();
         }
 
@@ -44,11 +45,11 @@ namespace MomAndBaby.Repository
         {
             var products = _context.Products
                 .Include(p => p.CategoryNavigation)
-                .Include(p=>p.Statistic)
+                .Include(p => p.Statistic)
                 .AsQueryable();
 
             products = products.Where(x => !x.Status.Equals(StatusConstraint.DELETE));
-            
+
             if (!string.IsNullOrWhiteSpace(searchValue))
             {
                 products = products.Where(x => x.Name.ToLower().Contains(searchValue.ToLower()));
@@ -56,7 +57,7 @@ namespace MomAndBaby.Repository
 
             var count = await products.CountAsync();
             var result = await products.Skip((currentPage - 1) * 8).Take(8).ToListAsync();
-            
+
             return Tuple.Create(count, result);
         }
 
@@ -100,7 +101,7 @@ namespace MomAndBaby.Repository
         {
             return await _context.Products.AnyAsync(x => x.Name == name);
         }
-        
+
         public async Task<bool> NameUpdateExistAsync(Guid productId, string name)
         {
             return await _context.Products.AnyAsync(x => x.Name == name && !x.Id.Equals(productId));
@@ -147,7 +148,7 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<string?>> GetOriginals()
         {
-            return await _context.Products
+            return await _context.Products.Where(p => p.Status.Equals(StatusConstraint.AVAILABLE))
                               .Select(p => p.Original)
                               .Distinct()
                               .ToListAsync();
@@ -155,7 +156,7 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
         {
-            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId).ToListAsync();
+            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId && x.Status.Equals(StatusConstraint.AVAILABLE)).ToListAsync();
         }
 
 
@@ -209,11 +210,11 @@ namespace MomAndBaby.Repository
             {
                 var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(cart.Id));
 
-                if(product != null)
+                if (product != null)
                 {
                     var existStock = product.Stock - cart.NumberOfProduct;
 
-                    if(existStock < 0)
+                    if (existStock < 0)
                     {
                         errors.Add(product.Id, product.Stock);
                     }
@@ -230,7 +231,7 @@ namespace MomAndBaby.Repository
             foreach (var cartItem in orderDetails)
             {
                 var product = _context.Products.FirstOrDefault(p => p.Id.Equals(cartItem.ProductId));
-                if(product == null)
+                if (product == null)
                 {
                     return;
                 }

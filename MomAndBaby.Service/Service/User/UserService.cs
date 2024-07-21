@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Repository.Uow;
@@ -55,7 +57,11 @@ namespace MomAndBaby.Service
             var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(user.Email);
             if (userCheck == null)
             {
-                await _unitOfWork.UserRepository.AddUser(user);
+                var newPassword = PasswordHelper.GeneratePassword();
+                AuthenHelper.CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                user.Password = passwordHash;
+                user.PasswordSalt = passwordSalt;
+                await _unitOfWork.UserRepository.AddUserLoginGG(user);
                 return await _unitOfWork.SaveChangesAsync();
             }
             else
@@ -130,8 +136,8 @@ namespace MomAndBaby.Service
             var userValidation = existingUserValidation ?? new UserValidation { UserId = userId };
 
             userValidation.Otp = otp;
-            userValidation.ExpiredAt = DateTime.UtcNow.AddMinutes(5);
-            userValidation.CreatedAt = userValidation.CreatedAt == default ? DateTime.UtcNow : userValidation.CreatedAt;
+            userValidation.ExpiredAt = TimeHelper.GetCurrentInVietName().AddMinutes(5);
+            userValidation.CreatedAt = TimeHelper.GetCurrentInVietName();
 
             if (isNewUserValidation)
             {
@@ -148,6 +154,7 @@ namespace MomAndBaby.Service
                 Email = email,
                 OTP = otp,
             });
+           
             if (emailSent)
             {
                 return true; // Return 200 OK if everything is successful
@@ -177,11 +184,15 @@ namespace MomAndBaby.Service
                 return false;
             }
 
-            if (existOTP.Otp == validateOtp.Otp)
+            if (existOTP.Otp != validateOtp.Otp)
             {
                 return await ProcessValidOTP(existOTP);
+            } else
+            {
+                user.Status = UserStatus.Active.ToString();
+                return true;
             }
-            return false;
+           
         }
 
         public async Task<bool> ProcessValidOTP(UserValidation userValidation)
@@ -205,6 +216,11 @@ namespace MomAndBaby.Service
         public async Task<User?> GetUserById(Guid? id)
         {
            return await _unitOfWork.UserRepository.GetUserById(id);
+        }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            return await _unitOfWork.UserRepository.UpdateUser(user);
         }
     }
 }

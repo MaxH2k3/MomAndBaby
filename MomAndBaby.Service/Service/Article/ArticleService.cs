@@ -70,9 +70,11 @@ namespace MomAndBaby.Service
 
 			return articleDTO;
         }
-
-
-        public async Task AddArticle(Article article)
+		public async Task<Article> GetNewestArticle()
+		{
+			return await _unitOfWork.ArticleRepository.GetNewestArticle();
+		}
+		public async Task AddArticle(Article article)
 		{
 			await _unitOfWork.ArticleRepository.AddArticle(article);
             await _unitOfWork.SaveChangesAsync();
