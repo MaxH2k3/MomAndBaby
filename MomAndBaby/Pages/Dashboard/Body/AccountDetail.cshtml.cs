@@ -4,6 +4,7 @@ using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Service.OrderService;
+using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body
 {
@@ -24,7 +25,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
         public IEnumerable<string> ShippingAddress { get; set; }
         public async Task<IActionResult> OnGet(Guid? id)
         {
-           
+            ViewData[VariableConstant.CurrentMenu] = (int)Menu.AccountDetail;
             if (id == null)
             {
                 ViewData["Message"] = "Id not found";

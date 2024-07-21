@@ -105,5 +105,10 @@ namespace MomAndBaby.Repository
             await _context.SaveChangesAsync();
             
         }
+
+        public async Task<int> GetTotalOrder()
+        {
+            return await _context.Orders.CountAsync();
+        }
     }
 }

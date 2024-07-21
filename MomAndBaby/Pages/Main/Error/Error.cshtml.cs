@@ -14,7 +14,9 @@ namespace MomAndBaby.Pages.Main.Error
             {
                 if (User.GetUserRoleFromToken() == (int)RoleType.Admin)
                 {
-                    if (code == (int)HttpStatusCode.NotFound || code == (int)HttpStatusCode.Forbidden)
+                    if(code == (int)HttpStatusCode.Forbidden)
+                        return Redirect("/login");
+                    if (code == (int)HttpStatusCode.NotFound)
                         return Redirect("/dashboard/error/notfound");
                     else if (code == (int)HttpStatusCode.Unauthorized)
                         return Redirect("/dashboard/error/timeout");

@@ -15,6 +15,7 @@ namespace MomAndBaby.Repository
         Task<User> UpdateStatus(User user);
 		Task<User> getUserById(Guid? id);
         Task<User?> GetUserById(Guid? id);
+        Task<int> GetTotalUser();
     }
         
         

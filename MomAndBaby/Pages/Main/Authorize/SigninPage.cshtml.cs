@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
 using MomAndBaby.Service.MessageConstant;
 using MomAndBaby.Utilities.Helper;
 using Newtonsoft.Json;
@@ -47,8 +48,12 @@ namespace MomAndBaby.Pages.Main.Authorize
 
         public IActionResult OnGet()
         {
-            if (HttpContext.Session.IsAuthenticated())
+            if (HttpContext.User.Identity.IsAuthenticated)
             {
+                if(User.GetUserRoleFromToken() == (int)RoleType.Admin)
+                {
+                    return Redirect("/dashboard");
+                }
                 return Redirect("/");
             }
             return Page();

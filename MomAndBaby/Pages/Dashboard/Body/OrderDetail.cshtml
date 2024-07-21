@@ -36,7 +36,7 @@
                             <tr>
                                 <th class="w-50">Products</th>
                                 <th class="w-25">Price</th>
-                                <th>Total</th>
+                                <th class="w-25">Quantity</th>
                             </tr>
                         </thead>
                     <tbody>
@@ -47,6 +47,7 @@
                             <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
                             </td>
                             <td class="product-price"><span class="amount">$@order.Price</span></td>
+                            <td class="product-price"><span class="amount">@order.Quantity</span></td>
                         </tr>
                     }
                     </tbody>

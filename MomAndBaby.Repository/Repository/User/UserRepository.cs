@@ -79,5 +79,10 @@ namespace MomAndBaby.Repository
             await _context.Users.AddAsync(userRegitser);
             return userRegitser;
         }
+
+        public async Task<int> GetTotalUser()
+        {
+            return await _context.Users.CountAsync();
+        }
     }
 }

@@ -16,5 +16,6 @@ namespace MomAndBaby.Service
 		public Task SoftDeleteArticle(int id);
 		public Task HardDeleteArticle(int id);
 		public Task RestoreArticle(int id);
-	}
+        Task<int> GetTotalArticle();
+    }
 }

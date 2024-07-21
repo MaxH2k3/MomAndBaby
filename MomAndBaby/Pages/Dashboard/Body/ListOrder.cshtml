@@ -98,6 +98,7 @@
                     <th> Order Date <span class="icon-arrow">&UpArrow;</span></th>
                     <th> Status <span class="icon-arrow">&UpArrow;</span></th>
                     <th> Amount <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Detail</th>
                 </tr>
             </thead>
             <tbody>
@@ -128,6 +129,7 @@
 </main>
 
 @section Scripts {
+    <script src="~/data-table/data-table.js" asp-append-version="true"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const rowsPerPage = 5;

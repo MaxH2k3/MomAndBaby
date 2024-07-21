@@ -89,5 +89,10 @@ namespace MomAndBaby.Repository
 				articleToDelete.Status = true;
 			}
 		}
+
+		public async Task<int> GetTotalArticle()
+		{
+			return await _context.Articles.CountAsync();
+        }
 	}
 }

@@ -108,5 +108,10 @@ namespace MomAndBaby.Service
 			await _unitOfWork.ArticleRepository.RestoreArticle(id);
 			await _unitOfWork.SaveChangesAsync();
 		}
-	}
+
+        public async Task<int> GetTotalArticle()
+        {
+            return await _unitOfWork.ArticleRepository.GetTotalArticle();
+        }
+    }
 }

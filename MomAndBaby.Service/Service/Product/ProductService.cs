@@ -312,6 +312,11 @@ namespace MomAndBaby.Service
         {
             _unitOfWork.ProductRepository.UpdateStock(cartData);
         }*/
+
+        public async Task<int> GetTotalProduct()
+        {
+            return await _unitOfWork.ProductRepository.GetTotalProducts();
+        }
     }
     
 }

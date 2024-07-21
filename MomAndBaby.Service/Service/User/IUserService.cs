@@ -20,5 +20,6 @@ namespace MomAndBaby.Service
 
         Task<bool> ValidateOTP(ValidateOtpDTO validateOtp);
         Task<bool> ProcessValidOTP(UserValidation userValidation);
+        Task<int> GetTotalUser();
     }  
 }

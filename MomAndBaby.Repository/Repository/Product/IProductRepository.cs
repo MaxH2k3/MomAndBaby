@@ -32,5 +32,6 @@ namespace MomAndBaby.Repository
         Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory();
         Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels);
         void UpdateStock(List<OrderDetail> orderDetails);
+        Task<int> GetTotalProducts();
     }
 }

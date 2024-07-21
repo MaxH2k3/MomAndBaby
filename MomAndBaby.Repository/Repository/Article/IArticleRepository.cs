@@ -14,5 +14,7 @@ namespace MomAndBaby.Repository
 		public Task SoftDeleteArticle(int id);
 		public Task HardDeleteArticle(int id);
 		public Task RestoreArticle(int id);
-	}
+		Task<int> GetTotalArticle();
+
+    }
 }
