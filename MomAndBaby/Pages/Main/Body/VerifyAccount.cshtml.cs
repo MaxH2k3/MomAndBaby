@@ -67,11 +67,11 @@ namespace MomAndBaby.Pages.Main.Body
                 {
                     AllowRefresh = true,
 
-                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(600),
+                    ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
 
                     IsPersistent = true,
 
-                    IssuedUtc = DateTimeOffset.UtcNow.AddMinutes(600)
+                    IssuedUtc = DateTimeOffset.UtcNow.AddMinutes(60)
                 };
 
                 await HttpContext.SignInAsync(
