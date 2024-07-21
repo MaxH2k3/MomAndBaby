@@ -152,7 +152,7 @@ app.MapRazorPages();
 
 app.MapControllers();
 
-app.MapHub<ChatHub>(SystemConstant.ChatHubConnection);
+/*app.MapHub<ChatHub>(SystemConstant.ChatHubConnection);*/
 
 app.MapHub<NotificationHub>(SystemConstant.NotificationHubConnection);
 

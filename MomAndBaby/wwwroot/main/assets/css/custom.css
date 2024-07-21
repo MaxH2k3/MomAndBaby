@@ -49,3 +49,27 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.btn-checkout {
+    background-color: #f379a7;
+    padding: 15px 20px;
+    color: white;
+    width: 100%;
+}
+
+    .btn-checkout:hover {
+        background-color: #95b3e0;
+        color: white;
+    }
+
+.btn-update {
+    background-color: #95b3e0;
+    padding: 8px 20px 11px;
+    color: white;
+    width: 100%;
+}
+
+    .btn-update:hover {
+        background-color: #f379a7;
+        color: white;
+    }

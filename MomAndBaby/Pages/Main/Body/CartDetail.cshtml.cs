@@ -65,7 +65,7 @@ public class CartDetailModel : PageModel
     public IActionResult OnPostRemoveFromCart(Guid productId)
     {
         var cart = GetCart();
-        var itemToRemove = cart.Find(item => item.Id == productId);
+        var itemToRemove = cart.Find(item => item.Id.Equals(productId));
         if (itemToRemove != null)
         {
             cart.Remove(itemToRemove);
@@ -95,10 +95,7 @@ public class CartDetailModel : PageModel
         Subtotal = 0;
         foreach (var item in CartItems)
         {
-            if (item.UnitPrice.HasValue)
-            {
-                Subtotal += item.UnitPrice.Value;
-            }
+            Subtotal += item.UnitPrice * item.NumberOfProduct;
         }
         Total = Subtotal;
         HttpContext.Session.SetString("Total", JsonConvert.SerializeObject(Total));
@@ -178,7 +175,7 @@ public class CartDetailModel : PageModel
             OrderId = orderSave,
             ProductId = cartItem.Id,
             Quantity = 1,
-            Price = cartItem.UnitPrice.Value / 23000
+            Price = cartItem.UnitPrice / 23000
         }).ToList();
 
         // Create the order tracking
@@ -196,5 +193,22 @@ public class CartDetailModel : PageModel
         await _orderService.CreateOrderDetail(orderDetails);
         await _orderService.CompleteOrder(orderTracking);
 
+    }
+
+    public void OnPostUpdateQuantity(Guid productId, int quantity)
+    {
+        var carts = GetCart();
+        if (carts != null)
+        {
+            Console.WriteLine(carts.FirstOrDefault(carts => carts.Id.Equals(productId))!.NumberOfProduct);
+            carts.FirstOrDefault(carts => carts.Id.Equals(productId))!.NumberOfProduct = quantity;
+            SaveCart(carts);
+        }
+        var cart = HttpContext.Session.GetString("Cart");
+        if (!string.IsNullOrEmpty(cart))
+        {
+            CartItems = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
+            CalculateTotals();
+        }
     }
 }
