@@ -11,11 +11,11 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
         <div class="d-flex flex-column justify-content-center">
-            <h5 class="mb-1 mt-3">Order #32543 <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">Ready to Pickup</span></h5>
-            <p class="text-body">Aug 17, <span id="orderYear"></span>, 5:48 (ET)</p>
+            <h5 class="mb-1 mt-3">Order# @Model.orderId <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">@Model.Order.StatusName</span></h5>
+            <p class="text-body">@Model.Order.OrderDate</p>
         </div>
         <div class="d-flex align-content-center flex-wrap gap-2">
-            <button class="btn btn-label-danger delete-order">Delete Order</button>
+            <button class="btn btn-label-success delete-order">Approve Order</button>
         </div>
     </div>
 
@@ -26,38 +26,38 @@
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h5 class="card-title m-0">Order details</h5>
-                    <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6>
+                    @* <h6 class="m-0"><a href=" javascript:void(0)">Edit</a></h6> *@
                 </div>
                 <div class="card-datatable table-responsive">
                     <table class="datatables-order-details table">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th class="w-50">products</th>
-                                <th class="w-25">price</th>
-                                <th class="w-25">qty</th>
-                                <th>total</th>
+                                <th class="w-50">Products</th>
+                                <th class="w-25">Price</th>
+                                <th>Total</th>
                             </tr>
                         </thead>
+                    <tbody>
+                    @foreach (var order in Model.listOrders)
+                    {
+                        <tr>
+                            <td class="product-name">
+                            <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
+                            </td>
+                            <td class="product-price"><span class="amount">$@order.Price</span></td>
+                        </tr>
+                    }
+                    </tbody>
                     </table>
                     <div class="d-flex justify-content-end align-items-center m-3 mb-2 p-1">
                         <div class="order-calculations">
                             <div class="d-flex justify-content-between mb-2">
-                                <span class="w-px-100">Subtotal:</span>
-                                <span class="text-heading">$6398</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
                                 <span class="w-px-100">Discount:</span>
-                                <span class="text-heading mb-0">$22</span>
-                            </div>
-                            <div class="d-flex justify-content-between mb-2">
-                                <span class="w-px-100">Tax:</span>
-                                <span class="text-heading">$30</span>
+                                @* <span class="text-heading mb-0">$@Model.</span> *@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6 class="w-px-100 mb-0">Total:</h6>
-                                <h6 class="mb-0">$6450</h6>
+                                <h6 class="mb-0">$@Model.Order.TotalAmount</h6>
                             </div>
                         </div>
                     </div>
@@ -73,8 +73,8 @@
                             <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-primary"></span></span>
                             <div class="timeline-event">
                                 <div class="timeline-header">
-                                    <h6 class="mb-0">Order was placed (Order ID: #32543)</h6>
-                                    <span class="text-muted">Tuesday 11:29 AM</span>
+                                    <h6 class="mb-0">Order was placed (Order ID: #@Model.orderId)</h6>
+                                    <span class="text-muted">@Model.Order.OrderDate</span>
                                 </div>
                                 <p class="mt-2">Your order has been placed successfully</p>
                             </div>
@@ -83,49 +83,40 @@
                             <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-primary"></span></span>
                             <div class="timeline-event">
                                 <div class="timeline-header">
-                                    <h6 class="mb-0">Pick-up</h6>
-                                    <span class="text-muted">Wednesday 11:29 AM</span>
+                                    <h6 class="mb-0">Order confirmation</h6>
+                                    <span class="text-muted">@Model.orderTracking.OrderConfirmation</span>
                                 </div>
-                                <p class="mt-2">Pick-up scheduled with courier</p>
+                                <p class="mt-2">Order confirmation scheduled with courier</p>
                             </div>
                         </li>
                         <li class="timeline-item timeline-item-transparent border-primary">
                             <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-primary"></span></span>
                             <div class="timeline-event">
                                 <div class="timeline-header">
-                                    <h6 class="mb-0">Dispatched</h6>
-                                    <span class="text-muted">Thursday 11:29 AM</span>
+                                    <h6 class="mb-0">Package</h6>
+                                    <span class="text-muted">@Model.orderTracking.Package</span>
                                 </div>
-                                <p class="mt-2">Item has been picked up by courier</p>
+                                <p class="mt-2">Product will Package up by courier</p>
                             </div>
                         </li>
                         <li class="timeline-item timeline-item-transparent border-primary">
                             <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-primary"></span></span>
                             <div class="timeline-event">
                                 <div class="timeline-header">
-                                    <h6 class="mb-0">Package arrived</h6>
-                                    <span class="text-muted">Saturday 15:20 AM</span>
+                                    <h6 class="mb-0">Package Delivery</h6>
+                                    <span class="text-muted">@Model.orderTracking.Delivery</span>
                                 </div>
-                                <p class="mt-2">Package arrived at an Amazon facility, NY</p>
+                                <p class="mt-2">Package Delivery</p>
                             </div>
                         </li>
                         <li class="timeline-item timeline-item-transparent border-left-dashed">
                             <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-primary"></span></span>
                             <div class="timeline-event">
                                 <div class="timeline-header">
-                                    <h6 class="mb-0">Dispatched for delivery</h6>
-                                    <span class="text-muted">Today 14:12 PM</span>
+                                    <h6 class="mb-0">Complete delivery</h6>
+                                    <span class="text-muted">@Model.orderTracking.Complete</span>
                                 </div>
-                                <p class="mt-2">Package has left an Amazon facility, NY</p>
-                            </div>
-                        </li>
-                        <li class="timeline-item timeline-item-transparent border-transparent pb-0">
-                            <span class="timeline-point-wrapper"><span class="timeline-point timeline-point-secondary"></span></span>
-                            <div class="timeline-event pb-0">
-                                <div class="timeline-header">
-                                    <h6 class="mb-0">Delivery</h6>
-                                </div>
-                                <p class="mt-2 mb-0">Package will be delivered by tomorrow</p>
+                                <p class="mt-2">Package will arrive your address</p>
                             </div>
                         </li>
                     </ul>
@@ -139,26 +130,23 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-start align-items-center mb-4">
-                        <div class="avatar me-2">
-                            <img src="../../assets/img/avatars/1.png" alt="Avatar" class="rounded-circle">
-                        </div>
                         <div class="d-flex flex-column">
-                            <a href="app-user-view-account.html" class="text-body text-nowrap">
-                                <h6 class="mb-0">Shamus Tuttle</h6>
+                            <a class="text-body text-nowrap">
+                                <h6 class="mb-0">@Model.user.FullName</h6>
                             </a>
-                            <small class="text-muted">Customer ID: #58909</small>
+                            <small class="text-muted">Customer ID: #@Model.user.Id</small>
                         </div>
                     </div>
                     <div class="d-flex justify-content-start align-items-center mb-4">
-                        <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class="bx bx-cart-alt bx-sm lh-sm"></i></span>
-                        <h6 class="text-body text-nowrap mb-0">12 Orders</h6>
+                        @* <span class="avatar rounded-circle bg-label-success me-2 d-flex align-items-center justify-content-center"><i class="bx bx-cart-alt bx-sm lh-sm"></i></span> *@
+                        
                     </div>
                     <div class="d-flex justify-content-between">
                         <h6>Contact info</h6>
-                        <h6><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6>
+                        @* <h6><a data-bs-toggle="modal" data-bs-target="#editUser">Edit</a></h6> *@
                     </div>
-                    <p class=" mb-1">Email: Shamus889@yahoo.com</p>
-                    <p class=" mb-0">Mobile: +1 (609) 972-22-22</p>
+                    <p class=" mb-1">Email: @Model.user.Email</p>
+                    <p class=" mb-0">Mobile: @Model.user.PhoneNumber</p>
                 </div>
             </div>
 
@@ -166,29 +154,18 @@
 
                 <div class="card-header d-flex justify-content-between">
                     <h6 class="card-title m-0">Shipping address</h6>
-                    <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
+                    @* <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6> *@
                 </div>
                 <div class="card-body">
-                    <p class="mb-0">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
+                    <p class="mb-0">@Model.Order.ShippingAddress</p>
                 </div>
 
             </div>
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between">
-                    <h6 class="card-title m-0">Billing address</h6>
-                    <h6 class="m-0"><a href=" javascript:void(0)" data-bs-toggle="modal" data-bs-target="#addNewAddress">Edit</a></h6>
-                </div>
-                <div class="card-body">
-                    <p class="mb-4">45 Roker Terrace <br>Latheronwheel <br>KW5 8NW,London <br>UK</p>
-                    <h6 class="mb-0 pb-2">Mastercard</h6>
-                    <p class="mb-0">Card Number: ******4291</p>
-                </div>
-
-            </div>
+            
         </div>
     </div>
 
-    <!-- Edit User Modal -->
+    @* <!-- Edit User Modal -->
     <div class="modal fade" id="editUser" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-simple modal-edit-user">
             <div class="modal-content p-3 p-md-5">
@@ -298,9 +275,9 @@
             </div>
         </div>
     </div>
-    <!--/ Edit User Modal -->
+    <!--/ Edit User Modal --> *@
     <!-- Add New Address Modal -->
-    <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
+    @* <div class="modal fade" id="addNewAddress" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-simple modal-add-new-address">
             <div class="modal-content p-3 p-md-5">
                 <div class="modal-body">
@@ -420,7 +397,7 @@
             </div>
         </div>
     </div>
-    <!--/ Add New Address Modal -->
+    <!--/ Add New Address Modal --> *@
 @* <div class="card mb-4">
     <div class="card-widget-separator-wrapper">
         <div class="card-body card-widget-separator">

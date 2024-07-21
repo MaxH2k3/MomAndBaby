@@ -110,6 +110,7 @@
                         <td>@order.OrderDate.ToString("dd MMM, yyyy")</td>
                         <td><p class="status @order.StatusName">@order.StatusName</p></td>
                         <td><strong>$@order.TotalAmount</strong></td>
+                        <td><strong><a asp-page="./OrderDetail" asp-route-id="@order.Id" class="check-btn sqr-btn">View</a></strong></td>
                     </tr>
                 }
             </tbody>
