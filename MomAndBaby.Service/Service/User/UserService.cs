@@ -217,5 +217,10 @@ namespace MomAndBaby.Service
         {
            return await _unitOfWork.UserRepository.GetUserById(id);
         }
+
+        public async Task<User> UpdateUser(User user)
+        {
+            return await _unitOfWork.UserRepository.UpdateUser(user);
+        }
     }
 }

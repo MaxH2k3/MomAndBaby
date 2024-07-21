@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Service;
 using MomAndBaby.Service.Helper;
@@ -77,7 +78,10 @@ namespace MomAndBaby.Pages.Main.Body
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity),
                     authProperties);
-
+                if(user.RoleId == (int)RoleType.Admin)
+                {
+                    return Redirect("./dashboard");
+                }
                 return Redirect("/");
             }
             else

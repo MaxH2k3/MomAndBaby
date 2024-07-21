@@ -56,15 +56,18 @@ namespace MomAndBaby.Pages.Main.Body
                                 Id = Guid.NewGuid()
                             };
                             await _userService.SigninGoogle(user);
+                            var existUser = await _userService.GetUserByEmail(emailClaim);
+                            int roleId = existUser.RoleId != 0 ? existUser.RoleId : (int)RoleType.Customer;
                             var claimsList = new List<Claim>
-                            {
-                                new(UserClaimType.UserId, user.Id.ToString()),
-                                new(UserClaimType.UserName, nameClaim),
-                                new(UserClaimType.FullName, nameClaim),
-                                new(UserClaimType.Email, emailClaim),
-                                new(UserClaimType.Role, ((int)RoleType.Customer).ToString())
+                                {
+                                    new(UserClaimType.UserId, user.Id.ToString()),
+                                    new(UserClaimType.UserName, nameClaim),
+                                    new(UserClaimType.FullName, nameClaim),
+                                    new(UserClaimType.Email, emailClaim),
+                                
+                                    new(UserClaimType.Role, roleId.ToString())
 
-                            };  
+                                };  
                             var claimsIdentity = new ClaimsIdentity(
                                     claimsList, CookieAuthenticationDefaults.AuthenticationScheme);
                             var authProperties = new AuthenticationProperties
@@ -82,10 +85,15 @@ namespace MomAndBaby.Pages.Main.Body
                                 CookieAuthenticationDefaults.AuthenticationScheme,
                                 new ClaimsPrincipal(claimsIdentity),
                                 authProperties);
-                        }
-                    
-                    
-                    // Redirect to the home page or any other page
+
+                            if (existUser.RoleId == (int)RoleType.Admin)
+                            {
+                                return Redirect("./dashboard");
+                            }
+                    }
+
+
+                   
                     return Redirect("/");
                 }
             }
