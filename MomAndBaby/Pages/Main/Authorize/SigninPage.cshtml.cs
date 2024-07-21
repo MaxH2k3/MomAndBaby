@@ -1,3 +1,4 @@
+using FluentEmail.Core;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.Google;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
+using MomAndBaby.Service.MessageConstant;
 using MomAndBaby.Utilities.Helper;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
@@ -21,13 +23,10 @@ namespace MomAndBaby.Pages.Main.Authorize
             _userService = userService;
         }
         [BindProperty]
-        [Required(ErrorMessage = "User Name is required")]
-        public string UserName { get; set; }
+		public string UserName { get; set; }
 
         [BindProperty]
-        [Required(ErrorMessage = "Password is required")]
-        [DataType(DataType.Password)]
-        [RegularExpression(@"^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
+        [DataType(DataType.Password)] 
         public string Password { get; set; }
 
         public async Task OnPostLoginGoogle()
@@ -36,10 +35,13 @@ namespace MomAndBaby.Pages.Main.Authorize
             await HttpContext.ChallengeAsync(GoogleDefaults.AuthenticationScheme, new AuthenticationProperties
             {
 
-                RedirectUri = "/gg"
+                RedirectUri = "/gg",
+				ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30), // ??m b?o giá tr? h?p l?
+				IsPersistent = true,
+				AllowRefresh = true
 
 
-            });
+			});
 
         }
 
@@ -57,10 +59,12 @@ namespace MomAndBaby.Pages.Main.Authorize
         {
             
             var user = await _userService.Login(UserName, Password);
+            HttpContext.Session.SetString("Email", user.Email);
 
             if (user == null)
             {
-                return Page();
+				TempData["MessageSignin"] = MessageAuthen.InvalidSignin;
+				return Page();
             }
             TempData["Email"] = user.Email;
             TempData["Authen"] = JsonConvert.SerializeObject(user);

@@ -26,23 +26,28 @@
                 <div class="login-register-content">
                     <div class="login-register-title mb-30">
                         <h2>Verify Account</h2>
-                        <p>Please input OTP was sent in your email</p>
+                        <p style="margin-left: 30px">Please input OTP was sent in your email</p>
                     </div>
                     <div class="login-register-style">
                         <form method="post">
-                            <div class="login-register-input">
+                            <div style="color: red; margin-bottom: 30px">@TempData["MessageVerify"]</div>
+                            <div style="color: deepskyblue; margin-bottom: 30px">@TempData["MessageResend"]</div>
+                           @*  <div class="login-register-input">
                                 <input type="hidden" asp-for="Email" placeholder="Email" value="@Model.Email">
-                            </div>
+                            </div> *@
                             <div class="login-register-input">
                                 <input type="text" asp-for="Otp" placeholder="OTP">
                             </div>
-                          
+                            <button type="submit" style="color: deepskyblue; text-decoration: underline; border: none; background: none; padding: 0; margin: 0;" asp-page-handler="ResendOTP">Resend OTP</button> <br />
+
+                           
+                            
                             <div class="btn-style-3">
                                 <button class="btn" asp-page-handler="RegisterAccount">Verify</button>
                             </div>
 
                         </form>
-                        <div class="text-info">@TempData["MessageVerify"]</div>
+                        
                     </div>
                 </div>
             </div>

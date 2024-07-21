@@ -52,6 +52,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
+builder.Services.AddScoped<IUserValidationService, UserValidationService>();
 builder.Services.AddScoped<NotificationWorker>();
 
 builder.Services.AddSingleton<NotificationHub>();

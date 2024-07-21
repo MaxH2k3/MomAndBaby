@@ -6,7 +6,9 @@ using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Helper;
 using MomAndBaby.Service.MessageConstant;
+using MomAndBaby.Service.Service;
 using Newtonsoft.Json;
 using System.Security.Claims;
 
@@ -15,9 +17,11 @@ namespace MomAndBaby.Pages.Main.Body
     public class VerifyAccountModel : PageModel
     {
         private readonly IUserService _userService;
-        public VerifyAccountModel(IUserService userService)
+        private readonly IUserValidationService _userValidationService;
+        public VerifyAccountModel(IUserService userService, IUserValidationService userValidationService)
         {
             _userService = userService;
+            _userValidationService = userValidationService;
         }
         [BindProperty]
         public string? Email { get; set; }
@@ -35,11 +39,13 @@ namespace MomAndBaby.Pages.Main.Body
 
         public async Task<IActionResult> OnPostRegisterAccount()
         {
-            Email = TempData["Email"].ToString();
+            //var email = TempData["Email"].ToString();
+            //Email = email.Trim(new char[] { '\\', '\"' });
+            Email = HttpContext.Session.GetString("Email");
             var newValidation = new ValidateOtpDTO(Email, Otp);
             
             var result = await _userService.ValidateOTP(newValidation);
-            if (!result)
+            if (result)
             {
                 var userJson = TempData["Authen"].ToString();
                 User user = JsonConvert.DeserializeObject<User>(userJson);
@@ -77,6 +83,30 @@ namespace MomAndBaby.Pages.Main.Body
             else
             {
                 TempData["MessageVerify"] = MessageOtp.OTPUnvalid;
+                return Page();
+            }
+        }
+
+        public async Task<IActionResult> OnPostResendOTP()
+        {
+
+            TempData.Remove("MessageVerify");
+            Email = HttpContext.Session.GetString("Email");
+            var user = await _userService.GetUserByEmail(Email!);
+            var userValidation = await _userValidationService.GetUser(user!.Id);
+            if(userValidation.ExpiredAt > TimeHelper.GetCurrentInVietName())
+            {
+                TempData["MessageResend"] = MessageOtp.OTPStillValid;
+                return Page();
+            }
+            var result = await _userService.GenerateAndSendOTP(Email!, user!.Username, user.Id);
+            if (result)
+            {
+                TempData["MessageResend"] = MessageOtp.ResendOTP;
+                return Page();
+            } else
+            {
+                TempData["MessageResend"] = MessageAuthen.InvalidSignin;
                 return Page();
             }
         }

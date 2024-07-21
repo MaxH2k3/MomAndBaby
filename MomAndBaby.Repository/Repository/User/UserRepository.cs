@@ -72,6 +72,12 @@ namespace MomAndBaby.Repository
             return await _context.Users.FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
 
-       
+        public async Task<User> AddUserLoginGG(User userRegitser)
+        {
+            userRegitser.Status = "Active";
+            userRegitser.RoleId = (int)RoleType.Customer;
+            await _context.Users.AddAsync(userRegitser);
+            return userRegitser;
+        }
     }
 }
