@@ -22,30 +22,47 @@ namespace MomAndBaby.Pages.Dashboard.Body
 
         [BindProperty]
         public ArticleDTO ArticleDTO { get; set; }
-        public void OnGet()
+        public IActionResult OnGet()
         {
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
+			if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower() == "admin")
+			{
+				return Redirect("/article");
+			}
+			return Page();
         }
 
-        public IActionResult OnPost()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
+		public async Task<IActionResult> OnPostAsync(IFormFile ImageUpload)
+		{
+			if (!ModelState.IsValid)
+			{
+				return Page();
+			}
 
-            Article articleToCreate = new Article
-            {
-                AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
-                Title = ArticleDTO.Title,
-                Content = ArticleDTO.Content,
-                CreatedAt = DateTime.Now,
-                Status = true
-            };
+			Article articleToCreate = new Article
+			{
+				AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
+				Title = ArticleDTO.Title,
+				Content = ArticleDTO.Content,
+				CreatedAt = DateTime.Now,
+				Status = true
+			};
 
-            _articleService.AddArticle(articleToCreate);
+			await _articleService.AddArticle(articleToCreate);
+			var articleJustCreated = await _articleService.GetNewestArticle();
+			int newArticleId = articleJustCreated.Id;
 
-            return Redirect("/article");
-        }
-    }
+			if (ImageUpload != null && ImageUpload.Length > 0)
+			{
+				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/article-image", $"{newArticleId}.jpg");
+
+				using (var stream = new FileStream(filePath, FileMode.Create))
+				{
+					await ImageUpload.CopyToAsync(stream);
+				}
+			}
+
+			return Redirect("/article");
+		}
+	}
 }
