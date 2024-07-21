@@ -19,7 +19,7 @@ namespace MomAndBaby.Repository
 
         public async Task<Order> GetOrderById(int id)
         {
-            return _context.Orders.Where(o => o.Id == id).Include(z => z.OrderTrackings).FirstOrDefault();
+            return _context.Orders.Where(o => o.Id == id).Include(x => x.Status).Include(z => z.OrderTrackings).FirstOrDefault();
         }
 
         public async Task UpdateAddress(string newAddress, int orderId)

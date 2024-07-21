@@ -17,8 +17,8 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 
         public async Task OnGet(int pageIndex = 1)
         {
-            int pageSize = 5;
-            Articles = await _articleService.GetListArticle(pageIndex, pageSize);
+            int pageSize = 6;
+            Articles = await _articleService.GetListActiveArticle(pageIndex, pageSize);
         }
     }
 }

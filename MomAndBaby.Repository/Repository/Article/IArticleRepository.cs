@@ -5,6 +5,7 @@ namespace MomAndBaby.Repository
 	public interface IArticleRepository
 	{
 		public Task<IEnumerable<Article>> GetListArticle(int pageNumber, int pageSize, string searchTerm = "");
+		public Task<IEnumerable<Article>> GetListActiveArticle(int pageNumber, int pageSize, string searchTerm = "");
 		public Task<int> GetTotalArticlesCount();
 		public Task<Article?> GetArticleById(int id);
 		public Task AddArticle(Article article);

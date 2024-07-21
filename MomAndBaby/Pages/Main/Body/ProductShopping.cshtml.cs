@@ -63,9 +63,20 @@ namespace MomAndBaby.Pages.Main.Body
             var product = await _productService.GetById(productId);
             if (product != null)
             {
-                var cart = GetCart();
-                cart.Add(_mapper.Map<CartSessionModel>(product));
-                SaveCart(cart);
+                var carts = GetCart();
+                var cart = _mapper.Map<CartSessionModel>(product);
+
+                var cartItem = carts.FirstOrDefault(x => x.Id == productId);
+                if (cartItem != null)
+                {
+                    cartItem.NumberOfProduct++;
+                } else
+                {
+                    cart.NumberOfProduct = 1;
+                    carts.Add(cart);
+                }
+
+                SaveCart(carts);
             
             }
            

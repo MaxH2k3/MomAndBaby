@@ -42,6 +42,7 @@
                                     <tr>
                                         <th class="width-thumbnail">Image</th>
                                         <th class="width-name">Product Name</th>
+                                        <th class="width-quantity">Quantity</th>
                                         <th class="width-price">Price</th>
                                         <th class="width-remove">Remove</th>
                                     </tr>
@@ -49,34 +50,43 @@
                                 <tbody>
                                     @foreach (var cart in Model.CartItems)
                                     {
+                                        <form method="post">
                                         <tr>
+                                            <input type="hidden" name="productId" value="@cart.Id" />
                                             <td class="product-thumbnail">
                                                 <img src="@cart.Image" alt="@cart.Name">
                                             </td>
                                             <td class="product-name">
                                                 <h5>@cart.Name</h5>
                                             </td>
+                                            <td class="cart-quality">
+                                                <div class="product-details-quality">
+                                                    <input type="number" class="input-text qty text" step="1" min="1" max="100" name="quantity" value="@cart.NumberOfProduct" placeholder="">
+                                                        @* <input value="12" /> *@
+                                                </div>
+                                            </td>
                                             <td class="product-price">
-                                                <span class="amount">$@cart.UnitPrice</span>
+                                                <span class="amount">@cart.UnitPrice.ToString("C")</span>
                                             </td>
                                             <td class="product-remove">
-                                                <form method="post" asp-page-handler="RemoveFromCart"
-                                                    asp-route-productId="@cart.Id">
-                                                    <button type="submit" class="btn btn-danger">Remove</button>
-                                                </form>
+                                                <button type="submit" class="btn btn-danger" asp-page-handler="RemoveFromCart">
+                                                    Remove
+                                                </button>
+                                                <button type="submit" class="btn btn-danger" asp-page-handler="UpdateQuantity">
+                                                    Update
+                                                </button>
                                             </td>
                                         </tr>
+                                        </form>
+                                        
                                     }
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                    <div class="cart-totals">
-                        <h3>Cart Totals</h3>
-
-                        <div class="cart-total">
-                            <span>Total</span>
-                            <span class="amount">$@Model.Total</span>
+                        <div class="cart-shiping-update-wrapper">
+                            <div class="cart-shiping-btn continure-btn">
+                                <a class="btn btn-link" href="/shopping"><i class="ion-ios-arrow-left"></i> Back To Shop</a>
+                            </div>
                         </div>
                     </div>
 
@@ -185,6 +195,13 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg-6 m-auto">
+                    <div class="section-title text-center">
+                        <h2 class="title">Checkout bill</h2>
+                    </div>
+                </div>
+            </div>
+            <form method="post" asp-page-handler="Pay" class="row" id="checkout-form">
                 <div class="col-md-6 col-lg-4">
                     <div class="cart-calculate-discount-wrap mb-40">
                         <h4>Calculate shipping </h4>
@@ -223,15 +240,6 @@
                                     <option value="0">Phường Xã</option>
                                 </select>
                             </div>
-                            @* <div class="input-style">
-                                <input type="text" placeholder="Town / City">
-                            </div>
-                            <div class="input-style">
-                                <input type="text" placeholder="Postcode / ZIP">
-                            </div>
-                            <div class="calculate-discount-btn">
-                                <a class="btn btn-link" href="#/">Update</a>
-                            </div> *@
                         </div>
                         <div class="cart-calculate-discount-wrap mb-40">
                             <h4>Coupon Discount </h4>
@@ -247,24 +255,10 @@
                         </div>
                     </div>
                 </div>
-                @* <div class="col-md-6 col-lg-4">
-                    <div class="cart-calculate-discount-wrap mb-40">
-                        <h4>Coupon Discount </h4>
-                        <div class="calculate-discount-content">
-                            <p>Enter your coupon code if you have one.</p>
-                            <div class="input-style">
-                                <input type="text" placeholder="Coupon code">
-                            </div>
-                            <div class="calculate-discount-btn">
-                                <a class="btn btn-link" href="#/">Apply Coupon</a>
-                            </div>
-                        </div>
-                    </div>
-                </div> *@
                 <div class="col-md-12 col-lg-4">
                     <div class="grand-total-wrap">
                         <div class="grand-total-content">
-                            <h3>Subtotal <span>$180.00</span></h3>
+                            <h3>Subtotal <span>@Model.Total.ToString("C")</span></h3>
                             <div class="grand-shipping">
                                 <span>Payment</span>
                                 <ul>
@@ -279,15 +273,15 @@
                                 <p>Shipping: <strong>10</strong>VND</p>
                             </div>
                             <div class="grand-total">
-                                <h4>Total <span>$185.00</span></h4>
+                                <h4>Total <span>@Model.Total.ToString("C")</span></h4>
                             </div>
                         </div>
                         <div class="grand-total-btn">
-                            <a class="btn btn-link" href="shop-checkout.html">Proceed to checkout</a>
+                            <button type="submit" class="btn btn-link btn-checkout" style="">Proceed to checkout</button>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     </section>
     <!-- End Cart Area Wrapper -->
@@ -336,7 +330,7 @@
             });
 
             // Combine address parts on form submission and validate
-            $('form').submit(function(e) {
+            $('#checkout-form').submit(function(e) {
                 var address = $('#address-input').val();
                 var tinh = $('#tinh option:selected').text();
                 var quan = $('#quan option:selected').text();
@@ -365,6 +359,12 @@
                 });
                 return valid;
             }
+            function submitForm() {
+                document.getElementById('update-form').submit();
+            }
+
         });
+
+
     </script>
 }

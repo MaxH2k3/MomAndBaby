@@ -75,8 +75,12 @@
 <div class="table" id="customers_table">
 	<div class="row row--top-20">
 		<div class="search-data col-md-6">
-			<span class="icon"><i class="fa-solid fa-magnifying-glass"></i></span>
-			<input type="search" placeholder="Search Data...">
+			<form method="get">
+				<button style="border:none; background:none" class="icon">
+					<i class="fa-solid fa-magnifying-glass"></i>
+				</button>
+				<input name="searchValue" value="@TempData["search"]" placeholder="Search article...">
+			</form>
 		</div>
 		<div class="col-md-12">
 			<div class="table-container">
@@ -98,7 +102,7 @@
 								<td class="table-row__td">
 										@* <div class="table-row__img"></div> *@
 									<div class="table-row__info">
-										<p class="table-row__name">@article.Title</p>
+										<a href="/article-detail?articleId=@article.Id" class="table-row__name">@article.Title</a>
 											@* <span class="table-row__small">CFO</span> *@
 									</div>
 								</td>

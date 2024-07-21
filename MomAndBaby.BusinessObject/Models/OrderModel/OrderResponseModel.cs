@@ -12,6 +12,6 @@ namespace MomAndBaby.BusinessObject.Models
     public string? PaymentMethod { get; set; }
 
     public string? ShippingAddress { get; set; }
-
+    public Guid userId { get; set; }
   }
 }
