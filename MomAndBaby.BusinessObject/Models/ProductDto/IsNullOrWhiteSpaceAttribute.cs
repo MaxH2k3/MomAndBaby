@@ -7,6 +7,6 @@ public class IsNullOrWhiteSpaceAttribute : ValidationAttribute
     public override bool IsValid(object value) 
     {
         var strValue = value as string;
-        return !string.IsNullOrEmpty(strValue);
+        return !string.IsNullOrWhiteSpace(strValue);
     }
 }

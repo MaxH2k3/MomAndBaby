@@ -63,9 +63,10 @@ namespace MomAndBaby.Service
 
         public async Task<bool> CreateProduct(ProductDto dto)
         {
-            if (dto.ImageFile is null || dto.ImageFile.Length <= 0)
+            var check = await _unitOfWork.ProductRepository.NameExistAsync(dto.Name);
+            if (check)
             {
-                throw new ArgumentException("Image is required!");
+                throw new ArgumentException("Product name already exists.");
             }
             
             var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
@@ -78,12 +79,6 @@ namespace MomAndBaby.Service
             }
             
             dto.Image = "/images/product_images/" + uniqueFileName;
-            
-            var check = await _unitOfWork.ProductRepository.NameExistAsync(dto.Name);
-            if (check)
-            {
-                throw new ArgumentException("Product name already exists.");
-            }
             
             var mapper = _mapper.Map<Product>(dto);
             mapper.Id = Guid.NewGuid();

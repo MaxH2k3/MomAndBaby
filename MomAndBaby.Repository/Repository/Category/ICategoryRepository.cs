@@ -10,5 +10,9 @@ namespace MomAndBaby.Repository.Repository
     public interface ICategoryRepository
     {
         Task<IEnumerable<Category>> GetAllCategory();
+        Task AddCategory(Category category);
+        Task DeleteCategory(int categoryId);
+        Task<bool> NameExistAsync(string categoryName);
+        Task<bool> HasProduct(int categoryId);
     }
 }

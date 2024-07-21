@@ -17,8 +17,7 @@ public class ProductDto
     [Required(ErrorMessage = "Sell Price is required!")]
     [Range(0.01, double.MaxValue, ErrorMessage = "Sell Price must be a positive number.")]
     public decimal PurchasePrice { get; set; }
-    [Range(1, int.MaxValue, ErrorMessage = "Stock is required!")]
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
     [Required(ErrorMessage = "Stock is required!")]
     [Range(0, int.MaxValue, ErrorMessage = "Stock must be a non-negative integer.")]
     public int Stock { get; set; }
