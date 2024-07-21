@@ -37,8 +37,16 @@ namespace MomAndBaby.Service
 			return new PaginatedList<ArticleDTO>(articleDTOs, totalArticles, pageNumber, pageSize);
 		}
 
+		public async Task<PaginatedList<Article>> GetListActiveArticle(int pageNumber, int pageSize, string searchTerm = "")
+		{
+			var articles = await _unitOfWork.ArticleRepository.GetListActiveArticle(pageNumber, pageSize, searchTerm);
+			var totalArticles = await _unitOfWork.ArticleRepository.GetTotalArticlesCount();
 
-        public async Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize, string searchTerm = "")
+			return new PaginatedList<Article>(articles, totalArticles, pageNumber, pageSize);
+		}
+
+
+		public async Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize, string searchTerm = "")
         {
             var articles = await _unitOfWork.ArticleRepository.GetListArticle(pageNumber, pageSize, searchTerm);
             var totalArticles = await _unitOfWork.ArticleRepository.GetTotalArticlesCount();

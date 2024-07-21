@@ -9,7 +9,7 @@ using MomAndBaby.Service;
 using MomAndBaby.Service.Extension;
 using MomAndBaby.Utilities.Constants;
 
-namespace MomAndBaby.Pages.Main.Body.ArticlePage
+namespace MomAndBaby.Pages.Dashboard.Body
 {
     public class AddArticleModel : PageModel
     {
@@ -24,8 +24,8 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         public ArticleDTO ArticleDTO { get; set; }
         public void OnGet()
         {
-			ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
-		}
+            ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
+        }
 
         public IActionResult OnPost()
         {

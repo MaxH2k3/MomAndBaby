@@ -22,6 +22,17 @@ namespace MomAndBaby.Repository
 						   .ToListAsync();
 		}
 
+		public async Task<IEnumerable<Article>> GetListActiveArticle(int pageNumber, int pageSize, string searchTerm = "")
+		{
+			return await _context.Articles
+						   .Where(a => a.Title.Contains(searchTerm) || a.Author!.FullName!.Contains(searchTerm))
+						   .Where(a => a.Status == true)
+						   .Include(article => article.Author)
+						   .Skip((pageNumber - 1) * pageSize)
+						   .Take(pageSize)
+						   .ToListAsync();
+		}
+
 		public async Task<int> GetTotalArticlesCount()
 		{
 			return await _context.Articles.CountAsync();

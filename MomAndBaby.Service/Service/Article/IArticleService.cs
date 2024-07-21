@@ -7,7 +7,8 @@ namespace MomAndBaby.Service
     {
 		public Task<PaginatedList<ArticleDTO>> GetListArticleDTO(int pageNumber, int pageSize);
         public Task<PaginatedList<Article>> GetListArticle(int pageNumber, int pageSize, string searchTerm = "");
-        public Task<ArticleDTO> GetArticleDTOById(int id);
+		public Task<PaginatedList<Article>> GetListActiveArticle(int pageNumber, int pageSize, string searchTerm = "");
+		public Task<ArticleDTO> GetArticleDTOById(int id);
 		public Task<Article?> GetArticleById(int id); 
 		public Task AddArticle(Article article);
 		public Task UpdateArticle(Article article, int articleId);
