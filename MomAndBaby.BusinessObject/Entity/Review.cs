@@ -10,7 +10,7 @@ namespace MomAndBaby.BusinessObject.Entity
 
 		public Guid? UserId { get; set; }
 
-		public Guid? ProductId { get; set; }
+		public Guid ProductId { get; set; }
 
 		[Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
 		public int Rating { get; set; }

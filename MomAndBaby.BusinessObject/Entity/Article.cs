@@ -11,7 +11,6 @@ namespace MomAndBaby.BusinessObject.Entity
         public bool? Status {  get; set; }
         public Guid? AuthorId { get; set; }
         public DateTime? CreatedAt { get; set; }
-
         public virtual User? Author { get; set; }
     }
 }

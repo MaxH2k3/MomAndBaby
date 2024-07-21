@@ -5730,9 +5730,20 @@ table p {
   display: flex;
   overflow: hidden;
   position: relative;
-  min-height: 307px;
+  min-height: 266.22px;
   justify-content: center;
   width: 100%;
+  aspect-ratio: 1 / 1;
+}
+.product-item .product-thumb img {
+  /* Ensure the image covers the thumb area */
+  object-fit: cover;
+  width: 90%;
+  height: 90%;
+  /* Remove margin/padding from image if any */
+  margin: 0;
+  padding: 0;
+  display: block;
 }
 .product-item .product-thumb .product-action {
   bottom: calc(50% - 60px);

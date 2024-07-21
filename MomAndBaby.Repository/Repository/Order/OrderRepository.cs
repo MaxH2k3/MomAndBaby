@@ -19,7 +19,7 @@ namespace MomAndBaby.Repository
 
         public async Task<Order> GetOrderById(int id)
         {
-            return _context.Orders.Where(o => o.Id == id).Include(z => z.OrderTrackings).FirstOrDefault();
+            return _context.Orders.Where(o => o.Id == id).Include(x => x.Status).Include(z => z.OrderTrackings).FirstOrDefault();
         }
 
         public async Task UpdateAddress(string newAddress, int orderId)
@@ -85,7 +85,7 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Order>> GetAllOrderAdmin()
         {
-            return await _context.Orders.Include(x => x.Status).Include(z => z.OrderTrackings).ToListAsync();
+            return await _context.Orders.Include(x => x.Status).Include(z => z.OrderTrackings).Include(u=>u.User).ToListAsync();
         }
         public async Task<IEnumerable<string?>> GetShippingAddress(Guid userId)
         {

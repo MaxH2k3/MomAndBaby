@@ -22,9 +22,10 @@ namespace MomAndBaby.Service.OrderService
             return _mapper.Map<IEnumerable<OrderResponseModel>>(orders);
         }
 
-        public async Task<Order> GetOrderById(int orderId)
+        public async Task<OrderResponseModel> GetOrderById(int orderId)
         {
-            return await _unitOfWork.OrderRepository.GetOrderById(orderId);
+            var order = await _unitOfWork.OrderRepository.GetOrderById(orderId);
+            return _mapper.Map<OrderResponseModel>(order);
         }
 
         public async Task<bool> UpdateOrderAddress(string newAddress, int orderId)

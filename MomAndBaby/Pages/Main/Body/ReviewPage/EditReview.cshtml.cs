@@ -50,7 +50,7 @@ namespace MomAndBaby.Pages.Main.Body.ReviewPage
 
 		public async Task<IActionResult> OnPostDeleteAsync(int reviewId, Guid productId)
 		{
-			await _reviewService.DeleteReview(reviewId);
+			await _reviewService.SoftDeleteReview(reviewId);
 
 			// Redirect to the same page to refresh the list
 			return Redirect("product_detail?productId=" + productId);

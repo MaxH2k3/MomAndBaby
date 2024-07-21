@@ -18,11 +18,13 @@ namespace MomAndBaby.Pages.Dashboard.Body
         }
         public PaginatedList<Article> Articles { get; set; }
 
-        public async Task OnGet(int pageIndex = 1)
+        public async Task OnGet(string searchValue = "", int pageIndex = 1)
         {
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostList;
-            int pageSize = 5;
-            Articles = await _articleService.GetListArticle(pageIndex, pageSize, "adva");
+			searchValue = searchValue ?? "";
+			TempData["search"] = searchValue;
+			int pageSize = 5;
+            Articles = await _articleService.GetListArticle(pageIndex, pageSize, searchValue);
         }
 
 		public async Task<IActionResult> OnPostSoftDelete(int articleId)

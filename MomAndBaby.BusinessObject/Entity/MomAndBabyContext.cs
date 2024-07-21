@@ -31,6 +31,15 @@ namespace MomAndBaby.BusinessObject.Entity
         public virtual DbSet<User> Users { get; set; } = null!;
         public virtual DbSet<Voucher> Vouchers { get; set; } = null!;
         public virtual DbSet<UserValidation> UserValidation { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server=35.240.220.220,1433;database=MomAndBaby;uid=sa;pwd=Admin12345@;TrustServerCertificate=true;Encrypt=True;Connection Timeout=30;");
+            }
+        }
         public virtual DbSet<Notification> Notifications { get; set; } = null!;
 
 
@@ -340,7 +349,9 @@ namespace MomAndBaby.BusinessObject.Entity
 
                 entity.Property(e => e.Rating).HasColumnName("rating");
 
-                entity.Property(e => e.UserId).HasColumnName("user_id");
+				entity.Property(e => e.Status).HasColumnName("status");
+
+				entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.Reviews)
