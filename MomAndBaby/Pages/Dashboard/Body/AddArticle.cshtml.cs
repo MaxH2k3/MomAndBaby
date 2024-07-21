@@ -7,6 +7,7 @@ using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
 using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body
@@ -14,10 +15,12 @@ namespace MomAndBaby.Pages.Dashboard.Body
     public class AddArticleModel : PageModel
     {
         private readonly IArticleService _articleService;
+        private readonly NotificationWorker _notificationWorker;
 
-        public AddArticleModel(IArticleService articleService)
+        public AddArticleModel(IArticleService articleService, NotificationWorker notificationWorker)
         {
             _articleService = articleService;
+            _notificationWorker = notificationWorker;
         }
 
         [BindProperty]

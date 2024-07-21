@@ -90,108 +90,6 @@
                         </div>
                     </div>
 
-                    <!--== Start Checkout Area Wrapper ==-->
-                    <form method="post" asp-page-handler="Pay">
-                    <section class="product-area shop-checkout-area">
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-lg-6 m-auto">
-                                    <div class="section-title text-center">
-                                        <h2 class="title">Checkout</h2>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-
-                                </div>
-                            </div>                     
-                            <div class="row">
-                                <div class="col-lg-7">
-                                    <div class="billing-info-wrap">
-                                        <h3>Billing Details</h3>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="billing-info mb-20">
-                                                    <label>First name <abbr class="required"
-                                                            title="required">*</abbr></label>
-                                                    <input asp-for="FirstName" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            
-                                    <div class="col-12">
-                                    <div class="billing-info mb-20">
-                                        <label>Address <abbr class="required" title="required">*</abbr></label>
-                                        <input asp-for="Address" class="form-control" id="address-input" required>
-                                    </div>
-                                     <div class="css_select_div">
-                                        @* <select class="css_select" asp-for="Tinh" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
-                                            <option value="0">Tỉnh Thành</option>
-                                        </select> *@
-                                        @* <select class="css_select" asp-for="Quan" id="quan" name="quan" title="Chọn Quận Huyện" required>
-                                            <option value="0">Quận Huyện</option>
-                                        </select> *@
-                                        @* <select class="css_select" asp-for="Phuong" id="phuong" name="phuong" title="Chọn Phường Xã" required>
-                                            <option value="0">Phường Xã</option>
-                                        </select> *@
-                                    </div>
-
-                                    </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-5">
-                                <div class="your-order-area">
-                                    <h3>Your order</h3>
-                                    <div class="your-order-wrap">
-                                        <div class="your-order-info-wrap">
-                                            <div class="your-order-title">
-                                                <h4>Product <span>Subtotal</span></h4>
-                                            </div>
-                                            @foreach (var cart in Model.CartItems)
-                                            {
-                                                <div class="your-order-product">
-                                                    <ul>
-                                                        <li>@cart.Name<span>$@cart.UnitPrice</span></li>
-
-                                                    </ul>
-                                                </div>
-
-                                            }
-                                            <div class="your-order-total">
-                                                <h3>Total <span>$@Model.Total</span></h3>
-                                            </div>
-                                        </div>
-                                        <div class="payment-method">
-
-                                            <div class="pay-top sin-payment sin-payment-3">
-                                                <input id="payment-method-4" class="input-radio" type="radio"
-                                                    value="cheque" name="payment_method">
-                                                <label for="payment-method-4">PayPal <img alt=""
-                                                        src="assets/img/icons/payment-3.png"><a href="#">What is
-                                                        PayPal?</a></label>
-                                                <div class="payment-box payment_method_bacs">
-                                                    <p>Pay via PayPal; you can pay with your credit card if you
-                                                        don’t have a PayPal account.</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="payment-condition">
-                                            <p>Your personal data will be used to process your order, support your
-                                                experience throughout this website, and for other purposes described
-                                                in our <a href="#">privacy policy</a>.</p>
-                                        </div>
-
-                                    </div>
-                                    
-                                        <button class="btn btn-link" type="submit">Pay with PayPal</button>
-                                    
-                                </div>
-                            </div>
-                                 </div>
-                            </div>
-                        </div>    
-                    </section>
-                    </form>
                 </div>
             </div>
             <div class="row">
@@ -262,8 +160,8 @@
                             <div class="grand-shipping">
                                 <span>Payment</span>
                                 <ul>
-                                    <li><input type="radio" name="shipping" value="info" checked="checked"><label>Money</label></li>
-                                    <li><input type="radio" name="shipping" value="info" checked="checked"><label>Paypal</label></li>
+                                    <li><input type="radio" value="money" name="payment_method" checked="checked"><label>Money</label></li>
+                                    <li><input type="radio" value="paypal" name="payment_method" checked="checked"><label>Paypal</label></li>
                                 </ul>
                             </div>
                             <div class="shipping-country">
@@ -358,9 +256,6 @@
                     }
                 });
                 return valid;
-            }
-            function submitForm() {
-                document.getElementById('update-form').submit();
             }
 
         });
