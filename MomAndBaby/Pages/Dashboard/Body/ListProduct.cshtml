@@ -3,20 +3,25 @@
 
 
 @section Styles {
-	<link rel="stylesheet" href="~/data-table/data-table-2.css" asp-append-version="true">
-	<link rel="stylesheet" href="~/ok/assets/vendor/libs/select2/select2.css">
+    <link rel="stylesheet" href="~/data-table/data-table-2.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/ok/assets/vendor/libs/select2/select2.css">
 }
 
 <div class="table" id="customers_table">
     <div class="row row--top-20">
-        <div class="search-data col-md-6">
-            <form method="get" class="search-form">
-                <span class="icon">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </span>
-                <input type="search" name="searchValue" value="@TempData["search"]" placeholder="Search Data...">
-                <button href="/dashboard/list-product" class="btn btn-primary">Search</button>
-            </form>
+        <div style="display: flex">
+            <div class="search-data col-md-6">
+                <form method="get" class="search-form d-flex align-items-center">
+                    <span class="icon">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </span>
+                    <input type="search" name="searchValue" value="@TempData["search"]" placeholder="Search Data...">
+                    <button href="/dashboard/list-product" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="search-data col-md-5 d-flex justify-content-end align-items-center">
+                <button type="button" id="openCategoryModal" data-bs-toggle="modal" data-bs-target="#categoryModal" class="btn btn-secondary">All Category</button>
+            </div>
         </div>
         <div class="col-md-12">
             <div class="table-container">
@@ -34,7 +39,7 @@
                     </tr>
                     </thead>
                     <tbody class="table__tbody">
-                    @foreach (var product in @Model.Data)
+                    @foreach (var product in Model.Data)
                     {
                         var rowClass = product.Status switch
                         {
@@ -84,9 +89,9 @@
                                 }
                             </td>
                             <td class="table-row__td">
-                                <form method="post">
+                                <form method="post" id="delete-form-@product.Id">
 
-                                    <a href="/dashboard/product?productId=@product.Id" title="Delete">
+                                    <a href="/dashboard/product?productId=@product.Id" title="Edit">
                                         <svg version="1.1" class="table-row__edit" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml:space="preserve" data-toggle="tooltip" data-placement="bottom" title="Edit">
                                             <g>
                                                 <g>
@@ -107,7 +112,7 @@
                                         </svg>
                                     </a>
 
-                                    <a asp-page-handler="Delete" asp-route-productId="@product.Id" title="Delete" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this product?')) { document.getElementById('delete-form-1').submit(); }">
+                                    <a asp-page-handler="Delete" asp-route-productId="@product.Id" title="Delete" onclick="event.preventDefault(); if(confirm('Are you sure you want to delete this product?')) { document.getElementById('delete-form-@product.Id').submit(); }">
                                         <svg data-toggle="tooltip" data-placement="bottom" title="Delete" version="1.1" class="table-row__bin ml-2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
                                             <g>
                                                 <g>
@@ -145,15 +150,15 @@
                                 <ul class="pagination">
                                     @if (Model.ShowPrevious)
                                     {
-                                    <li class="page-item">
-                                        <a asp-page="./ListProduct" as asp-route-CurrentPage="@(Model.CurrentPage -1)" class="page-link">Previous</a>
-                                    </li>
+                                        <li class="page-item">
+                                            <a asp-page="./ListProduct" as asp-route-CurrentPage="@(Model.CurrentPage - 1)" class="page-link">Previous</a>
+                                        </li>
                                     }
                                     @if (Model.ShowNext)
                                     {
-                                    <li class="page-item">
-                                        <a asp-page="./ListProduct" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">Next</a>
-                                    </li>
+                                        <li class="page-item">
+                                            <a asp-page="./ListProduct" asp-route-CurrentPage="@(Model.CurrentPage + 1)" class="page-link">Next</a>
+                                        </li>
                                     }
                                 </ul>
                             </nav>
@@ -164,11 +169,74 @@
             </div>
         </div>
     </div>
-
-
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="categoryModalLabel">Category</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead class="table__thead">
+                    <tr>
+                        <th hidden="hidden">ID</th>
+                        <th class="table__th">Name</th>
+                        <th class="table__th" style="text-align: center;">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table__tbody">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <tr class="table-row">
+                            <td hidden="hidden" class="table-row__td">
+                                @category.Id
+                            </td>
+                            <td class="table-row__td">
+                                <div class="table-row__info">
+                                    <p class="table-row__name">@category.Name</p>
+                                </div>
+                            </td>
+                            <td class="table-row__td" style="text-align: center;">
+                                <form method="post">
+                                    <button asp-page-handler="DeleteCategory" class="btn btn-primary" asp-route-categoryId="@category.Id" title="Delete">
+                                        Delete
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let isCategoryShow = @Model.IsDelete;
+        
+        if (isCategoryShow) {
+        if (isCategoryShow === 2){
+            alert("There are products associated with this category.");
+        }
+            var button = document.getElementById('openCategoryModal');
+            if (button) {
+                button.click();
+            }
+        }
+    });
+</script>
+
 @section Scripts {
-	<!-- Vendors JS -->
-	<script src="~/ok/assets/vendor/libs/select2/select2.js"></script>
+    <!-- Vendors JS -->
+    <script src="~/ok/assets/vendor/libs/select2/select2.js"></script>
 }
