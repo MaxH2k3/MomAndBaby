@@ -95,5 +95,10 @@ namespace MomAndBaby.Service.OrderService
         {
             return await _unitOfWork.OrderRepository.GetTotalAmount(userId);
         }
+
+        public async Task ApproveOrder(int orderId)
+        {
+             await _unitOfWork.OrderRepository.ApproveOrder(orderId);
+        }
     }
 }
