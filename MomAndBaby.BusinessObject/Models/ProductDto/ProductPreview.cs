@@ -18,7 +18,7 @@ namespace MomAndBaby.BusinessObject.Models.ProductDto
         public string? Original { get; set; }
         public string? Company { get; set; }
         public string? Status { get; set; }
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
         public string? CategoryName { get; set; }
         public int TotalPurchase { get; set; }
         public int TotalReview { get; set; }

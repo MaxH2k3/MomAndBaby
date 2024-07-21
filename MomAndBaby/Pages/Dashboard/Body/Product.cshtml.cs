@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
@@ -20,11 +21,12 @@ public class Product : PageModel
 
     [BindProperty]
     public Guid? ProductId { get; set; }
-    
     [BindProperty]
     public ProductDto ProductDto { get; set; }
     [BindProperty]
     public IEnumerable<Category> Categories { get; set; }
+    [BindProperty]
+    public string? CategoryName { get; set; }
 
     public Product(IProductService productService, ICategoryService categoryService, NotificationWorker notificationWorker)
     {
@@ -46,8 +48,14 @@ public class Product : PageModel
 
     public async Task<IActionResult> OnPostCreate()
     {
+        Categories = await _categoryService.GetCategory();
+
         if (!ModelState.IsValid)
         {
+            if (ProductDto.ImageFile is null || ProductDto.ImageFile.Length <= 0)
+            {
+                ModelState.AddModelError("ProductDto.ImageFile", "Image is required!");
+            }
             return Page();
         }
         
@@ -57,34 +65,26 @@ public class Product : PageModel
             var result = await _productService.CreateProduct(ProductDto);
             if (!result)
             {
-                TempData["ErrorMessage"] = "Product created failed.";
                 return Page();
             }
-            TempData["SuccessMessage"] = "Product created successfully.";
             _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Added);
             return Page();
         }
         catch (ArgumentException ex)
         {
-            switch (ex.Message)
-            {
-                case "Image is required!":
-                    ModelState.AddModelError("ProductDto.ImageFile", ex.Message);
-                    break;
-                case "Product name already exists.":
-                    ModelState.AddModelError("ProductDto.Name", ex.Message);
-                    break;
-                default:
-                    ModelState.AddModelError("", ex.Message);
-                    break;
-            }
-
+            ModelState.AddModelError(ex.Message == "Product name already exists." ? "ProductDto.Name" : "", ex.Message);
+            return RedirectToPage("ListProduct");
+        }
+        catch (Exception)
+        {
             return Page();
         }
     }
 
     public async Task<IActionResult> OnPostUpdate()
     {
+        Categories = await _categoryService.GetCategory();
+        
         if (!ModelState.IsValid)
         {
             return Page();
@@ -96,10 +96,8 @@ public class Product : PageModel
             var result = await _productService.UpdateProduct(ProductDto);
             if (!result)
             {
-                TempData["ErrorMessage"] = "Product updated failed.";
                 return Page();
             }
-            TempData["SuccessMessage"] = "Product updated successfully.";
             _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Modified);
             return RedirectToPage("ListProduct");
         }
@@ -112,6 +110,8 @@ public class Product : PageModel
 
     public async Task<IActionResult> OnPostHidden()
     {
+        Categories = await _categoryService.GetCategory();
+
         if (!ModelState.IsValid)
         {
             return Page();
@@ -123,10 +123,8 @@ public class Product : PageModel
             var result = await _productService.UpdateProduct(ProductDto);
             if (!result)
             {
-                TempData["ErrorMessage"] = "Product updated failed.";
                 return Page();
             }
-            TempData["SuccessMessage"] = "Product updated successfully.";
             _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Modified);
             return RedirectToPage("ListProduct");
         }
@@ -139,6 +137,8 @@ public class Product : PageModel
     
     public async Task<IActionResult> OnPostSaveDraft()
     {
+        Categories = await _categoryService.GetCategory();
+
         if (!ModelState.IsValid)
         {
             return Page();
@@ -150,10 +150,8 @@ public class Product : PageModel
             var result = await _productService.UpdateProduct(ProductDto);
             if (!result)
             {
-                TempData["ErrorMessage"] = "Product updated failed.";
                 return Page();
             }
-            TempData["SuccessMessage"] = "Product updated successfully.";
             return RedirectToPage("ListProduct");
         }
         catch (ArgumentException ex)
@@ -162,7 +160,33 @@ public class Product : PageModel
             return Page();
         }
     }
- 
+
+    public async Task<IActionResult> OnPostCreateCategory()
+    {
+        Categories = await _categoryService.GetCategory();
+
+        if (string.IsNullOrWhiteSpace(CategoryName))
+        {
+            TempData["CategoryValid"] = "Category is required.";
+            return Page();
+        }
+
+        var check = await _categoryService.NameExistAsync(CategoryName);
+        
+        if (check)
+        {
+            TempData["CategoryValid"] = "This category already exists.";
+            return Page();
+        }
+
+        var result = await _categoryService.AddCategory(CategoryName);
+        if (result)
+        {
+            Categories = await _categoryService.GetCategory();
+        }
+        return Page();
+    }
+    
     public IActionResult OnPostCancel()
     {
         return RedirectToPage("ListProduct");
