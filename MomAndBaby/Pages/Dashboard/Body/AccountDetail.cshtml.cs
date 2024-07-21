@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Service.OrderService;
 
@@ -45,6 +46,15 @@ namespace MomAndBaby.Pages.Dashboard.Body
             NumOfOrders = orders.Count();
             TotalAmount = await _orderService.GetTotalAmount(user.Id);
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostBanAccount(Guid userId)
+        {
+            var user = await _userService.GetUserById(userId);
+            user.Status = UserStatus.Banned.ToString();
+            await _userService.UpdateUser(user);
+           
+            return await OnGet(userId);
         }
     }
 }

@@ -42,6 +42,7 @@ namespace MomAndBaby.Pages.Main.Body
 
         [BindProperty]
         [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[A-Z])(?=.*[!@#$&*]).{8,}$", ErrorMessage = "Password must be at least 8 characters long, contain at least one uppercase letter and one special character.")]
         public string? NewPassword { get; set; }
 
         [BindProperty]

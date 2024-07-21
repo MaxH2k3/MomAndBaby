@@ -14,9 +14,11 @@
             <h5 class="mb-1 mt-3">Order# @Model.orderId <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">@Model.Order.StatusName</span></h5>
             <p class="text-body">@Model.Order.OrderDate</p>
         </div>
-        <div class="d-flex align-content-center flex-wrap gap-2">
-            <button class="btn btn-label-success delete-order">Approve Order</button>
-        </div>
+       <form method="post" asp-route-id="@Model.orderId">
+            <div class="d-flex align-content-center flex-wrap gap-2">
+            <button type="submit" class="btn btn-label-success">Approve Order</button>
+            </div>
+        </form>
     </div>
 
     <!-- Order Details Table -->

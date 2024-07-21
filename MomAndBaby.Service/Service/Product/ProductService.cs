@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Repository.Uow;
@@ -12,12 +13,14 @@ namespace MomAndBaby.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IConfiguration _configuration;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _webHostEnvironment = webHostEnvironment;
+            _configuration = configuration;
         }
 
         public async Task<ProductDto> GetById(Guid productId)
@@ -243,10 +246,10 @@ namespace MomAndBaby.Service
         public async Task<IEnumerable<ProductOriginalDto>> GetOriginalShopping()
         {
             
-            var listCompanyName = await _unitOfWork.ProductRepository.GetOriginals();
+            var listOriginal = await _unitOfWork.ProductRepository.GetOriginals();
             using (var client = new HttpClient())
             {
-                var response = await client.GetStringAsync("https://countriesnow.space/api/v0.1/countries/flag/images");
+                var response = await client.GetStringAsync(_configuration["Country:Flag"]);
                 var data = JObject.Parse(response)["data"];
 
                 // Tạo từ điển để dễ dàng tra cứu hình ảnh cờ
@@ -260,7 +263,7 @@ namespace MomAndBaby.Service
 
                 // Tạo danh sách kết quả ProductOriginalDto
                 var result = new List<ProductOriginalDto>();
-                foreach (var companyName in listCompanyName)
+                foreach (var companyName in listOriginal)
                 {
                     if (imageFlags.TryGetValue(companyName, out var imageFlag))
                     {

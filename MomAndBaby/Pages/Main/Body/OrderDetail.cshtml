@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Order Details";
+    decimal total = 0;
 }
 
 <main class="main-content">
@@ -66,12 +67,16 @@
                                                         value="@order.Quantity" title="Qty" readonly>
                                                 </div>
                                             </td>
-                                            @* <td class="product-total"><span>@(order.Price *
-                                        order.Quantity).ToString("C")</span></td> *@
+                                            @{
+                                                total += order.Price * order.Quantity;
+                                            }
                                         </tr>
                                     }
                                 </tbody>
                             </table>
+                        </div>
+                        <div class="shipping-country">
+                            <p>Total: <strong>$@total</strong></p>
                         </div>
                     </div>
                 </div>
@@ -96,9 +101,8 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th class="width-thumbnail"></th>
-
-                                        <th class="width-price">OrderConfimation</th>
+                                        <th class="width-thumbnail">OrderID</th>
+                                        <th class="width-quantity">OrderConfimation</th>
                                         <th class="width-quantity">Package</th>
                                         <th class="width-quantity">Delivery</th>
                                         <th class="width-quantity">Complete</th>
@@ -107,6 +111,7 @@
                                 <tbody>
 
                                     <tr>
+                                        <td>@Model.orderTracking.OrderId</td>
                                         <td class="product-thumbnail">
                                             <a href="shop-single-product.html">
                                                 @Model.orderTracking.OrderConfirmation

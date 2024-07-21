@@ -35,6 +35,18 @@ namespace MomAndBaby.Pages.Dashboard.Body
         public OrderResponseModel Order { get; set; } = new OrderResponseModel();
         public async Task OnGet(int id)
         {
+            await LoadData(id);
+        }
+
+        public async Task<IActionResult> OnPost(int id)
+        {
+            await _orderService.ApproveOrder(id);
+            await LoadData(id);
+            return Page();
+        }
+
+        private async Task LoadData(int id)
+        {
             orderId = id;
             ViewData[VariableConstant.CurrentMenu] = (int)Menu.OrderDetail;
             orderTracking = await _orderService.GetOrderTracking(id);
