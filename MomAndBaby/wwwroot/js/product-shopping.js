@@ -93,7 +93,7 @@ $(document).ready(function () {
                                                     </div>
                                                     <h4 class="title"><a href="/product_detail?productId=${product.Id}">${product.Name}</a></h4>
                                                     <div class="prices">
-                                                        <span class="price">$${product.UnitPrice}</span>
+                                                        <span class="price">$${product.PurchasePrice}</span>
                                                     </div>
                                                 </div>
                                             </div>
