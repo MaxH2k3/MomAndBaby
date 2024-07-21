@@ -7292,9 +7292,9 @@ table p {
 .cart-table-wrap .cart-table table thead > tr th.width-thumbnail {
   min-width: 130px;
 }
-.cart-table-wrap .cart-table table thead > tr th.width-name {
+/*.cart-table-wrap .cart-table table thead > tr th.width-name {
   min-width: 400px;
-}
+}*/
 .cart-table-wrap .cart-table table thead > tr th.width-price {
   min-width: 162px;
 }

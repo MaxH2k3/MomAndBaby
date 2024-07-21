@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 using System.Text;
 
@@ -11,10 +14,12 @@ namespace MomAndBaby.Pages.Dashboard.Body
     public class ListAccountModel : PageModel
     {
         private readonly IUserService _userService;
+        private readonly NotificationWorker _notificationWorker;
 
-        public ListAccountModel(IUserService userService)
+        public ListAccountModel(IUserService userService, NotificationWorker notificationWorker)
         {
             _userService = userService;
+            _notificationWorker = notificationWorker;
         }
 
 
@@ -42,6 +47,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
             if (user != null)
             {
                 await _userService.UpdateStatus(user);
+                _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Account, NotificationType.Modified);
             }
             await OnGet(i);
             return Page();

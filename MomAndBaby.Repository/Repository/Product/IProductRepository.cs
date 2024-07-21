@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.CartSessionModel;
 
 namespace MomAndBaby.Repository
 {
@@ -29,6 +30,7 @@ namespace MomAndBaby.Repository
         Task<bool> NameUpdateExistAsync(Guid productId, string name);
         Task<List<Product>> GetProductsByIdsAsync(List<Guid> productIds);
         Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory();
-
+        Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels);
+        void UpdateStock(List<OrderDetail> orderDetails);
     }
 }

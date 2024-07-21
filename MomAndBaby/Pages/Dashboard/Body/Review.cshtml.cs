@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.ReviewDTO;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body
@@ -12,12 +15,14 @@ namespace MomAndBaby.Pages.Dashboard.Body
 	public class ReviewModel : PageModel
 	{
 		private readonly IReviewService _reviewService;
+		private readonly NotificationWorker _notificationWorker;
 
-		public ReviewModel(IReviewService reviewService)
+        public ReviewModel(IReviewService reviewService, NotificationWorker notificationWorker)
 		{
 			_reviewService = reviewService;
+            _notificationWorker = notificationWorker;
 
-		}
+        }
 		public PaginatedList<ReviewDTO> Reviews { get; set; }
 		public float AverageRating { get; set; }
 		public float ReviewCount {  get; set; }
@@ -43,21 +48,24 @@ namespace MomAndBaby.Pages.Dashboard.Body
 		}
 
 		public async Task<IActionResult> OnPostSoftDelete(int reviewId)
-		{
+        {
 			await _reviewService.SoftDeleteReview(reviewId);
-			return Redirect("/dashboard/list-review");
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Review, NotificationType.Modified);
+            return Redirect("/dashboard/list-review");
 		}
 
 		public async Task<IActionResult> OnPostHardDelete(int reviewId)
 		{
 			await _reviewService.HardDeleteReview(reviewId);
-			return Redirect("/dashboard/list-review");
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Review, NotificationType.Deleted);
+            return Redirect("/dashboard/list-review");
 		}
 
 		public async Task<IActionResult> OnPostRestore(int reviewId)
 		{
 			await _reviewService.RestoreReview(reviewId);
-			return Redirect("/dashboard/list-review");
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Review, NotificationType.Modified);
+            return Redirect("/dashboard/list-review");
 		}
 	}
 }

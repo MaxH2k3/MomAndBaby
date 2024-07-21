@@ -1,4 +1,5 @@
 ﻿using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 
 namespace MomAndBaby.Service
@@ -25,7 +26,8 @@ namespace MomAndBaby.Service
         Task<IEnumerable<ProductOriginalDto>> GetOriginalShopping();
         Task<IEnumerable<ProductCompanyDto>> GetCompanyShopping();
         Task<Tuple<List<string>, List<int>>> GetStatisticsProductCategory();
-
+        Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels);
+        /*void UpdateStock(List<CartSessionModel> cartData);*/
     }
 
 }

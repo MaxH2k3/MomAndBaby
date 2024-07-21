@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
+using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Repository.Uow;
 using Newtonsoft.Json.Linq;
@@ -297,6 +299,16 @@ namespace MomAndBaby.Service
             }
             return productCompanies;
         }
+
+        public async Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels)
+        {
+            return await _unitOfWork.ProductRepository.CheckStock(CartSessionModels);
+        }
+
+        /*public void UpdateStock(List<CartSessionModel> cartData)
+        {
+            _unitOfWork.ProductRepository.UpdateStock(cartData);
+        }*/
     }
     
 }

@@ -48,6 +48,8 @@ namespace MomAndBaby.Pages.Dashboard.Body
 
             _articleService.AddArticle(articleToCreate);
 
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Article, NotificationType.Added);
+
             return Redirect("/article");
         }
     }

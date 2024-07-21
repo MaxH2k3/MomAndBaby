@@ -22,6 +22,7 @@ namespace MomAndBaby.Repository.Repository
         {
             return await _context.Notifications
                 .Include(n => n.User)
+                .OrderByDescending(n => n.CreatedAt)
                 .ToListAsync();
         }
 

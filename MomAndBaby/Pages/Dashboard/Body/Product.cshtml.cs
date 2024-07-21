@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
 using MomAndBaby.Service.Service;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body;
@@ -13,7 +16,8 @@ public class Product : PageModel
 {
     private readonly IProductService _productService;
     private readonly ICategoryService _categoryService;
-    
+    private readonly NotificationWorker _notificationWorker;
+
     [BindProperty]
     public Guid? ProductId { get; set; }
     
@@ -22,10 +26,11 @@ public class Product : PageModel
     [BindProperty]
     public IEnumerable<Category> Categories { get; set; }
 
-    public Product(IProductService productService, ICategoryService categoryService)
+    public Product(IProductService productService, ICategoryService categoryService, NotificationWorker notificationWorker)
     {
         _productService = productService;
         _categoryService = categoryService;
+        _notificationWorker = notificationWorker;
     }
 
     public async Task OnGet(Guid? productId)
@@ -56,6 +61,7 @@ public class Product : PageModel
                 return Page();
             }
             TempData["SuccessMessage"] = "Product created successfully.";
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Added);
             return Page();
         }
         catch (ArgumentException ex)
@@ -94,6 +100,7 @@ public class Product : PageModel
                 return Page();
             }
             TempData["SuccessMessage"] = "Product updated successfully.";
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Modified);
             return RedirectToPage("ListProduct");
         }
         catch (ArgumentException ex)
@@ -120,6 +127,7 @@ public class Product : PageModel
                 return Page();
             }
             TempData["SuccessMessage"] = "Product updated successfully.";
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Modified);
             return RedirectToPage("ListProduct");
         }
         catch (ArgumentException ex)

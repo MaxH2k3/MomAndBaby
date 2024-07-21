@@ -1,9 +1,12 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Service;
+using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 
 namespace MomAndBaby.Pages.Dashboard.Body
@@ -11,6 +14,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
     public class ListProductModel : PageModel
     {
         private readonly IProductService _productService;
+        private readonly NotificationWorker _notificationWorker;
         public List<ProductDto> Products { get; set; }
         
         [BindProperty(SupportsGet = true)]
@@ -24,9 +28,10 @@ namespace MomAndBaby.Pages.Dashboard.Body
         public bool ShowPrevious => CurrentPage > 1;
         public bool ShowNext => CurrentPage < TotalPages;
         
-        public ListProductModel(IProductService productService)
+        public ListProductModel(IProductService productService, NotificationWorker notificationWorker)
         {
             _productService = productService;
+            _notificationWorker = notificationWorker;
         }
         
         public async Task OnGet(string searchValue)
@@ -50,6 +55,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
                 return Page();
             }
             TempData["SuccessMessage"] = "Delete product successfully.";
+            _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Modified);
             return RedirectToPage("ListProduct");
         }
     }

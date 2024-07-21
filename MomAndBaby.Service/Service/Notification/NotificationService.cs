@@ -34,13 +34,14 @@ namespace MomAndBaby.Service
             {
                 UserId = userId,
                 TypeMessage = type.ToString(),
-                Title = $"{userName} have been {type.ToString()}",
-                Message = $"{userName} have been {type.ToString()} in {tableName}",
+                Title = $"{type.ToString()}",
+                Message = $"{userName} have been {type.ToString()} in {tableName} table",
                 IsRead = false,
                 CreatedAt = TimeHelper.GetCurrentInVietName()
             };
 
             await _unitOfWork.NotificationRepository.AddNotification(notification);
+            await _unitOfWork.SaveChangesAsync();
         }
 
     }

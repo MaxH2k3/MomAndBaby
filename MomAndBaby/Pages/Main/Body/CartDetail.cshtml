@@ -44,12 +44,14 @@
                                         <th class="width-name">Product Name</th>
                                         <th class="width-quantity">Quantity</th>
                                         <th class="width-price">Price</th>
-                                        <th class="width-remove">Remove</th>
+                                        <th class="width-remove">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach (var cart in Model.CartItems)
                                     {
+                                        int existedStock;
+                                        Model.Errors.TryGetValue(cart.Id, out existedStock);
                                         <form method="post">
                                         <tr>
                                             <input type="hidden" name="productId" value="@cart.Id" />
@@ -61,8 +63,11 @@
                                             </td>
                                             <td class="cart-quality">
                                                 <div class="product-details-quality">
-                                                    <input type="number" class="input-text qty text" step="1" min="1" max="100" name="quantity" value="@cart.NumberOfProduct" placeholder="">
-                                                        @* <input value="12" /> *@
+                                                    <input type="number" class="input-text qty text" step="1" min="1" name="quantity" value="@cart.NumberOfProduct" placeholder="">
+                                                    @if (existedStock != 0)
+                                                    {
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top" title="@existedStock stock" style="color: red; width: 2rem">Out of stock</span>
+                                                    }
                                                 </div>
                                             </td>
                                             <td class="product-price">

@@ -51,9 +51,13 @@ namespace MomAndBaby.Service.OrderService
             return await _unitOfWork.OrderRepository.CreateOrder(order);
         }
 
-        public async Task CreateOrderDetail(List<OrderDetail> orderDetail)
+        public async Task<bool> CreateOrderDetail(List<OrderDetail> orderDetail)
         {
             await _unitOfWork.OrderDetailRepository.CreateOrderDetail(orderDetail);
+
+            _unitOfWork.ProductRepository.UpdateStock(orderDetail);
+
+            return await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<bool> CompleteOrder(OrderTracking orderTracking)

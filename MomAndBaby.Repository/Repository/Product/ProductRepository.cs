@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
+using MomAndBaby.BusinessObject.Models.CartSessionModel;
 
 namespace MomAndBaby.Repository
 {
@@ -15,7 +16,7 @@ namespace MomAndBaby.Repository
 
         public async Task<Product?> GetById(Guid productId)
         {
-            return await _context.Products.Include(x => x.CategoryNavigation).FirstOrDefaultAsync(x => x.Id == productId);
+            return await _context.Products.Include(x => x.CategoryNavigation).AsNoTracking().FirstOrDefaultAsync(x => x.Id == productId);
         }
 
         public async Task<IEnumerable<Product>> GetAllShopping()
@@ -200,6 +201,48 @@ namespace MomAndBaby.Repository
         //    return product;
         //}
 
+        public async Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels)
+        {
+            var errors = new Dictionary<Guid, int>();
+
+            foreach (var cart in CartSessionModels)
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(cart.Id));
+
+                if(product != null)
+                {
+                    var existStock = product.Stock - cart.NumberOfProduct;
+
+                    if(existStock < 0)
+                    {
+                        errors.Add(product.Id, product.Stock);
+                    }
+
+                }
+
+            }
+
+            return errors;
+        }
+
+        public void UpdateStock(List<OrderDetail> orderDetails)
+        {
+            foreach (var cartItem in orderDetails)
+            {
+                var product = _context.Products.FirstOrDefault(p => p.Id.Equals(cartItem.ProductId));
+                if(product == null)
+                {
+                    return;
+                }
+                product.Stock -= cartItem.Quantity;
+                if (product.Stock == 0)
+                {
+                    product.Status = StatusConstraint.OUTOFSTOCK;
+                }
+                _context.Products.Update(product);
+            };
+            _context.SaveChanges();
+        }
 
     }
 }
