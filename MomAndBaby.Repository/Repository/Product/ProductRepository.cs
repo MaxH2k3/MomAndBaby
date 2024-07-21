@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
+using System.Security.Cryptography.X509Certificates;
 
 namespace MomAndBaby.Repository
 {
@@ -146,7 +147,7 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<string?>> GetOriginals()
         {
-            return await _context.Products
+            return await _context.Products.Where(p => p.Status.Equals(StatusConstraint.AVAILABLE))
                               .Select(p => p.Original)
                               .Distinct()
                               .ToListAsync();
@@ -154,7 +155,7 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<Product>> GetProductsByCategoryId(int categoryId)
         {
-            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId).ToListAsync();
+            return await _context.Products.Include(x => x.Statistic).Where(x => x.CategoryId == categoryId && x.Status.Equals(StatusConstraint.AVAILABLE)).ToListAsync();
         }
 
 

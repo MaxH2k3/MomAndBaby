@@ -86,8 +86,11 @@ $(document).ready(function () {
                                                 </div>
                                                 <div class="product-info">
                                                     <div class="rating">
-                                                        ${starsHtml}
-                                                        <h4>${Math.round(product.Statistic.AverageStar, 1)}</h4>
+                                                        ${fullStars > 0 ?
+                                                        `${starsHtml}<h4>${Math.round(product.Statistic.AverageStar, 1)}</h4>` :
+                                                        `<h4>No Review</h4>`
+                    }
+                                                        
                                                     </div>
                                                     <h4 class="title"><a href="/product_detail?productId=${product.Id}">${product.Name}</a></h4>
                                                     <div class="prices">
