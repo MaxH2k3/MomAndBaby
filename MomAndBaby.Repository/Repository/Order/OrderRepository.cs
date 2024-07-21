@@ -96,5 +96,14 @@ namespace MomAndBaby.Repository
         {
             return await _context.Orders.Where(o => o.UserId.Equals(userId)).SumAsync(p => p.TotalAmount);
         }
+
+        public async Task ApproveOrder(int orderId)
+        {
+            var order = await _context.Orders.Where(x=>x.Id == orderId).FirstOrDefaultAsync();
+            var statusCheck = await _context.Statuses.Where(s=>s.Name.Equals("Processing")).FirstOrDefaultAsync();
+            order.Status = statusCheck;
+            await _context.SaveChangesAsync();
+            
+        }
     }
 }
