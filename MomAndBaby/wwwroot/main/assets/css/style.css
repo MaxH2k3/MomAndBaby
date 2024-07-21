@@ -6643,6 +6643,15 @@ table p {
   margin-left: 20px;
   margin-top: -5px;
 }
+.product-desc1 {
+  display: -webkit-box; /* Tạo một khối flex với các dòng */
+  -webkit-box-orient: vertical; /* Định hướng khối theo chiều dọc */
+  overflow: hidden; /* Ẩn nội dung vượt quá khối */
+  text-overflow: ellipsis; /* Thay thế nội dung bị cắt bằng dấu ba chấm */
+  -webkit-line-clamp: 4; /* Giới hạn số dòng hiển thị */
+  line-height: 1.5; /* Đặt chiều cao dòng để tính toán */
+  max-height: 6em; /* Đặt chiều cao tối đa tương ứng với số dòng */
+}
 @media only screen and (max-width: 991px) {
   .single-product-info {
     margin-left: 0;
