@@ -12,6 +12,7 @@ namespace MomAndBaby.Repository
         Task<User> AddUserLoginGG(User userRegitser);
         Task<User> UpdateUser(User user);
         Task<IEnumerable<User>> GetAllUsers();
+        Task<IEnumerable<User>> GetUsersExceptAdmin();
         Task<User> UpdateStatus(User user);
 		Task<User> getUserById(Guid? id);
         Task<User?> GetUserById(Guid? id);

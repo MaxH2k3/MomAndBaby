@@ -1,7 +1,17 @@
-﻿@using MomAndBaby.BusinessObject.Entity
+﻿@using MomAndBaby.BusinessObject.Constants
+@using MomAndBaby.BusinessObject.Entity
 @using MomAndBaby.Models.ProductModel
 @model ProductStoreModel
 
+
+@section Scripts {
+
+    <script asp-append-version="true">
+        RoleId = "@(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)) == null ? 0 : User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value)";
+
+    </script>
+
+}
 
 <!--== Start Product Tab Area Wrapper ==-->
 <section class="product-area product-style1-area">
