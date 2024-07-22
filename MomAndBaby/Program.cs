@@ -11,8 +11,10 @@ using MomAndBaby.Service.BackgroundTask;
 using MomAndBaby.Service.MessageCommunication;
 using MomAndBaby.Service.OrderService;
 using MomAndBaby.Service.Service;
+using MomAndBaby.Service.Service.Cloudinary;
 using MomAndBaby.Service.Service.Email;
 using MomAndBaby.Service.Service.PayPalService;
+using MomAndBaby.Service.ThirdParty;
 using MomAndBaby.Service.Worker;
 using MomAndBaby.Subscribe;
 using MomAndBaby.Utilities.Constants;
@@ -53,6 +55,7 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<IVoucherService, VoucherService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserValidationService, UserValidationService>();
+builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
 builder.Services.AddScoped<NotificationWorker>();
 
 builder.Services.AddSingleton<NotificationHub>();
@@ -100,6 +103,10 @@ builder.Services.AddAuthorization(opt =>
         });
     });
 });
+
+
+//add Cloudinary
+builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
 
 // Set up http context accessor.
 builder.Services.AddHttpContextAccessor();

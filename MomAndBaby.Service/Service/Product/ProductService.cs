@@ -1,11 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.BusinessObject.Models.ProductDto;
 using MomAndBaby.Repository.Uow;
+using MomAndBaby.Service.Service.Cloudinary;
 using Newtonsoft.Json.Linq;
 
 namespace MomAndBaby.Service
@@ -14,15 +14,15 @@ namespace MomAndBaby.Service
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IConfiguration _configuration;
+        private readonly ICloudinaryService _cloudinaryService;
 
-        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IWebHostEnvironment webHostEnvironment, IConfiguration configuration)
+        public ProductService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration, ICloudinaryService cloudinaryService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
-            _webHostEnvironment = webHostEnvironment;
             _configuration = configuration;
+            _cloudinaryService = cloudinaryService;
         }
 
         public async Task<ProductDto> GetById(Guid productId)
@@ -69,16 +69,9 @@ namespace MomAndBaby.Service
                 throw new ArgumentException("Product name already exists.");
             }
             
-            var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
-            var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
-            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            
-            await using (var fileStream = new FileStream(filePath, FileMode.Create))
-            {
-                await dto.ImageFile.CopyToAsync(fileStream);
-            }
-            
-            dto.Image = "/images/product_images/" + uniqueFileName;
+            var image = await _cloudinaryService.UploadAsync(dto.ImageFile);
+
+            dto.Image = image.Url.ToString();
             
             var mapper = _mapper.Map<Product>(dto);
             mapper.Id = Guid.NewGuid();
@@ -100,24 +93,9 @@ namespace MomAndBaby.Service
             
             if (dto.ImageFile is not null && dto.ImageFile.Length > 0)
             {
-                if (!string.IsNullOrEmpty(dto.Image))
-                {
-                    var oldImagePath = Path.Combine(_webHostEnvironment.WebRootPath, dto.Image.TrimStart('/'));
-                    if (File.Exists(oldImagePath))
-                    {
-                        File.Delete(oldImagePath);
-                    }
-                }
-                
-                var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/product_images");
-                var uniqueFileName = Guid.NewGuid().ToString() + "_" + dto.ImageFile.FileName;
-                var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            
-                await using (var fileStream = new FileStream(filePath, FileMode.Create))
-                {
-                    await dto.ImageFile.CopyToAsync(fileStream);
-                }
-                dto.Image = "/images/product_images/" + uniqueFileName;
+                var image = await _cloudinaryService.UploadAsync(dto.ImageFile);
+
+                dto.Image = image.Url.ToString();
             }
 
             product.Name = dto.Name;
