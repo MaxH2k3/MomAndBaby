@@ -7,6 +7,7 @@ using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository;
 using MomAndBaby.Service;
 using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.Service.Cloudinary;
 using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 
@@ -16,11 +17,13 @@ namespace MomAndBaby.Pages.Dashboard.Body
 	{
 		private readonly IArticleService _articleService;
 		private readonly NotificationWorker _notificationWorker;
+		private readonly ICloudinaryService _cloudinaryService;
 
-		public AddArticleModel(IArticleService articleService, NotificationWorker notificationWorker)
+		public AddArticleModel(IArticleService articleService, NotificationWorker notificationWorker, ICloudinaryService cloudinaryService)
 		{
 			_articleService = articleService;
 			_notificationWorker = notificationWorker;
+			_cloudinaryService = cloudinaryService;
 		}
 
 		[BindProperty]
@@ -42,28 +45,31 @@ namespace MomAndBaby.Pages.Dashboard.Body
 				return Page();
 			}
 
+			var image = await _cloudinaryService.UploadAsync(ImageUpload);
+
 			Article articleToCreate = new Article
 			{
 				AuthorId = Guid.Parse(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString()),
 				Title = ArticleDTO.Title,
 				Content = ArticleDTO.Content,
 				CreatedAt = DateTime.Now,
+				Image = image.Url.ToString(),
 				Status = true
 			};
 
 			await _articleService.AddArticle(articleToCreate);
-			var articleJustCreated = await _articleService.GetNewestArticle();
-			int newArticleId = articleJustCreated.Id;
+			//var articleJustCreated = await _articleService.GetNewestArticle();
+			//int newArticleId = articleJustCreated.Id;
 
-			if (ImageUpload != null && ImageUpload.Length > 0)
-			{
-				var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/article-image", $"{newArticleId}.jpg");
+			//if (ImageUpload != null && ImageUpload.Length > 0)
+			//{
+			//	var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/article-image", $"{newArticleId}.jpg");
 
-				using (var stream = new FileStream(filePath, FileMode.Create))
-				{
-					await ImageUpload.CopyToAsync(stream);
-				}
-			}
+			//	using (var stream = new FileStream(filePath, FileMode.Create))
+			//	{
+			//		await ImageUpload.CopyToAsync(stream);
+			//	}
+			//}
 
 			return Redirect("/article");
 		}
