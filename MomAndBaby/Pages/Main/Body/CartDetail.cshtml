@@ -129,18 +129,18 @@
                         <h4>Calculate shipping </h4>
                         <div class="calculate-discount-content">
                             <div class="select-style">
-                                <select class="select-active css_select" asp-for="Tinh" id="tinh" name="tinh" title="Chọn Tỉnh Thành" required>
-                                    <option value="0">Tỉnh Thành</option>
+                                <select class="select-active css_select" asp-for="Tinh" id="tinh" name="tinh" title="Select Province" required>
+                                    <option value="0">Province</option>
                                 </select>
                             </div>
                             <div class="select-style">
-                                <select class="select-active css_select" asp-for="Quan" id="quan" name="quan" title="Chọn Quận Huyện" required>
-                                    <option value="0">Quận Huyện</option>
+                                <select class="select-active css_select" asp-for="Quan" id="quan" name="quan" title="Select District" required>
+                                    <option value="0">District</option>
                                 </select>
                             </div>
                             <div class="select-style">
-                                <select class="select-active css_select" asp-for="Phuong" id="phuong" name="phuong" title="Chọn Phường Xã" required>
-                                    <option value="0">Phường Xã</option>
+                                <select class="select-active css_select" asp-for="Phuong" id="phuong" name="phuong" title="Select Ward and Commune" required>
+                                    <option value="0">Ward and Commune</option>
                                 </select>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                 <div class="col-md-12 col-lg-4">
                     <div class="grand-total-wrap">
                         <div class="grand-total-content">
-                            <h3>Subtotal <span>@Model.Total.ToString("C")</span></h3>
+                            <h3>Subtotal <span>$@Model.Total</span></h3>
                             <div class="grand-shipping">
                                 <span>Payment</span>
                                 <ul>
@@ -176,7 +176,7 @@
                                 <p>Shipping: <strong>10</strong>VND</p>
                             </div>
                             <div class="grand-total">
-                                <h4>Total <span>@Model.Total.ToString("C")</span></h4>
+                                <h4>Total <span>$@Model.Total</span></h4>
                             </div>
                         </div>
                         <div class="grand-total-btn">

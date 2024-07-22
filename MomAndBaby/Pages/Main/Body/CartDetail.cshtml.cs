@@ -26,7 +26,6 @@ public class CartDetailModel : PageModel
     {
         _payPalService = payPalService;
         _orderService = orderService;
-        _productService = productService;
     }
     public List<CartSessionModel> CartItems { get; set; } = new List<CartSessionModel>();
     public decimal Subtotal { get; set; }
@@ -48,9 +47,6 @@ public class CartDetailModel : PageModel
 
     [BindProperty]
     public string Phuong { get; set; }
-
-
-    public Dictionary<Guid, int> Errors { get; set; } = new Dictionary<Guid, int>();
 
     public void OnGet()
     {
@@ -113,19 +109,7 @@ public class CartDetailModel : PageModel
         {
             return Page();
         }
-
-        // check stock
-        var carts = GetCart();
-        var errors = await _productService.CheckStock(carts);
-
-        if(errors.Any())
-        {
-            CartItems = carts;
-            Errors = errors;
-            return Page();
-        }
-
-
+        
         var address = Address;
         HttpContext.Session.SetString("Address", JsonConvert.SerializeObject(address));
         var sessionData = HttpContext.Session.GetString("Total");
@@ -191,8 +175,8 @@ public class CartDetailModel : PageModel
         {
             OrderId = orderSave,
             ProductId = cartItem.Id,
-            Quantity = cartItem.NumberOfProduct,
-            Price = cartItem.UnitPrice
+            Quantity = 1,
+            Price = cartItem.UnitPrice / 23000
         }).ToList();
 
         // Create the order tracking
@@ -207,16 +191,9 @@ public class CartDetailModel : PageModel
         };
 
         // Save order details and complete the order
-        var result = await _orderService.CreateOrderDetail(orderDetails);
-        if(result)
-        {
-            result = await _orderService.CompleteOrder(orderTracking);
-            /*if (result)
-            {
-                _productService.UpdateStock(cartData);
-            }*/
-        }
-       
+        await _orderService.CreateOrderDetail(orderDetails);
+        await _orderService.CompleteOrder(orderTracking);
+
     }
 
     public void OnPostUpdateQuantity(Guid productId, int quantity)
@@ -224,12 +201,9 @@ public class CartDetailModel : PageModel
         var carts = GetCart();
         if (carts != null)
         {
-            if(carts.Any(carts => carts.Id.Equals(productId)))
-            {
-                carts.FirstOrDefault(carts => carts.Id.Equals(productId))!.NumberOfProduct = quantity;
-                SaveCart(carts);
-            }
-
+            Console.WriteLine(carts.FirstOrDefault(carts => carts.Id.Equals(productId))!.NumberOfProduct);
+            carts.FirstOrDefault(carts => carts.Id.Equals(productId))!.NumberOfProduct = quantity;
+            SaveCart(carts);
         }
         var cart = HttpContext.Session.GetString("Cart");
         if (!string.IsNullOrEmpty(cart))
