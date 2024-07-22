@@ -209,15 +209,10 @@ public class CartDetailModel : PageModel
         };
 
         // Save order details and complete the order
-        var result = await _orderService.CreateOrderDetail(orderDetails);
-        if (result)
-        {
-            result = await _orderService.CompleteOrder(orderTracking);
-            /*if (result)
-            {
-                _productService.UpdateStock(cartData);
-            }*/
-        }
+        await _orderService.CreateOrderDetail(orderDetails);
+        
+        await _orderService.CompleteOrder(orderTracking);
+          
 
     }
 

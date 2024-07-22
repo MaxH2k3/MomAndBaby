@@ -58,7 +58,7 @@ namespace MomAndBaby.Pages.Main.Body
             {
                 Redirect("/login");
             }
-            
+            Orders = await _orderService.GetAllOrder(Guid.Parse(User.GetUserIdFromToken()));
             var email = HttpContext.User.Claims.FirstOrDefault(c => c.Type.Equals(UserClaimType.Email));
 
             if (email != null)
@@ -71,7 +71,7 @@ namespace MomAndBaby.Pages.Main.Body
                     FullName = user.FullName;
                     Address = user.Address;
                     PhoneNumber = user.PhoneNumber;
-                    Orders = await _orderService.GetAllOrder(Guid.Parse(User.GetUserIdFromToken()));
+                    
                 }
             }
         }

@@ -61,7 +61,7 @@
                                                 <h5><a href="/product_detail?productId=@order.ProductId">@order.ProductName</a></h5>
                                             </td>
                                             <td>
-                                                <span>@order.Price</span>
+                                                <span>@order.Price.ToString("N0")</span>
                                             </td>
                                             <td class="cart-quality">
                                                 <div class="product-details-quality">
@@ -81,8 +81,8 @@
                                         <td colspan="2" class="product-thumbnail text-center">
                                             <strong>=> Total</strong>
                                         </td>
-                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalPrice</span></td>
-                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalQuantity</span></td>
+                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalPrice.ToString("N0")<p>VND</p></span></td>
+                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalQuantity.ToString("N0")<p>VND</p></span></td>
                                     </tr>
                                 </tfoot>
                             </table>
