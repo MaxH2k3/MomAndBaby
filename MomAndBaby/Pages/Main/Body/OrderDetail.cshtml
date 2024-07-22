@@ -59,7 +59,7 @@
                                             <td class="product-name">
                                                 <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
                                             </td>
-                                            <td class="product-price"><span class="amount">$@order.Price</span>
+                                            <td class="product-price"><span class="amount">@order.Price..ToString("N0")<p>VND</p></span>
                                             </td>
                                             <td class="cart-quality">
                                                 <div class="product-details-quality">
@@ -69,14 +69,14 @@
                                             </td>
                                             @{
                                                 total += order.Price * order.Quantity;
-                                            }
+                                            }<p>VND</p>
                                         </tr>
                                     }
                                 </tbody>
                             </table>
                         </div>
                         <div class="shipping-country">
-                            <p>Total: <strong>$@total</strong></p>
+                            <p>Total: <strong>@total.ToString("N0")<p>VND</p></strong></p>
                         </div>
                     </div>
                 </div>
