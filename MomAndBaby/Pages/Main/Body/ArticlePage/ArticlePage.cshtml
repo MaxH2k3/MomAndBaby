@@ -34,7 +34,11 @@
                                     <div class="col-sm-6 col-md-4">
                                         <div class="post-item">
                                             <div class="thumb">
-                                                <a href="/article-detail?articleId=@article.Id"><img src="@Url.Content($"~/article-image/{article.Id}.jpg")" alt="Image"></a>
+                                                <a href="/article-detail?articleId=@article.Id">
+                                                    <img 
+                                                        style="width: 400px; height:400px; border-radius:7px; object-fit:fill" 
+                                                        src="@article.Image" alt="Image">
+                                                    </a>
                                             </div>
                                             <div class="content">
                                                 <div class="meta">

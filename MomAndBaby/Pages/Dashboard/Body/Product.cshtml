@@ -100,13 +100,13 @@
                             <div class="card-body">
                                 <!-- Base Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-price">Base Price</label>
+                                    <label class="form-label" for="ecommerce-product-price">Base Price (VND)</label>
                                     <input asp-for="ProductDto.UnitPrice" type="number" class="form-control" id="ecommerce-product-price" placeholder="Price">
                                     <span asp-validation-for="ProductDto.UnitPrice" class="text-danger"></span>
                                 </div>
                                 <!-- Sell Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-discount-price">Sell Price</label>
+                                    <label class="form-label" for="ecommerce-product-discount-price">Sell Price (VND)</label>
                                     <input asp-for="ProductDto.PurchasePrice" type="number" class="form-control" id="ecommerce-product-discount-price" placeholder="Sell Price">
                                     <span asp-validation-for="ProductDto.PurchasePrice" class="text-danger"></span>
                                 </div>
