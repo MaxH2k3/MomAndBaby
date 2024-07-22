@@ -2,10 +2,10 @@
 @using MomAndBaby.Models.ProductModel
 @model ProductStoreModel
 
-@ {
+@* @ {
    var  RoleId = "@(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)) == null ? 0 : User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value)";
 
-}
+} *@
 
 
 <!--== Start Product Tab Area Wrapper ==-->
@@ -32,7 +32,7 @@
                                 <div class="product-thumb">
                                     <img src="@product.Image" alt="Image">
                                     <div class="product-action">
-                                        @if(Role)
+                                        @* @if(Role) *@
                                         <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">
                                             <i class="ion-arrow-expand"></i>
                                         </a>
