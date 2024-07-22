@@ -3,7 +3,8 @@
 
 @{
     ViewData["Title"] = "Order Details";
-    decimal total = 0;
+    decimal totalPrice = 0;
+    int totalQuantity = 0;
 }
 
 <main class="main-content">
@@ -42,7 +43,7 @@
                                     <tr>
                                         <th class="width-thumbnail"></th>
                                         <th class="width-name">Product</th>
-                                        <th class="width-price">Price</th>
+                                        <th class="width-price">Price(VND)</th>
                                         <th class="width-quantity">Quantity</th>
 
                                     </tr>
@@ -52,32 +53,41 @@
                                     {
                                         <tr>
                                             <td class="product-thumbnail">
-                                                <a href="shop-single-product.html">
+                                                <a href="/product_detail?productId=@order.ProductId">
                                                     <img src="@order.ProductImage" alt="Image">
                                                 </a>
                                             </td>
                                             <td class="product-name">
-                                                <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
+                                                <h5><a href="/product_detail?productId=@order.ProductId">@order.ProductName</a></h5>
                                             </td>
-                                            <td class="product-price"><span class="amount">$@order.Price</span>
+                                            <td>
+                                                <span>@order.Price</span>
                                             </td>
                                             <td class="cart-quality">
                                                 <div class="product-details-quality">
-                                                    <input type="number" class="input-text qty text" step="1" min="1"
-                                                        value="@order.Quantity" title="Qty" readonly>
+                                                    <span>@order.Quantity</span>
                                                 </div>
                                             </td>
                                             @{
-                                                total += order.Price * order.Quantity;
+                                                totalPrice += order.Price * order.Quantity;
+                                                totalQuantity += order.Quantity;
                                             }
                                         </tr>
                                     }
+                                    
                                 </tbody>
+                                <tfoot >
+                                    <tr>
+                                        <td colspan="2" class="product-thumbnail text-center">
+                                            <strong>=> Total</strong>
+                                        </td>
+                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalPrice</span></td>
+                                        <td class="product-price" style="padding: 23px"><span class="amount">@totalQuantity</span></td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
-                        <div class="shipping-country">
-                            <p>Total: <strong>$@total</strong></p>
-                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -106,27 +116,21 @@
                                         <th class="width-quantity">Package</th>
                                         <th class="width-quantity">Delivery</th>
                                         <th class="width-quantity">Complete</th>
+                                        <th class="width-quantity">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
 
                                     <tr>
                                         <td>@Model.orderTracking.OrderId</td>
-                                        <td class="product-thumbnail">
-                                            <a href="shop-single-product.html">
-                                                @Model.orderTracking.OrderConfirmation
-                                            </a>
-                                        </td>
-                                        <td class="product-name">
-                                            <h5><a href="shop-single-product.html">@Model.orderTracking.Package</a></h5>
-                                        </td>
-                                        <td class="product-price"><span
-                                                class="amount">@Model.orderTracking.Delivery</span></td>
-                                        <td class="product-price"><span
-                                                class="amount">@Model.orderTracking.Complete</span></td>
+                                        <td class="product-price"><span class="amount text-15px">@Model.orderTracking.OrderConfirmation</span></td>
+                                        <td class="product-price"><span class="amount text-15px">@Model.orderTracking.Package</span></td>
+                                        <td class="product-price"><span class="amount text-15px">@Model.orderTracking.Delivery</span></td>
+                                        <td class="product-price"><span class="amount text-15px">@Model.orderTracking.Complete</span></td>
 
-                                        @* <td class="product-total"><span>@(order.Price *
-                                        order.Quantity).ToString("C")</span></td> *@
+                                        <td>
+                                            <button class="btn btn-secondary">Cancel Order</button>
+                                        </td>
                                     </tr>
 
                                 </tbody>
