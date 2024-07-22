@@ -17,6 +17,7 @@ namespace MomAndBaby.Repository
 			return await _context.Articles
 						   .Where(a => a.Title.Contains(searchTerm) || a.Author!.FullName!.Contains(searchTerm))
 						   .Include(article => article.Author)
+						   .OrderByDescending(article => article.Id)
 						   .Skip((pageNumber - 1) * pageSize)
 						   .Take(pageSize)
 						   .ToListAsync();
@@ -55,6 +56,7 @@ namespace MomAndBaby.Repository
 			{
 				articleToUpdate.Title = article.Title;
 				articleToUpdate.Content = article.Content;
+				articleToUpdate.Image = article.Image;
 				_context.Update(articleToUpdate);
 			}
 		}

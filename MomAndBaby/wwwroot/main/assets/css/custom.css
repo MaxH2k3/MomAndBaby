@@ -31,7 +31,7 @@
 }
 
 #searchFrom, #searchTo {
-    width: 4vw;
+    width: 8vw;
     border: none;
 }
 
@@ -72,4 +72,8 @@
     .btn-update:hover {
         background-color: #f379a7;
         color: white;
+    }
+
+    .text-15px {
+        font-size: 15px!important;
     }

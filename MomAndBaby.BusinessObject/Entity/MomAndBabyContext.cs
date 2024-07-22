@@ -48,7 +48,7 @@ namespace MomAndBaby.BusinessObject.Entity
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
-				//entity.Property(e => e.Image).HasColumnName("image");
+				entity.Property(e => e.Image).HasColumnName("image");
 
 				entity.Property(e => e.CreatedAt)
                     .HasColumnType("datetime")

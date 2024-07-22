@@ -18,10 +18,10 @@ public class CartDetailModel : PageModel
     private readonly IPayPalService _payPalService;
     private readonly IOrderService _orderService;
     private readonly IProductService _productService;
-    private readonly string _baseUrl = "https://localhost:7076";
+    // private readonly string _baseUrl = "https://localhost:7076";
 
 
-    //private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
+    private readonly string _baseUrl = "https://momandbaby.azurewebsites.net";
     public CartDetailModel(IPayPalService payPalService, IConfiguration configuration, IOrderService orderService, IProductService productService)
     {
         _payPalService = payPalService;
@@ -138,8 +138,9 @@ public class CartDetailModel : PageModel
             return Redirect("shopping");
         }
         var total = JsonConvert.DeserializeObject<Decimal>(sessionData);
-        Console.WriteLine($"Total Amount: {total.ToString("N0")}");
-        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("N0"), "Sample Payment");
+        var totalDollar = total / 23000;
+        Console.WriteLine($"Total Amount: {totalDollar.ToString("N0")}");
+        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", totalDollar.ToString("N0"), "Sample Payment");
         var approvalUrl = payment.GetApprovalUrl();
         return Redirect(approvalUrl);
     }
@@ -208,15 +209,10 @@ public class CartDetailModel : PageModel
         };
 
         // Save order details and complete the order
-        var result = await _orderService.CreateOrderDetail(orderDetails);
-        if (result)
-        {
-            result = await _orderService.CompleteOrder(orderTracking);
-            /*if (result)
-            {
-                _productService.UpdateStock(cartData);
-            }*/
-        }
+        await _orderService.CreateOrderDetail(orderDetails);
+        
+        await _orderService.CompleteOrder(orderTracking);
+          
 
     }
 

@@ -16,7 +16,13 @@ namespace MomAndBaby
         {
             var _notificationService = _serviceScopeFactory.CreateScope().ServiceProvider.GetRequiredService<INotificationService>();
             var notifs = await _notificationService.GetNotifications();
-            await Clients.All.ReceivedNotificaiton(notifs);
+            try
+            {
+                await Clients.All.ReceivedNotificaiton(notifs);
+            } catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

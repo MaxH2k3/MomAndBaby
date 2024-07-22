@@ -71,7 +71,7 @@
                                                 </div>
                                             </td>
                                             <td class="product-price">
-                                                <span class="amount">@cart.UnitPrice.ToString("C")</span>
+                                                <span class="amount">@cart.UnitPrice.ToString("N0")<p>VND</p></span>
                                             </td>
                                             <td class="product-remove">
                                                 <button type="submit" class="btn btn-danger" asp-page-handler="RemoveFromCart">
@@ -161,7 +161,7 @@
                 <div class="col-md-12 col-lg-4">
                     <div class="grand-total-wrap">
                         <div class="grand-total-content">
-                            <h3>Subtotal <span>$@Model.Total</span></h3>
+                            <h3>Subtotal <span>@Model.Total.ToString("N0")<p>VND</p></span></h3>
                             <div class="grand-shipping">
                                 <span>Payment</span>
                                 <ul>
@@ -176,7 +176,7 @@
                                 <p>Shipping: <strong>10</strong>VND</p>
                             </div>
                             <div class="grand-total">
-                                <h4>Total <span>$@Model.Total</span></h4>
+                                <h4>Total <span>@Model.Total.ToString("N0")<p>VND</p> </span></h4>
                             </div>
                         </div>
                         <div class="grand-total-btn">

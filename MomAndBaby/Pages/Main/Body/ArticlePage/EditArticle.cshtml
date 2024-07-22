@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 m-auto">
-                    <form method="post">
+                    <form method="post" enctype="multipart/form-data">
                         <div class="form-group">
                             <label for="title">Title</label>
                             <input type="text" class="form-control" id="title" name="Title" value="@Model.Article.Title" required>
@@ -39,8 +39,13 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="ImageUpload">Upload Image</label>
+                            <input type="file" id="ImageUpload" name="ImageUpload" class="form-control-file" />
+                        </div>
                         <button style="margin-top: 10px" type="submit" class="btn btn-primary">Save Changes</button>
                     </form>
+
                 </div>
             </div>
         </div>

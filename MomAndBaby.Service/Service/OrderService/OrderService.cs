@@ -42,7 +42,7 @@ namespace MomAndBaby.Service.OrderService
 
         public async Task<IEnumerable<OrderDetailResponseModel>> GetAllOrderDetailOrder(int orderId)
         {
-            var orderDetails = await _unitOfWork.OrderRepository.GetAllOrderDetailOrder(orderId);
+            var orderDetails = await _unitOfWork.OrderDetailRepository.GetAllOrderDetailOrder(orderId);
             return _mapper.Map<IEnumerable<OrderDetailResponseModel>>(orderDetails);
         }
 

@@ -29,8 +29,8 @@
 					<div class="single-product-slider">
 						<div class="single-product-thumb">
 							<div class="thumb-item">
-								<a class="lightbox-image" data-fancybox="gallery" href="main/assets/img/shop/details/1.jpg">
-									<img src="main/assets/img/shop/details/1.jpg" alt="Image-HasTech">
+								<a class="lightbox-image" data-fancybox="gallery" href="@Model.ProductDto.Image">
+									<img src="@Model.ProductDto.Image" alt="Image-HasTech">
 								</a>
 							</div>
 						</div>
@@ -42,7 +42,7 @@
 						@* <input type="hidden" asp-for="ProductDto.Id"/> *@
 						<h4 class="title">@Model.ProductDto.Name</h4>
 						<div class="prices">
-							<span class="price">$@Model.ProductDto.UnitPrice</span>
+							<span class="price">@Model.ProductDto.PurchasePrice VND</span>
 						</div>
 						<div class="product-rating">
 							<div class="rating">
@@ -83,7 +83,7 @@
 									<input type="text" id="quantity" title="Quantity" value="01" />
 								</div>
 								<button class="btn btn-theme">Add to Cart</button>
-								<a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a>
+								@* <a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a> *@
 							</div>
 						</div>
 						<div class="widget">
@@ -95,27 +95,21 @@
 						<div class="widget">
 							<h3 class="title">Categories:</h3>
 							<div class="widget-tags">
-								<a href="#">@Model.ProductDto.CategoryId</a>
-								@* <a href="blog.html">Dresss</a> *@
+								<span>@Model.ProductDto.CategoryNavigation?.Name</span>
 							</div>
 						</div>
-						@* <div class="widget"> *@
-						@*   <h3 class="title">Tag:</h3> *@
-						@*   <div class="widget-tags"> *@
-						@*     <a href="blog.html">Toys,</a> *@
-						@*     <a href="blog.html">Dress</a> *@
-						@*   </div> *@
-						@* </div> *@
-						@* <div class="widget"> *@
-						@*   <h3 class="title">Share:</h3> *@
-						@*   <div class="widget-tags widget-share"> *@
-						@*     <span class="fa fa-facebook"></span> *@
-						@*     <span class="fa fa-dribbble"></span> *@
-						@*     <span class="fa fa-pinterest-p"></span> *@
-						@*     <span class="fa fa-twitter"></span> *@
-						@*     <span class="fa fa-linkedin"></span> *@
-						@*   </div> *@
-						@* </div> *@
+						<div class="widget">
+						  <h3 class="title">Company:</h3>
+						  <div class="widget-tags">
+							  <span>@Model.ProductDto.Company</span>
+						  </div>
+						</div>
+						<div class="widget">
+							<h3 class="title">Country:</h3>
+							<div class="widget-tags">
+								<span>@Model.ProductDto.Original</span>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row">
