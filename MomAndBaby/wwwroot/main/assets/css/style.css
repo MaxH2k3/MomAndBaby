@@ -6923,7 +6923,16 @@ table p {
   color: #494949;
   font-weight: 300;
   margin-bottom: 48px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 4;
+  line-height: 1.5;
+  max-height: 6em;
 }
+
+
 .single-product-info .quick-product-action {
   display: flex;
   margin-bottom: 36px;
