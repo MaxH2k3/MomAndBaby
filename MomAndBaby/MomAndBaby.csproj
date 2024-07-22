@@ -11,6 +11,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Entity\**" />
+    <Content Remove="Entity\**" />
+    <EmbeddedResource Remove="Entity\**" />
+    <None Remove="Entity\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Pages\Dashboard\Components\Common\VerifyWithOTP.cshtml" />
   </ItemGroup>
 
@@ -30,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\" />
     <Folder Include="Pages\Dashboard\Footer\" />
     <Folder Include="Pages\Dashboard\Header\" />
     <Folder Include="Pages\Main\Components\Star\" />
