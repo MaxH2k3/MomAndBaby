@@ -28,6 +28,9 @@ public class Product : PageModel
     [BindProperty]
     public string? CategoryName { get; set; }
 
+    [BindProperty]
+    public IEnumerable<string> ProductOriginalName { get; set; }
+
     public Product(IProductService productService, ICategoryService categoryService, NotificationWorker notificationWorker)
     {
         _productService = productService;
@@ -44,11 +47,13 @@ public class Product : PageModel
             ProductDto = await _productService.GetById((Guid)productId);
         }
         Categories = await _categoryService.GetCategory();
+        ProductOriginalName = await _productService.GetOriginalName();
     }
 
     public async Task<IActionResult> OnPostCreate()
     {
         Categories = await _categoryService.GetCategory();
+        ProductOriginalName = await _productService.GetOriginalName();
 
         if (!ModelState.IsValid)
         {
@@ -80,7 +85,8 @@ public class Product : PageModel
     public async Task<IActionResult> OnPostUpdate()
     {
         Categories = await _categoryService.GetCategory();
-        
+        ProductOriginalName = await _productService.GetOriginalName();
+
         if (!ModelState.IsValid)
         {
             return Page();
@@ -107,6 +113,7 @@ public class Product : PageModel
     public async Task<IActionResult> OnPostHidden()
     {
         Categories = await _categoryService.GetCategory();
+        ProductOriginalName = await _productService.GetOriginalName();
 
         if (!ModelState.IsValid)
         {
@@ -134,6 +141,7 @@ public class Product : PageModel
     public async Task<IActionResult> OnPostSaveDraft()
     {
         Categories = await _categoryService.GetCategory();
+        ProductOriginalName = await _productService.GetOriginalName();
 
         if (!ModelState.IsValid)
         {
@@ -160,6 +168,7 @@ public class Product : PageModel
     public async Task<IActionResult> OnPostCreateCategory()
     {
         Categories = await _categoryService.GetCategory();
+        
 
         if (string.IsNullOrWhiteSpace(CategoryName))
         {
