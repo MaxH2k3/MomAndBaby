@@ -70,7 +70,7 @@
                                                         <tr>
                                                             <th>Date</th>
                                                             <th>Status</th>
-                                                            <th>Total</th>
+                                                            <th>Total(VND)</th>
                                                             <th>PaymentMethod</th>
                                                             <th>ShippingAddress</th>
                                                             <th>Action</th>
@@ -86,7 +86,7 @@
                                                                     <input type="hidden" asp-for="@order.Id"/>
                                                                     <td>@order.OrderDate</td>
                                                                     <td>@order.StatusName</td>
-                                                                    <td>$@order.TotalAmount</td>
+                                                                    <td>@order.TotalAmount.ToString("N0")<p>VND</p></td>
                                                                     <td>@order.PaymentMethod</td>
                                                                     <td>
                                                                         @order.ShippingAddress

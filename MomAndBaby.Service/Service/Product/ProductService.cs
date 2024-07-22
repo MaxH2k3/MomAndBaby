@@ -70,7 +70,6 @@ namespace MomAndBaby.Service
             }
             
             var image = await _cloudinaryService.UploadAsync(dto.ImageFile);
-
             dto.Image = image.Url.ToString();
             
             var mapper = _mapper.Map<Product>(dto);
