@@ -138,8 +138,9 @@ public class CartDetailModel : PageModel
             return Redirect("shopping");
         }
         var total = JsonConvert.DeserializeObject<Decimal>(sessionData);
-        Console.WriteLine($"Total Amount: {total.ToString("N0")}");
-        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", total.ToString("N0"), "Sample Payment");
+        var totalDollar = total / 23000;
+        Console.WriteLine($"Total Amount: {totalDollar.ToString("N0")}");
+        var payment = _payPalService.CreatePayment(_baseUrl, "sale", "USD", totalDollar.ToString("N0"), "Sample Payment");
         var approvalUrl = payment.GetApprovalUrl();
         return Redirect(approvalUrl);
     }
