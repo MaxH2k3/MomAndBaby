@@ -68,15 +68,11 @@ public class Product : PageModel
                 return Page();
             }
             _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Product, NotificationType.Added);
-            return Page();
+            return RedirectToPage("ListProduct");
         }
         catch (ArgumentException ex)
         {
             ModelState.AddModelError(ex.Message == "Product name already exists." ? "ProductDto.Name" : "", ex.Message);
-            return RedirectToPage("ListProduct");
-        }
-        catch (Exception)
-        {
             return Page();
         }
     }
