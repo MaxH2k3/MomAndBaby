@@ -143,11 +143,11 @@ namespace MomAndBaby.Service
             }
             if (startPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.PurchasePrice >= startPrice);
+                productsQuery = productsQuery.Where(p => p.UnitPrice >= startPrice);
             }
             if (endPrice.HasValue)
             {
-                productsQuery = productsQuery.Where(p => p.PurchasePrice <= endPrice);
+                productsQuery = productsQuery.Where(p => p.UnitPrice <= endPrice);
             }
 
             if (numOfStars.HasValue)
@@ -175,10 +175,10 @@ namespace MomAndBaby.Service
                     productsQuery = productsQuery.OrderByDescending(p => p.CreatedAt);
                     break;
                 case "IncreasePrice":
-                    productsQuery = productsQuery.OrderBy(p => p.PurchasePrice);
+                    productsQuery = productsQuery.OrderBy(p => p.UnitPrice);
                     break;
                 case "DecreasePrice":
-                    productsQuery = productsQuery.OrderByDescending(p => p.PurchasePrice);
+                    productsQuery = productsQuery.OrderByDescending(p => p.UnitPrice);
                     break;
                 default:
                     break;
