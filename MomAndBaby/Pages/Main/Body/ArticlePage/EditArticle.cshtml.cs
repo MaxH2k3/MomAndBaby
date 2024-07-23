@@ -15,7 +15,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 		public EditArticleModel(IArticleService articleService, ICloudinaryService cloudinaryService)
 		{
             _articleService = articleService;
-			cloudinaryService = _cloudinaryService;
+			_cloudinaryService = cloudinaryService;
 		}
 
 		[BindProperty]
