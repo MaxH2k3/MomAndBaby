@@ -1,5 +1,11 @@
-﻿@using MomAndBaby.Models.ProductModel
+﻿@using MomAndBaby.BusinessObject.Constants
+@using MomAndBaby.Models.ProductModel
 @model ProductStoreModel
+
+@* @ {
+   var  RoleId = "@(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)) == null ? 0 : User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value)";
+
+} *@
 
 
 <!--== Start Product Tab Area Wrapper ==-->
@@ -26,6 +32,7 @@
                                 <div class="product-thumb">
                                     <img src="@product.Image" alt="Image">
                                     <div class="product-action">
+                                        @* @if(Role) *@
                                         <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">
                                             <i class="ion-arrow-expand"></i>
                                         </a>
@@ -64,7 +71,7 @@
                                         <a asp-page="ProductDetailPage" asp-route-productId="@product.Id">@product.Name</a>
                                     </h4>
                                     <div class="prices">
-                                        <span class="price">$@product.UnitPrice</span>
+                                        <span class="price">@((int)product.PurchasePrice) VND</span>
                                         <h4>
                                             @product.Statistic.TotalPurchase <span class="fa fa-shopping-cart"></span>
                                         </h4>

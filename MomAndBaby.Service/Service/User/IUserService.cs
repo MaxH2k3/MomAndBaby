@@ -17,6 +17,7 @@ namespace MomAndBaby.Service
         Task<User> UpdateStatus(User user);
         Task<User?> GetUserById(Guid? id);
         Task<User> UpdateUser(User user);
+        Task<IEnumerable<User>> GetUsersExceptAdmin();
 
         Task<bool> ValidateOTP(ValidateOtpDTO validateOtp);
         Task<bool> ProcessValidOTP(UserValidation userValidation);

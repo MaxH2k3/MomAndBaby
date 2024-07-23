@@ -100,13 +100,13 @@
                             <div class="card-body">
                                 <!-- Base Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-price">Base Price</label>
+                                    <label class="form-label" for="ecommerce-product-price">Base Price (VND)</label>
                                     <input asp-for="ProductDto.UnitPrice" type="number" class="form-control" id="ecommerce-product-price" placeholder="Price">
                                     <span asp-validation-for="ProductDto.UnitPrice" class="text-danger"></span>
                                 </div>
                                 <!-- Sell Price -->
                                 <div class="mb-3">
-                                    <label class="form-label" for="ecommerce-product-discount-price">Sell Price</label>
+                                    <label class="form-label" for="ecommerce-product-discount-price">Sell Price (VND)</label>
                                     <input asp-for="ProductDto.PurchasePrice" type="number" class="form-control" id="ecommerce-product-discount-price" placeholder="Sell Price">
                                     <span asp-validation-for="ProductDto.PurchasePrice" class="text-danger"></span>
                                 </div>
@@ -140,7 +140,7 @@
                                     <span asp-validation-for="ProductDto.CategoryId" class="text-danger"></span>
 
                                 </div>
-                                <!-- Collection -->
+                                <!-- Brand -->
                                 <div class="mb-3 col ecommerce-select2-dropdown">
                                     <label class="form-label mb-1">
                                         Brand
@@ -148,12 +148,19 @@
                                     <input asp-for="ProductDto.Company" type="text" class="form-control" placeholder="Brand">
                                     <span asp-validation-for="ProductDto.Company" class="text-danger"></span>
                                 </div>
-                                <!-- Status -->
+                                <!-- Country -->
                                 <div class="mb-3 col ecommerce-select2-dropdown">
                                     <label class="form-label mb-1">
                                         Country
                                     </label>
-                                    <input asp-for="ProductDto.Original" type="text" class="form-control" placeholder="Country">
+                                    @* <input asp-for="ProductDto.Original" type="text" class="form-control" placeholder="Country"> *@
+                                    <select asp-for="ProductDto.Original" class="select2 form-select" data-placeholder="Select Original">
+                                        <option value="null">Select Original</option>
+                                        @foreach (var original in @Model.ProductOriginalName)
+                                        {
+                                            <option value="@original">@original</option>
+                                        }
+                                    </select>
                                     <span asp-validation-for="ProductDto.Original" class="text-danger"></span>
                                 </div>
                             </div>

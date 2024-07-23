@@ -226,7 +226,7 @@ namespace MomAndBaby.Service
                 var response = await client.GetStringAsync(_configuration["Country:Flag"]);
                 var data = JObject.Parse(response)["data"];
 
-                // Tạo từ điển để dễ dàng tra cứu hình ảnh cờ
+                
                 var imageFlags = new Dictionary<string, string>();
                 foreach (var country in data)
                 {
@@ -235,7 +235,7 @@ namespace MomAndBaby.Service
                     imageFlags[name] = imageFlag;
                 }
 
-                // Tạo danh sách kết quả ProductOriginalDto
+                
                 var result = new List<ProductOriginalDto>();
                 foreach (var companyName in listOriginal)
                 {
@@ -255,6 +255,28 @@ namespace MomAndBaby.Service
                             Image = null // Hoặc gán giá trị mặc định nếu không tìm thấy cờ
                         });
                     }
+                }
+
+                return result;
+            }
+
+        }
+
+        public async Task<IEnumerable<string>> GetOriginalName()
+        {
+
+            var listOriginal = await _unitOfWork.ProductRepository.GetOriginals();
+            using (var client = new HttpClient())
+            {
+                var response = await client.GetStringAsync(_configuration["Country:Flag"]);
+                var data = JObject.Parse(response)["data"];
+                var result = new List<string>();
+
+
+                foreach (var country in data)
+                {
+                    var name = country["name"].ToString();
+                    result.Add(name);
                 }
 
                 return result;

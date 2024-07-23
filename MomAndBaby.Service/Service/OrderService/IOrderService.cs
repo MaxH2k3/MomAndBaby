@@ -18,6 +18,6 @@ namespace MomAndBaby.Service.OrderService
                 Task<IEnumerable<string?>> GetShippingAddress(Guid userId);
                 Task<decimal> GetTotalAmount(Guid userId);
                 Task ApproveOrder(int orderId);
-        Task<int> GetTotalOrder();
+                Task<int> GetTotalOrder();
     }
 }

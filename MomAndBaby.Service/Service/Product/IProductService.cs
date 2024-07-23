@@ -29,6 +29,7 @@ namespace MomAndBaby.Service
         Task<Dictionary<Guid, int>> CheckStock(IEnumerable<CartSessionModel> CartSessionModels);
         /*void UpdateStock(List<CartSessionModel> cartData);*/
         Task<int> GetTotalProduct();
+        Task<IEnumerable<string>> GetOriginalName();
     }
 
 }

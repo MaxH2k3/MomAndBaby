@@ -56,6 +56,9 @@ namespace MomAndBaby.Repository
             }
 
             var count = await products.CountAsync();
+
+            products = products.OrderBy(x => x.Name).ThenBy(x => x.CreatedAt);
+            
             var result = await products.Skip((currentPage - 1) * 8).Take(8).ToListAsync();
 
             return Tuple.Create(count, result);

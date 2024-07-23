@@ -30,15 +30,6 @@ namespace MomAndBaby.Repository
 
         }
 
-        public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId)
-        {
-            var orderDetail = await _context.OrderDetails.Where(x => x.OrderId == orderId)
-                .Include(y => y.Product)
-                .Include(z => z.Order)
-                .ToListAsync();
-            return orderDetail;
-        }
-
         public async Task<int> CreateOrder(Order order)
         {
             var result = await _context.Orders.AddAsync(order);

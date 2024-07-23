@@ -1,4 +1,5 @@
-﻿using MomAndBaby.BusinessObject.Entity;
+﻿using Microsoft.EntityFrameworkCore;
+using MomAndBaby.BusinessObject.Entity;
 
 namespace MomAndBaby.Repository
 {
@@ -15,6 +16,14 @@ namespace MomAndBaby.Repository
         {
              await _context.OrderDetails.AddRangeAsync(orderDetail);
             
+        }
+        public async Task<IEnumerable<OrderDetail>> GetAllOrderDetailOrder(int orderId)
+        {
+            var orderDetail = await _context.OrderDetails.Where(x => x.OrderId == orderId)
+                .Include(y => y.Product)
+                .Include(z => z.Order)
+                .ToListAsync();
+            return orderDetail;
         }
     }
 }

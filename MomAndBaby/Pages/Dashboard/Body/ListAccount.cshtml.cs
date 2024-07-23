@@ -33,7 +33,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
             int pageSize = 4;
             CurrentPage = pageIndex ?? 1;
 
-            var list  = await _userService.GetAllUsers();
+            var list  = await _userService.GetUsersExceptAdmin();
             int count = list.Count();
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             Users = list.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -44,7 +44,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
         public async Task<IActionResult> OnPostUpdateStatus(string userEmail, int i)
         {
             var user = await _userService.GetUserByEmail(userEmail);
-            if (user != null)
+            if (user != null && user.RoleId != (int)RoleType.Admin)
             {
                 await _userService.UpdateStatus(user);
                 _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Account, NotificationType.Modified);
@@ -55,7 +55,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
 
         public async Task<IActionResult> OnPostAsync()
         {
-            var users = await _userService.GetAllUsers();
+            var users = await _userService.GetUsersExceptAdmin();
             var csv = new StringBuilder();
             csv.AppendLine("Id,UserName,FullName,Email, PhoneNumber,Address,RoleId,CreatedAt,UpdatedAt,Status");
             foreach (var user in users)
