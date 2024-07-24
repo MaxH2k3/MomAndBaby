@@ -55,7 +55,7 @@
                                         <form method="post">
                                         <tr>
                                             <input type="hidden" name="productId" value="@cart.Id" />
-                                            <td class="product-thumbnail">
+                                            <td class="product-thumbnail" style="width: 10rem;">
                                                 <img src="@cart.Image" alt="@cart.Name">
                                             </td>
                                             <td class="product-name">
@@ -209,8 +209,8 @@
                         // Fetch districts
                         $.getJSON('https://esgoo.net/api-tinhthanh/2/' + idtinh + '.htm', function(data_quan) {
                             if (data_quan.error == 0) {
-                                $("#quan").html('<option value="0">Quận Huyện</option>');
-                                $("#phuong").html('<option value="0">Phường Xã</option>');
+                                $("#quan").html('<option value="0">District</option>');
+                                $("#phuong").html('<option value="0">Ward and Commune</option>');
                                 $.each(data_quan.data, function(key_quan, val_quan) {
                                     $("#quan").append('<option value="' + val_quan.id + '">' + val_quan.name + '</option>');
                                 });
@@ -219,7 +219,7 @@
                                     var idquan = $(this).val();
                                     $.getJSON('https://esgoo.net/api-tinhthanh/3/' + idquan + '.htm', function(data_phuong) {
                                         if (data_phuong.error == 0) {
-                                            $("#phuong").html('<option value="0">Phường Xã</option>');
+                                            $("#phuong").html('<option value="0">Ward and Commune</option>');
                                             $.each(data_phuong.data, function(key_phuong, val_phuong) {
                                                 $("#phuong").append('<option value="' + val_phuong.id + '">' + val_phuong.name + '</option>');
                                             });

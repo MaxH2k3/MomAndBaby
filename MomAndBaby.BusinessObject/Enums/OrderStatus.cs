@@ -9,9 +9,10 @@ namespace MomAndBaby.BusinessObject.Enums
     public enum OrderStatus
     {
         Processing = 1,
-        Packaged = 2,
-        Delivered = 3,
-        Completed = 4,
-        Cancelled = 5
+        Confirmed = 2,
+        Packaged = 3,
+        Delivered = 4,
+        Completed = 5,
+        Cancelled = 6
     }
 }

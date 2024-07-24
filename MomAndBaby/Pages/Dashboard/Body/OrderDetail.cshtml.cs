@@ -54,6 +54,21 @@ namespace MomAndBaby.Pages.Dashboard.Body
             Order = await _orderService.GetOrderById(id);
             user = await _userService.getUserById(Order.userId);
         }
-        
+
+        public async Task<IActionResult> OnPostApprovalOrder(int orderId)
+        {
+            await _orderService.ApprovalTracking(orderId);
+           
+            return Redirect($"/dashboard/order-detail?id={orderId}");
+        }
+
+        public async Task<IActionResult> OnPostCancelOrder(int orderId)
+        {
+            await _orderService.CancelOrder(orderId, false);
+
+            return Redirect($"/dashboard/order-detail?id={orderId}");
+        }
+
+
     }
 }

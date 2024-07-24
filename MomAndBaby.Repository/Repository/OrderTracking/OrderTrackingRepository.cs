@@ -26,7 +26,14 @@ namespace MomAndBaby.Repository
 
         public async Task<bool> CancelOrder(int orderId)
         {
-            return await _context.OrderTrackings.AnyAsync(x => x.OrderId.Equals(orderId) && (x.Delivery != null));
+            return await _context.OrderTrackings.AnyAsync(x => x.OrderId == orderId && (x.Delivery != null));
+        }
+
+        public Task UpdateOrderTracking(OrderTracking orderTracking)
+        {
+            _context.OrderTrackings.Update(orderTracking);
+
+            return Task.CompletedTask;
         }
 
     }
