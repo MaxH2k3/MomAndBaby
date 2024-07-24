@@ -1,0 +1,39 @@
+﻿@using MomAndBaby.Models.ProductModel
+@model ProductStoreModel
+
+
+<section class="blog-area blog-default-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-lg-6 m-auto">
+                    <div class="section-title text-center" data-aos="fade-up" data-aos-duration="1000">
+                        <h2 class="title">Latest Blog</h2>
+                        <div class="desc">
+                            <p>Stay updated with our latest blog posts for insights, tips, and news. Explore a range of topics designed to inform and inspire.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-aos="fade-up" data-aos-duration="1300">
+                    @foreach (var article in Model.ListArticle)
+                    {
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                        <!--== Start Blog Post Item ==-->
+                        <div class="post-item">
+                            <div class="thumb">
+                                <a href="/article-detail?articleId=@article.Id"><img src="@article.Image" alt="Image"></a>
+                            </div>
+                            <div class="content">
+                                <div class="meta">By, <span class="author">@article.Author?.FullName</span><span class="dots"></span><span class="post-date">@article.CreatedAt</span></div>
+                                <h4 class="title">
+                                    <a href="/article-detail?articleId=@article.Id">@article.Title</a>
+                                </h4>
+                                <a class="btn-theme" href="/article-detail?articleId=@article.Id">Read More</a>
+                            </div>
+                        </div>
+                        <!--== End Blog Post Item ==-->
+                        </div>
+                    }
+            </div>
+        </div>
+    </section>

@@ -140,7 +140,7 @@
                                     <span asp-validation-for="ProductDto.CategoryId" class="text-danger"></span>
 
                                 </div>
-                                <!-- Collection -->
+                                <!-- Brand -->
                                 <div class="mb-3 col ecommerce-select2-dropdown">
                                     <label class="form-label mb-1">
                                         Brand
@@ -148,12 +148,19 @@
                                     <input asp-for="ProductDto.Company" type="text" class="form-control" placeholder="Brand">
                                     <span asp-validation-for="ProductDto.Company" class="text-danger"></span>
                                 </div>
-                                <!-- Status -->
+                                <!-- Country -->
                                 <div class="mb-3 col ecommerce-select2-dropdown">
                                     <label class="form-label mb-1">
                                         Country
                                     </label>
-                                    <input asp-for="ProductDto.Original" type="text" class="form-control" placeholder="Country">
+                                    @* <input asp-for="ProductDto.Original" type="text" class="form-control" placeholder="Country"> *@
+                                    <select asp-for="ProductDto.Original" class="select2 form-select" data-placeholder="Select Original">
+                                        <option value="null">Select Original</option>
+                                        @foreach (var original in @Model.ProductOriginalName)
+                                        {
+                                            <option value="@original">@original</option>
+                                        }
+                                    </select>
                                     <span asp-validation-for="ProductDto.Original" class="text-danger"></span>
                                 </div>
                             </div>

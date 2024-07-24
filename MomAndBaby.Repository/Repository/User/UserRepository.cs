@@ -84,5 +84,10 @@ namespace MomAndBaby.Repository
         {
             return await _context.Users.CountAsync();
         }
+
+        public async Task<IEnumerable<User>> GetUsersExceptAdmin()
+        {
+            return await _context.Users.Where(p => p.RoleId != (int)RoleType.Admin).ToListAsync();
+        }
     }
 }

@@ -15,7 +15,7 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
 		public EditArticleModel(IArticleService articleService, ICloudinaryService cloudinaryService)
 		{
             _articleService = articleService;
-			cloudinaryService = _cloudinaryService;
+			_cloudinaryService = cloudinaryService;
 		}
 
 		[BindProperty]
@@ -24,11 +24,11 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
         public async Task<IActionResult> OnGet(int articleId)
         {
 			Article = await _articleService.GetArticleById(articleId);
-
-			//if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value != Article.AuthorId.ToString())
-   //         {
-   //             return Redirect("/article");
-   //         }
+            var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
+            if (userRole != "2" || userRole != "1")
+            {
+                return Redirect("/article");
+            }
             if (Article == null)
             {
                 return RedirectToPage("/article");

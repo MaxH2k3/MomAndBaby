@@ -31,7 +31,8 @@ namespace MomAndBaby.Pages.Dashboard.Body
 		public IActionResult OnGet()
 		{
 			ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
-			if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower() == "admin")
+			var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
+            if (userRole != "2" || userRole != "1")
 			{
 				return Redirect("/article");
 			}

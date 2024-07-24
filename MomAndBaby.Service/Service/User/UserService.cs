@@ -227,5 +227,10 @@ namespace MomAndBaby.Service
         {
             return await _unitOfWork.UserRepository.GetTotalUser();
         }
+
+        public async Task<IEnumerable<User>> GetUsersExceptAdmin()
+        {
+            return await _unitOfWork.UserRepository.GetUsersExceptAdmin();
+        }
     }
 }
