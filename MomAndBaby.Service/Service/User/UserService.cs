@@ -7,6 +7,7 @@ using MomAndBaby.BusinessObject.Models.UserDto;
 using MomAndBaby.Repository.Uow;
 using MomAndBaby.Service.Helper;
 using MomAndBaby.Service.Service.Email;
+using static System.Net.WebRequestMethods;
 
 namespace MomAndBaby.Service
 {
@@ -231,6 +232,43 @@ namespace MomAndBaby.Service
         public async Task<IEnumerable<User>> GetUsersExceptAdmin()
         {
             return await _unitOfWork.UserRepository.GetUsersExceptAdmin();
+        }
+
+        public async Task<IEnumerable<User>> GetUserByRoleId(int? roleId)
+        {
+            return await _unitOfWork.UserRepository.GetUserByRoleId(roleId);
+        }
+
+        public async Task<User> AddStaff(string? email)
+        {
+            var userCheck = await _unitOfWork.UserRepository.GetUserByEmail(email);
+
+            if (userCheck == null)
+            {
+                userCheck = new User();
+                var newPassword = PasswordHelper.GeneratePassword();
+                var userName = UserHelper.GetUsernameFromEmail(email);
+                AuthenHelper.CreatePasswordHash(newPassword, out byte[] passwordHash, out byte[] passwordSalt);
+                userCheck.Email = email;
+                userCheck.Username = userName;
+                userCheck.FullName = userName;
+                userCheck.Id = Guid.NewGuid();
+                userCheck.RoleId = (int)RoleType.Staff;
+                userCheck.Status = UserStatus.Active.ToString();
+                userCheck.Password = passwordHash;
+                userCheck.PasswordSalt = passwordSalt;
+
+                await _unitOfWork.UserRepository.AddStaff(userCheck);
+                await _unitOfWork.SaveChangesAsync();
+            }
+            else
+            {
+                return null;
+            }
+            var emailSent = await _emailService.SendEmailAddStaff("Added new staff", userCheck.Email);
+
+
+            return userCheck;
         }
     }
 }

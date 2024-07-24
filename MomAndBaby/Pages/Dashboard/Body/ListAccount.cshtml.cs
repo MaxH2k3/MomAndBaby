@@ -5,6 +5,7 @@ using MomAndBaby.BusinessObject.Entity;
 using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Service.Extension;
+using MomAndBaby.Service.MessageConstant;
 using MomAndBaby.Service.Worker;
 using MomAndBaby.Utilities.Constants;
 using System.Text;
@@ -28,12 +29,27 @@ namespace MomAndBaby.Pages.Dashboard.Body
        
         public int TotalPages { get; set; }
         public int CurrentPage { get; set; }
-        public async Task OnGet(int? pageIndex)
-        {
-            int pageSize = 4;
-            CurrentPage = pageIndex ?? 1;
+        public int? SelectedRole { get; set; }
 
-            var list  = await _userService.GetUsersExceptAdmin();
+        [BindProperty]
+        public string? EmailStaff { get; set; }
+
+        public async Task OnGet(int? pageIndex, int? role)
+        {
+            int pageSize = 15;
+            CurrentPage = pageIndex ?? 1;
+            SelectedRole = role;
+
+            IEnumerable<User?> list;
+            if (role == null)
+            {
+                list = await _userService.GetUsersExceptAdmin();
+            }
+            else
+            {
+                list = await _userService.GetUserByRoleId(role);
+            }
+
             int count = list.Count();
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
             Users = list.Skip((CurrentPage - 1) * pageSize).Take(pageSize).ToList();
@@ -41,7 +57,7 @@ namespace MomAndBaby.Pages.Dashboard.Body
            
         }
 
-        public async Task<IActionResult> OnPostUpdateStatus(string userEmail, int i)
+        public async Task<IActionResult> OnPostUpdateStatus(string userEmail, int i, int? role)
         {
             var user = await _userService.GetUserByEmail(userEmail);
             if (user != null && user.RoleId != (int)RoleType.Admin)
@@ -49,18 +65,17 @@ namespace MomAndBaby.Pages.Dashboard.Body
                 await _userService.UpdateStatus(user);
                 _notificationWorker.DoWork(Guid.Parse(User.GetUserIdFromToken()), TableName.Account, NotificationType.Modified);
             }
-            await OnGet(i);
-            return Page();
+            return RedirectToPage(new { pageIndex = i, role = role });
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             var users = await _userService.GetUsersExceptAdmin();
             var csv = new StringBuilder();
-            csv.AppendLine("Id,UserName,FullName,Email, PhoneNumber,Address,RoleId,CreatedAt,UpdatedAt,Status");
+            csv.AppendLine("Id,UserName,FullName,Email, PhoneNumber,Address,Role,CreatedAt,UpdatedAt,Status");
             foreach (var user in users)
             {
-                csv.AppendLine($"{user.Id},{user.Username},{user.FullName},{user.Email},{user.PhoneNumber},{user.Address},{user.RoleId},{user.CreatedAt},{user.UpdatedAt},{user.Status}");
+                csv.AppendLine($"{user.Id},{user.Username},{user.FullName},{user.Email},{user.PhoneNumber},{user.Address},{user.Role.Name},{user.CreatedAt},{user.UpdatedAt},{user.Status}");
             }
 
             // Return the CSV file
@@ -69,6 +84,34 @@ namespace MomAndBaby.Pages.Dashboard.Body
 
             return File(stream, "text/csv", "UserList.csv");
         }
+
+        public async Task<IActionResult> OnPostApply(int? role)
+        {
+            SelectedRole = role;
+            return RedirectToPage(new { pageIndex = 1, role = SelectedRole });
+        }
+
+        public async Task<IActionResult> OnPostAddStaff()
+        {
+            var result = await _userService.AddStaff(EmailStaff);
+            Users = await _userService.GetUsersExceptAdmin();
+            if (result == null)
+            {
+                TempData["MessageRegister"] = MessageAuthen.ExistedEmail;
+                
+                return Page();
+            }
+            else
+            {
+                TempData["MessageRegister"] = MessageAuthen.AddStaffTrue;
+                
+                return Page();
+            }
+        }
+
+
+
+        
 
         
 

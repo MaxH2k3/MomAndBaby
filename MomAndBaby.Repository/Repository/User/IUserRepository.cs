@@ -17,6 +17,8 @@ namespace MomAndBaby.Repository
 		Task<User> getUserById(Guid? id);
         Task<User?> GetUserById(Guid? id);
         Task<int> GetTotalUser();
+        Task<IEnumerable<User>> GetUserByRoleId(int? roleId);
+        Task<User> AddStaff(User userRegitser);
     }
         
         

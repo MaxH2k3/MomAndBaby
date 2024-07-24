@@ -19,5 +19,16 @@ namespace MomAndBaby.Service.Helper
 
             return parts[1].Trim(); // Return the part between the first and second comma
         }
+
+        public static string GetUsernameFromEmail(string? email)
+        {
+            if (!email.Contains("@"))
+            {
+                throw new ArgumentException("Invalid email address", nameof(email));
+            }
+
+            return email.Split('@')[0];
+        }
+
     }
 }
