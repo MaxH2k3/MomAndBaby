@@ -2,9 +2,7 @@
 @using MomAndBaby.BusinessObject.Constants
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductDetailPage
-@{
-    var isAdmin = SessionHelper.IsAdmin(HttpContext.Session);
-}
+@using MomAndBaby.BusinessObject.Enums
 
 <main class="main-content">
 	<!--== Start Page Title Area ==-->
@@ -159,7 +157,11 @@
 												<span class="review-caption">Based on @Model.productReview.Count() review</span>
 												@if (User.Identity.IsAuthenticated)
 												{
-													<a style="color: black" href="/create-review?productId=@Model.ProductDto.Id" class="review-write-btn">Write a review</a>
+													if (!User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!.Value.Equals("2"))
+													{
+														<a style="color: black" href="/create-review?productId=@Model.ProductDto.Id" class="review-write-btn">Write a review</a>
+													}
+													
 												}
 												else
 												{

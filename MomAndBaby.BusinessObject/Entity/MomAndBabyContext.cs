@@ -359,7 +359,7 @@ namespace MomAndBaby.BusinessObject.Entity
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.ToTable("role");
+                entity.ToTable("Role");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
