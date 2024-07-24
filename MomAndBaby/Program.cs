@@ -121,7 +121,6 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Dashboard/Body", "SA");
     options.Conventions.AuthorizeFolder("/Main/Body", "NonAdmin");
-    options.Conventions.AuthorizePage("/Main/Body/CartDetail", "User");
 });
 
 var app = builder.Build();

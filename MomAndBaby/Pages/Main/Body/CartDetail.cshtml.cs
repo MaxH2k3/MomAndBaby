@@ -53,11 +53,16 @@ public class CartDetailModel : PageModel
 
     public Dictionary<Guid, int> Errors { get; set; } = new Dictionary<Guid, int>();
 
-    public void OnGet()
+    public IActionResult OnGet()
     {
         if (!User.Identity!.IsAuthenticated)
         {
-            Redirect("/login");
+            return Redirect("/login");
+        }
+
+        if(User.GetUserRoleFromToken() == (int)RoleType.Staff)
+        {
+            return Redirect("/");
         }
 
         var cart = HttpContext.Session.GetString("Cart");
@@ -66,6 +71,8 @@ public class CartDetailModel : PageModel
             CartItems = JsonConvert.DeserializeObject<List<CartSessionModel>>(cart);
             CalculateTotals();
         }
+
+        return Page();
     }
 
     public IActionResult OnPostRemoveFromCart(Guid productId)

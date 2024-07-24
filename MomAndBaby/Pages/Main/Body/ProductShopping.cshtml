@@ -4,6 +4,10 @@
 @using MomAndBaby.Utilities.Helper
 @model MomAndBaby.Pages.Main.Body.ProductShoppingModel
 
+@{
+    var role = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value;
+}
+
 <style>
     .sort-option.active {
         background-color: hotpink !important;
@@ -330,11 +334,14 @@
 
 @section Scripts {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="~/js/product-shopping.js" asp-append-version="true"></script>
     <script asp-append-version="true">
-        RoleId = "@(User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)) == null ? 0 : User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))?.Value)";
+        document.addEventListener('DOMContentLoaded', function () {
+            RoleId = @role;
+        });
         
     </script>
-    <script src="~/js/product-shopping.js" asp-append-version="true"></script>
+    
 
     <script src="~/main/assets/js/price-slider.js" asp-append-version="true"></script>
 }
