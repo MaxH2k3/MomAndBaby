@@ -3946,7 +3946,7 @@ table p {
 }
 .home-slider-area.slider-default .home-slider-item .shape-top {
   position: absolute;
-  top: -11px;
+  top: 0;
   width: 100%;
   height: 34px;
   z-index: 3;
@@ -3956,7 +3956,7 @@ table p {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 155px;
+  height: 34px;
   z-index: 2;
   pointer-events: none;
 }
@@ -4082,6 +4082,12 @@ table p {
   display: flex;
   height: 737px;
   position: relative;
+}
+.slider-content-area .container {
+  position: absolute;
+  top: 30%;
+  left: 0;
+  right: 0;
 }
 @media (max-width: 1399px) {
   .home-slider-area.slider-default .slider-content-area {

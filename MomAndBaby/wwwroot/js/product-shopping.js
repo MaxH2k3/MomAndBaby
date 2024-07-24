@@ -88,7 +88,7 @@ $(document).ready(function () {
                                                     <div class="rating">
                                                         ${fullStars > 0 ?
                                                         `${starsHtml}<h4>${Math.round(product.Statistic.AverageStar * 10) / 10}</h4>` :
-                                                        `<h4>No Review</h4>`
+                                                        `<span class="fa fa-star" style="visibility: hidden;"></span><h4>No Review</h4>`
                     }
                                                     </div>
                                                     <h4 class="title"><a href="/product_detail?productId=${product.Id}">${product.Name}</a></h4>
