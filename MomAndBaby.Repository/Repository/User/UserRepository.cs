@@ -27,6 +27,14 @@ namespace MomAndBaby.Repository
             return userRegitser;
         }
 
+        public async Task<User> AddStaff(User userRegitser)
+        {
+           
+            
+            await _context.Users.AddAsync(userRegitser);
+            return userRegitser;
+        }
+
         public async Task<User?> GetUserByEmail(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email.Equals(email));
@@ -69,7 +77,7 @@ namespace MomAndBaby.Repository
 
         public async Task<User?> GetUserById(Guid? id)
         {
-            return await _context.Users.FirstOrDefaultAsync(p => p.Id.Equals(id));
+            return await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(p => p.Id.Equals(id));
         }
 
         public async Task<User> AddUserLoginGG(User userRegitser)
@@ -87,7 +95,13 @@ namespace MomAndBaby.Repository
 
         public async Task<IEnumerable<User>> GetUsersExceptAdmin()
         {
-            return await _context.Users.Where(p => p.RoleId != (int)RoleType.Admin).ToListAsync();
+            return await _context.Users.Include(p => p.Role).Where(p => p.RoleId != (int)RoleType.Admin).OrderByDescending(p => p.CreatedAt).ToListAsync();
+        }
+
+        public async Task<IEnumerable<User>> GetUserByRoleId(int? roleId)
+        {
+            return await _context.Users.Include(p => p.Role).Where(p => p.RoleId == roleId).OrderByDescending(p => p.CreatedAt).ToListAsync();
+
         }
     }
 }

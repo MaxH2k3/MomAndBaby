@@ -33,6 +33,18 @@ namespace MomAndBaby.Repository
 						   .Take(pageSize)
 						   .ToListAsync();
 		}
+		public async Task<IEnumerable<Article>> GetAllActiveArticle()
+		{
+			return await _context.Articles
+						   .Where(a => a.Status == true)
+						   .ToListAsync();
+		}
+		public async Task<IEnumerable<Article>> GetAllInactiveArticle()
+		{
+			return await _context.Articles
+						   .Where(a => a.Status == false)
+						   .ToListAsync();
+		}
 
 		public async Task<int> GetTotalArticlesCount()
 		{

@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\Dashboard\Components\Common\AddNewStaff.cshtml" />
     <Content Remove="Pages\Dashboard\Components\Common\VerifyWithOTP.cshtml" />
   </ItemGroup>
 
@@ -46,6 +47,18 @@
   <ItemGroup>
     <ProjectReference Include="..\MomAndBaby.BusinessObject\MomAndBaby.BusinessObject.csproj" />
     <ProjectReference Include="..\MomAndBaby.Service\MomAndBaby.Service.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\Dashboard\Components\Common\AddNewStaff.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\Dashboard\Components\Common\AddNewStaff.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\Dashboard\Components\Common\AddNewStaff.cshtml" />
   </ItemGroup>
 
 </Project>

@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                             <div>
-                                <h5 class="mb-0">@Model.TotalAmount</h5>
+                            <h5 class="mb-0">@((int)Model.TotalAmount)</h5>
                                 <span>Spent</span>
                             </div>
                         </div>
@@ -81,6 +81,10 @@
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Email:</span>
                                 <span>@Model.User.Email</span>
+                            </li>
+                            <li class="mb-3">
+                                <span class="fw-medium me-2">Role:</span>
+                                <span>@Model.User.Role.Name</span>
                             </li>
                             <li class="mb-3">
                                 <span class="fw-medium me-2">Status:</span>

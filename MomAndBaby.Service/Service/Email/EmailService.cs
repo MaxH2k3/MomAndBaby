@@ -1,10 +1,6 @@
 ﻿using FluentEmail.Core;
+using Microsoft.Extensions.Configuration;
 using MomAndBaby.BusinessObject.Models.UserDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MomAndBaby.Service.Service.Email
 {
@@ -12,20 +8,26 @@ namespace MomAndBaby.Service.Service.Email
     {
         private readonly IFluentEmail _fluentEmail;
         private static readonly string CachedTemplate;
+        private static readonly string CachedTemplateStaff;
+        private readonly IConfiguration _configuration;
+        
 
         static EmailService()
         {
-            // Xây dựng đường dẫn tuyệt đối tới tệp VerifyWithOTP.cshtml
+            
             var projectRootPath = Directory.GetCurrentDirectory();
             var templatePath = Path.Combine(projectRootPath, "Pages", "Dashboard", "Components", "Common", "VerifyWithOTP.cshtml");
+            var templatePathStaff = Path.Combine(projectRootPath, "Pages", "Dashboard", "Components", "Common", "AddNewStaff.cshtml");
 
-            // Đọc nội dung tệp vào CachedTemplate
+            
             CachedTemplate = File.ReadAllText(templatePath);
+            CachedTemplateStaff = File.ReadAllText(templatePathStaff);
         }
 
-        public EmailService(IFluentEmail fluentEmail)
+        public EmailService(IFluentEmail fluentEmail, IConfiguration configuration)
         {
             _fluentEmail = fluentEmail;
+            _configuration = configuration;
         }
 
 
@@ -34,6 +36,17 @@ namespace MomAndBaby.Service.Service.Email
             var renderedTemplate = CachedTemplate.Replace("@Model.UserName", userMail.UserName)
             .Replace("@Model.OTP", userMail.OTP);
             var response = await _fluentEmail.To(userMail.Email)
+                                         .Subject(title)
+                                         .Body(renderedTemplate, isHtml: true)
+                                         .SendAsync();
+            return response.Successful;
+        }
+
+        public async Task<bool> SendEmailAddStaff(string title, string email)
+        {
+            var renderedTemplate = CachedTemplateStaff.Replace("@Model.Url", _configuration["Url:BaseUrl"])
+            .Replace("@Model.Email", email);
+            var response = await _fluentEmail.To(email)
                                          .Subject(title)
                                          .Body(renderedTemplate, isHtml: true)
                                          .SendAsync();
