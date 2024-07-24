@@ -2,33 +2,36 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Constants;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.Service;
 using MomAndBaby.Service.Service.Cloudinary;
+using MomAndBaby.Utilities.Constants;
 
-namespace MomAndBaby.Pages.Main.Body.ArticlePage
+namespace MomAndBaby.Pages.Dashboard.Body
 {
     public class EditArticleModel : PageModel
     {
         private readonly IArticleService _articleService;
-		private readonly ICloudinaryService _cloudinaryService;
+        private readonly ICloudinaryService _cloudinaryService;
 
-		public EditArticleModel(IArticleService articleService, ICloudinaryService cloudinaryService)
-		{
+        public EditArticleModel(IArticleService articleService, ICloudinaryService cloudinaryService)
+        {
             _articleService = articleService;
-			_cloudinaryService = cloudinaryService;
-		}
+            _cloudinaryService = cloudinaryService;
+        }
 
-		[BindProperty]
+        [BindProperty]
         public Article Article { get; set; }
 
         public async Task<IActionResult> OnGet(int articleId)
         {
-			Article = await _articleService.GetArticleById(articleId);
-            var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
-            if (userRole != "2" || userRole != "1")
-            {
-                return Redirect("/article");
-            }
+            Article = await _articleService.GetArticleById(articleId);
+            //var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
+            //if (userRole != "2" || userRole != "1")
+            //{
+            //    return Redirect("/article");
+            //}
+            ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
             if (Article == null)
             {
                 return RedirectToPage("/article");
@@ -49,9 +52,9 @@ namespace MomAndBaby.Pages.Main.Body.ArticlePage
                 return RedirectToPage("/article");
             }
 
-			var image = await _cloudinaryService.UploadAsync(ImageUpload);
+            var image = await _cloudinaryService.UploadAsync(ImageUpload);
 
-			articleToUpdate.Title = Article.Title;
+            articleToUpdate.Title = Article.Title;
             articleToUpdate.Content = Article.Content;
             articleToUpdate.Image = image.Url.ToString();
 

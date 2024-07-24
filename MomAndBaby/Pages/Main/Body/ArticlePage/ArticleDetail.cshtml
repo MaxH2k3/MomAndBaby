@@ -55,7 +55,7 @@
                                 <div class="actions">
                                     @if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.UserId))?.Value.ToString() == Model.ArticleDTO.AuthorId.ToString())
                                     {
-                                        <a href="/edit-article?articleId=@Model.ArticleDTO.Id" class="btn btn-primary">Edit</a>
+                                        <a href="/dashboard/edit-article?articleId=@Model.ArticleDTO.Id" class="btn btn-primary">Edit</a>
                                         <form method="post" asp-page-handler="Delete" style="display: inline;">
                                             <input type="hidden" name="articleId" value="@Model.ArticleDTO.Id" />
                                             <button type="submit" class="btn btn-danger">Delete</button>

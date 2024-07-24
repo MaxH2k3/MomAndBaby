@@ -31,11 +31,11 @@ namespace MomAndBaby.Pages.Dashboard.Body
 		public IActionResult OnGet()
 		{
 			ViewData[VariableConstant.CurrentMenu] = (int)Menu.PostAdd;
-			var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
-            if (userRole != "2" || userRole != "1")
-			{
-				return Redirect("/article");
-			}
+			//var userRole = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role)).Value.ToString().ToLower();
+   //         if (userRole != "2" || userRole != "1")
+			//{
+			//	return Redirect("/article");
+			//}
 			return Page();
 		}
 

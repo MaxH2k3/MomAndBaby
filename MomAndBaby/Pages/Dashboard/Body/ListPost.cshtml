@@ -16,12 +16,12 @@
 				<div class="col-sm-6 col-lg-3">
 					<div class="d-flex justify-content-between align-items-start card-widget-1 border-end pb-3 pb-sm-0">
 						<div>
-							<h3 class="mb-2">56</h3>
-							<p class="mb-0">Pending Payment</p>
+							<h3 class="mb-2">@(Model.ActiveArticle + Model.InactiveArticle)</h3>
+							<p class="mb-0">Total posts</p>
 						</div>
 						<div class="avatar me-sm-4">
 							<span class="avatar-initial rounded bg-label-secondary">
-								<i class="bx bx-calendar bx-sm"></i>
+								<i class='bx bx-globe'></i>
 							</span>
 						</div>
 					</div>
@@ -30,8 +30,8 @@
 				<div class="col-sm-6 col-lg-3">
 					<div class="d-flex justify-content-between align-items-start card-widget-2 border-end pb-3 pb-sm-0">
 						<div>
-							<h3 class="mb-2">12,689</h3>
-							<p class="mb-0">Completed</p>
+							<h3 class="mb-2">@Model.ActiveArticle</h3>
+							<p class="mb-0">Active posts</p>
 						</div>
 						<div class="avatar me-lg-4">
 							<span class="avatar-initial rounded bg-label-secondary">
@@ -44,25 +44,12 @@
 				<div class="col-sm-6 col-lg-3">
 					<div class="d-flex justify-content-between align-items-start border-end pb-3 pb-sm-0 card-widget-3">
 						<div>
-							<h3 class="mb-2">124</h3>
-							<p class="mb-0">Refunded</p>
+							<h3 class="mb-2">@Model.InactiveArticle</h3>
+							<p class="mb-0">Inactive posts</p>
 						</div>
 						<div class="avatar me-sm-4">
 							<span class="avatar-initial rounded bg-label-secondary">
-								<i class="bx bx-wallet bx-sm"></i>
-							</span>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-lg-3">
-					<div class="d-flex justify-content-between align-items-start">
-						<div>
-							<h3 class="mb-2">32</h3>
-							<p class="mb-0">Failed</p>
-						</div>
-						<div class="avatar">
-							<span class="avatar-initial rounded bg-label-secondary">
-								<i class="bx bx-error-alt bx-sm"></i>
+								<i class='bx bx-message-x'></i>
 							</span>
 						</div>
 					</div>
@@ -131,7 +118,7 @@
 								</td>
 								<td class="table-row__td">
 
-									<a href="/edit-article?articleId=@article.Id">
+									<a href="/dashboard/edit-article?articleId=@article.Id">
 										<svg version="1.1" class="table-row__edit" x="0px" y="0px" viewBox="0 0 512.001 512.001" style="enable-background:new 0 0 512.001 512.001;" xml: space="preserve" data-toggle="tooltip" data-placement="bottom" title="Edit">
 											<path d="M496.063,62.299l-46.396-46.4c-21.2-21.199-55.69-21.198-76.888,0l-18.16,18.161l123.284,123.294l18.16-18.161 C517.311,117.944,517.314,83.55,496.063,62.299z" style="fill: rgb(1, 185, 209);"></path>
 											<path d="M22.012,376.747L0.251,494.268c-0.899,4.857,0.649,9.846,4.142,13.339c3.497,3.497,8.487,5.042,13.338,4.143 l117.512-21.763L22.012,376.747z" style="fill: rgb(1, 185, 209);"></path>

@@ -22,6 +22,8 @@ namespace MomAndBaby.Pages.Dashboard.Body
             _notificationWorker = notificationWorker;
         }
         public PaginatedList<Article> Articles { get; set; }
+        public int ActiveArticle {  get; set; }
+        public int InactiveArticle { get; set; } 
 
         public async Task OnGet(string searchValue = "", int pageIndex = 1)
         {
@@ -30,7 +32,11 @@ namespace MomAndBaby.Pages.Dashboard.Body
 			TempData["search"] = searchValue;
 			int pageSize = 5;
             Articles = await _articleService.GetListArticle(pageIndex, pageSize, searchValue);
-        }
+            var ActiveArticleList = await _articleService.GetAllActiveArticle();
+            ActiveArticle = ActiveArticleList.Count();
+            var InactiveArticleList = await _articleService.GetAllInactiveArticle();
+            InactiveArticle = InactiveArticleList.Count();
+		}
 
 		public async Task<IActionResult> OnPostSoftDelete(int articleId)
 		{
