@@ -1,8 +1,10 @@
 using AutoMapper;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.Repository;
 using MomAndBaby.Repository.Uow;
+using MomAndBaby.Service.Helper;
 
 namespace MomAndBaby.Service.OrderService
 {
@@ -110,9 +112,63 @@ namespace MomAndBaby.Service.OrderService
             return await _unitOfWork.OrderRepository.GetTotalOrder();
         }
 
-        public async Task<bool> CancelOrder(int orderId)
+        public async Task<bool> CancelOrder(int orderId, bool isCheck)
         {
-            return await _unitOfWork.OrderTrackingRepository.CancelOrder(orderId);
+            if(isCheck)
+            {
+                var canCancel = await _unitOfWork.OrderTrackingRepository.CancelOrder(orderId);
+
+                if (canCancel)
+                {
+                    return false;
+                }
+            }
+
+            await _unitOfWork.OrderRepository.UpdateStatusOrder(orderId, (int)OrderStatus.Cancelled);
+
+            return await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<bool> ApprovalTracking(int orderId)
+        {
+            var orderTracking = await _unitOfWork.OrderTrackingRepository.GetOrderTrackingAsync(orderId);
+            int status = 0;
+            if (orderTracking == null)
+            {
+                return false;
+            }
+
+            if(orderTracking.OrderConfirmation == null)
+            {
+                orderTracking.OrderConfirmation = TimeHelper.GetCurrentInVietName();
+                status = (int)OrderStatus.Confirmed;
+                
+            } else if(orderTracking.Package == null)
+            {
+                orderTracking.Package = TimeHelper.GetCurrentInVietName();
+                status = (int)OrderStatus.Packaged;
+            } else if(orderTracking.Delivery == null)
+            {
+                orderTracking.Delivery = TimeHelper.GetCurrentInVietName();
+                status = (int)OrderStatus.Delivered;
+            } else if(orderTracking.Complete == null)
+            {
+                orderTracking.Complete = TimeHelper.GetCurrentInVietName();
+                status = (int)OrderStatus.Completed;
+            } else
+            {
+                return false;
+            }
+
+            await _unitOfWork.OrderTrackingRepository.UpdateOrderTracking(orderTracking);
+            await _unitOfWork.OrderRepository.UpdateStatusOrder(orderId, status);
+            return await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task<int?> GetStatusOrder(int id)
+        {
+            var order = await _unitOfWork.OrderRepository.GetOrderById(id);
+            return order.Status?.Id;
         }
     }
 }

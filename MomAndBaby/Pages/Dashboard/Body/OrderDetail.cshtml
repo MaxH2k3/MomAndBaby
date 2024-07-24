@@ -11,14 +11,26 @@
     <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
 
         <div class="d-flex flex-column justify-content-center">
-            <h5 class="mb-1 mt-3">Order# @Model.orderId <span class="badge bg-label-success me-2 ms-2">Paid</span> <span class="badge bg-label-info">@Model.Order.StatusName</span></h5>
+            <h5 class="mb-1 mt-3">Order# @Model.orderId <span class="badge bg-label-info">@Model.Order.StatusName</span></h5>
             <p class="text-body">@Model.Order.OrderDate</p>
         </div>
-       <form method="post" asp-route-id="@Model.orderId">
+        @if(Model.orderTracking?.Complete == null) {
+            <form method="post" asp-page-handler="ApprovalOrder">
+                <input type="hidden" name="orderId" value="@Model.orderId" />
+                <div class="d-flex align-content-center flex-wrap gap-2">
+                    <button type="submit" class="btn btn-label-success">Complete @(Model.Order.StatusName) Order</button>
+                </div>
+        </form>
+    } else if(!Model.Order.StatusName.Equals("Canceled"))
+    {
+        <form method="post" asp-page-handler="CancelOrder">
+            <input type="hidden" name="orderId" value="@Model.orderId" />
             <div class="d-flex align-content-center flex-wrap gap-2">
-            <button type="submit" class="btn btn-label-success">Approve Order</button>
+                <button type="submit" class="btn btn-label-success">Cancel Order</button>
             </div>
         </form>
+    }
+
     </div>
 
     <!-- Order Details Table -->
@@ -35,7 +47,7 @@
                         <thead>
                             <tr>
                                 <th class="w-50">Products</th>
-                                <th class="w-25">Price</th>
+                                <th class="w-25">Price (VND)</th>
                                 <th class="w-25">Quantity</th>
                             </tr>
                         </thead>
@@ -46,7 +58,7 @@
                             <td class="product-name">
                             <h5><a href="shop-single-product.html">@order.ProductName</a></h5>
                             </td>
-                            <td class="product-price"><span class="amount">@order.Price.ToString("N0")<p>VND</p></span></td>
+                            <td class="product-price"><span class="amount">@order.Price.ToString("N0")</span></td>
                             <td class="product-price"><span class="amount">@order.Quantity</span></td>
                         </tr>
                     }
@@ -60,7 +72,7 @@
                             </div>
                             <div class="d-flex justify-content-between">
                                 <h6 class="w-px-100 mb-0">Total:</h6>
-                                <h6 class="mb-0">@Model.Order.TotalAmount.ToString("N0")<p>VND</p></h6>
+                                <h6 class="mb-0">@Model.Order.TotalAmount.ToString("N0") VND</h6>
                             </div>
                         </div>
                     </div>
@@ -87,7 +99,7 @@
                             <div class="timeline-event">
                                 <div class="timeline-header">
                                     <h6 class="mb-0">Order confirmation</h6>
-                                    <span class="text-muted">@Model.orderTracking.OrderConfirmation</span>
+                                    <span class="text-muted">@Model.orderTracking?.OrderConfirmation</span>
                                 </div>
                                 <p class="mt-2">Order confirmation scheduled with courier</p>
                             </div>
@@ -97,7 +109,7 @@
                             <div class="timeline-event">
                                 <div class="timeline-header">
                                     <h6 class="mb-0">Package</h6>
-                                    <span class="text-muted">@Model.orderTracking.Package</span>
+                                    <span class="text-muted">@Model.orderTracking?.Package</span>
                                 </div>
                                 <p class="mt-2">Product will Package up by courier</p>
                             </div>
@@ -107,7 +119,7 @@
                             <div class="timeline-event">
                                 <div class="timeline-header">
                                     <h6 class="mb-0">Package Delivery</h6>
-                                    <span class="text-muted">@Model.orderTracking.Delivery</span>
+                                    <span class="text-muted">@Model.orderTracking?.Delivery</span>
                                 </div>
                                 <p class="mt-2">Package Delivery</p>
                             </div>
@@ -117,7 +129,7 @@
                             <div class="timeline-event">
                                 <div class="timeline-header">
                                     <h6 class="mb-0">Complete delivery</h6>
-                                    <span class="text-muted">@Model.orderTracking.Complete</span>
+                                    <span class="text-muted">@Model.orderTracking?.Complete</span>
                                 </div>
                                 <p class="mt-2">Package will arrive your address</p>
                             </div>

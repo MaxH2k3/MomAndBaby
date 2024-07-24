@@ -18,6 +18,7 @@ namespace MomAndBaby.Repository
         Task<int> GetMinYear();
         Task ApproveOrder(int orderId);
         Task<int> GetTotalOrder();
+        Task UpdateStatusOrder(int orderId, int status);
         // Task<>
     }
 }

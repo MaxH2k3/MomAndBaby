@@ -93,13 +93,24 @@ namespace MomAndBaby.Repository
             var order = await _context.Orders.Where(x=>x.Id == orderId).FirstOrDefaultAsync();
             var statusCheck = await _context.Statuses.Where(s=>s.Name.Equals("Processing")).FirstOrDefaultAsync();
             order.Status = statusCheck;
-            await _context.SaveChangesAsync();
             
         }
 
         public async Task<int> GetTotalOrder()
         {
             return await _context.Orders.CountAsync();
+        }
+
+        public async Task UpdateStatusOrder(int orderId, int status)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(x => x.Id == orderId);
+
+            if(order != null)
+            {
+                order.StatusId = status;
+            }
+
+            
         }
     }
 }
