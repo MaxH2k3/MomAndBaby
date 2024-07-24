@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using MomAndBaby.BusinessObject.Entity;
+using MomAndBaby.BusinessObject.Enums;
 using MomAndBaby.BusinessObject.Models;
 using MomAndBaby.BusinessObject.Models.CartSessionModel;
 using MomAndBaby.Service;
@@ -182,7 +183,7 @@ public class CartDetailModel : PageModel
         {
             UserId = Guid.Parse(User.GetUserIdFromToken()), // Assuming you have a user identity setup
             TotalAmount = total,
-            StatusId = 1,
+            StatusId = (int)OrderStatus.Processing,
             OrderDate = DateTime.Now,
             ShippingAddress = address,
             PaymentMethod = "Paypal"

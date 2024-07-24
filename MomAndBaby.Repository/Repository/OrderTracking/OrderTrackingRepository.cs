@@ -23,5 +23,11 @@ namespace MomAndBaby.Repository
         {
             return await _context.OrderTrackings.Where(x=>x.OrderId == orderId).FirstOrDefaultAsync();
         }
+
+        public async Task<bool> CancelOrder(int orderId)
+        {
+            return await _context.OrderTrackings.AnyAsync(x => x.OrderId.Equals(orderId) && (x.Delivery != null));
+        }
+
     }
 }

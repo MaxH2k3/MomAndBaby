@@ -24,4 +24,17 @@ public class OrderDetail : PageModel
         orderTracking = await _orderService.GetOrderTracking(id);
         listOrders = await _orderService.GetAllOrderDetailOrder(id);
     }
+
+    public async Task OnPost(int id)
+    {
+        var result = await _orderService.CancelOrder(id);
+
+        if (result)
+        {
+            TempData["Success"] = "Cancel order sucessful!";
+        } else
+        {
+            TempData["Error"] = "Cancel order fail!";
+        }
+    }
 }

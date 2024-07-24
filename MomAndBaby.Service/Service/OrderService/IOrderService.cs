@@ -19,5 +19,6 @@ namespace MomAndBaby.Service.OrderService
                 Task<decimal> GetTotalAmount(Guid userId);
                 Task ApproveOrder(int orderId);
                 Task<int> GetTotalOrder();
+        Task<bool> CancelOrder(int orderId);
     }
 }
