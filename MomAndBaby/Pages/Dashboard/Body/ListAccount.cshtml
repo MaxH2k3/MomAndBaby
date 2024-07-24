@@ -1,7 +1,11 @@
 ﻿@page "/dashboard/list-account"
+@using MomAndBaby.BusinessObject.Constants
 @using MomAndBaby.BusinessObject.Enums
 @model MomAndBaby.Pages.Dashboard.Body.ListAccountModel
-
+@{
+    var Role = User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!;
+    var role = Role?.Value;
+}
 @section Styles {
     <link rel="stylesheet" href="~/data-table/data-table.css"  asp-append-version="true"/>
 }
@@ -74,18 +78,21 @@
 
         
     </section>
+    @if (role != null && int.Parse(role) == (int)RoleType.Admin)
+    {
+        Console.WriteLine(role);
+        <div style="margin-left: 15px">
+            <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="category-org">
+                <a data-bs-toggle="modal" data-bs-target="#myModal" class="fw-medium" style="color: blue;" onmouseover="this.style.cursor='pointer'; this.style.color='darkblue';" onmouseout="this.style.color='blue';">Add new staff</a>
+            </label>
+        </div>
+        <div style="color: deepskyblue; margin-bottom: 33px; margin-left: 30px">@TempData["MessageRegister"]</div>
 
-    <div style="margin-left: 15px">
-        <label class="form-label mb-1 d-flex justify-content-between align-items-center" for="category-org">
-            <a data-bs-toggle="modal" data-bs-target="#myModal" class="fw-medium" style="color: blue;" onmouseover="this.style.cursor='pointer'; this.style.color='darkblue';" onmouseout="this.style.color='blue';">Add new staff</a>
-        </label>
-    </div>
-    <div style="color: deepskyblue; margin-bottom: 30px">@TempData["MessageRegister"]</div>
-
+    }
+   
     
     <section class="table__body">
         <table>
-            <thead>
                 <tr>
                    
                     <th> User Name <span class="icon-arrow">&UpArrow;</span></th>

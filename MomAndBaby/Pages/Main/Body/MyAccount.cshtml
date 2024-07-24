@@ -46,7 +46,7 @@
                                         <button class="nav-link" id="account-info-tab" data-bs-toggle="tab" data-bs-target="#account-info" type="button" role="tab" aria-controls="account-info" aria-selected="false">Account Details</button>
                                         @if (User.Claims.FirstOrDefault(u => u.Type.Equals(UserClaimType.Role))!.Value.Equals(((int)RoleType.Staff).ToString()))
                                         {
-                                            <a href="/dashboard" style="color: black;"><button class="nav-link active" style="width: 100%;">Dashboard</button></a>
+                                            <a href="/dashboard" style="color: black;"><button class="nav-link" style="width: 100%;">Dashboard</button></a>
                                         }
                                         <a href="/login?handler=Logout" style="color: black;"><button class="nav-link" style="width: 100%;">Logout</button></a>
                                         
