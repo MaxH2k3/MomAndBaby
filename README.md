@@ -1,8 +1,5 @@
 # MomAndBaby
 
-- My Team: Thanh Ngon Lu, Khang DB, Quy Mat Lon, Lam Lam Li, Huy Vjp Bro
-- Key aim: Pass PRN and Pass away ===> ಠ_ಠ
-
 ## Description
 
 This project aims to provide a product management system for efficiently managing products within an organization for pregnant mothers and babies.
@@ -24,14 +21,7 @@ This project aims to provide a product management system for efficiently managin
   + Manage articles.
 - Admin 
   + Account management, revenue statistics, products..."
- 
-## Technologies Used
 
-- Programming Language: VietNam, English
-- Framework: Asp.net
-- Database: Sai Quen Lun Server
-- Libraries and Dependencies: I do not know
-- Architecture: PRN Pattern  ￣へ￣
 
 ## Installation and Setup
 
